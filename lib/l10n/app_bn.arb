@@ -1,0 +1,22 @@
+{
+    "@@locale": "bn",
+    "login": "লগ ইন",
+    "signUp": "সাইন আপ করুন",
+    "termsAndCondition": "সাইন আপ করে আপনি আমাদের শর্তাবলীতে সম্মত হন",
+    "male": "পুরুষ",
+    "female": "নারী",
+    "userInformations": "ব্যবহারকারীর তথ্য",
+    "enterYourName": "আপনার নাম লিখুন",
+    "enterYourEmail": "আপনার ইমেইল লিখুন",
+    "enterYourPassword": "আপনার পাসওয়ার্ড লিখুন",
+    "chooseYourDOB": "আপনার DOB চয়ন করুন",
+    "yourMobileNumber": "আপনার মোবাইল নম্বর লিখুন",
+    "chooseYourGender": "আপনার লিঙ্গ নির্বাচন করুন",
+    "dontHaveAnAccoount": "কোন হিসাব নেই",
+    "allreadyHaveAnAccoount": "ইতিমধ্যে একটি অ্যাকাউন্ট আছে",
+    "category":"শ্রেণী",
+    "viewmore":"আরও দেখুন",
+     "profile":"প্রোফাইল",
+     "favoriteProduct":"প্রিয় পণ্য",
+      "cart":"কার্ট"
+}

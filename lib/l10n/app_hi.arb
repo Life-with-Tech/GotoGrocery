@@ -1,0 +1,23 @@
+{
+    "@@locale": "hi",
+    "login": "लॉग इन करें",
+    "signUp": "साइन अप करें",
+    "termsAndCondition": "साइन अप करके आप हमारे नियमों और शर्तों से सहमत होते हैं",
+    "male": "पुरुष",
+    "female": "महिला",
+    "userInformations": "यूजर जानकारी",
+    "enterYourName": "अपना नाम दर्ज करें",
+    "enterYourEmail": "अपना ईमेल दर्ज करें",
+    "enterYourPassword": "अपना पासवर्ड दर्ज करें",
+    "chooseYourDOB": "अपना DOB चुनें",
+    "yourMobileNumber": "अपना मोबाइल नंबर दर्ज करें",
+    "chooseYourGender": "अपना लिंग चुनें",
+    "dontHaveAnAccoount": "कोई खाता नहीं है",
+    "allreadyHaveAnAccoount": "क्या आपके पास पहले से एक खाता मौजूद है",
+    "category":"श्रेणी",
+    "viewmore":"और देखें",
+    "profile":"प्रोफ़ाइल",
+    "favoriteProduct":"पसंदीदा उत्पाद",
+    "cart":"कार्ट"
+
+}
