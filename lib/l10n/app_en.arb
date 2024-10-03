@@ -1,0 +1,23 @@
+{
+    "@@locale": "en",
+    "login": "LogIn",
+    "signUp": "SignUp",
+    "termsAndCondition": "By signing up you agree with our Terms and conditions",
+    "male": "Male",
+    "female": "FeMale",
+    "userInformations": "User Informations",
+    "enterYourName": "Enter Your Name",
+    "enterYourEmail": "Enter Your Email",
+    "enterYourPassword": "Enter Your Password",
+    "chooseYourDOB": "Choose Your DOB",
+    "yourMobileNumber": "Your Mobile Number",
+    "chooseYourGender": "Choose Your Gender",
+     "dontHaveAnAccoount": "Don't have an accoount",
+     "allreadyHaveAnAccoount": "Allready have an accoount",
+     "category":"Category",
+     "viewmore":"View More",
+     "profile":"Profile",
+     "favoriteProduct":"Favorite Product",
+     "cart":"Cart"
+
+}

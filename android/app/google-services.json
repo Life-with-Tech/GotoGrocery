@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "400885567198",
+    "project_id": "gotogrocery-15ced",
+    "storage_bucket": "gotogrocery-15ced.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400885567198:android:8f88a40df3d2ff23b27c4f",
+        "android_client_info": {
+          "package_name": "com.example.gotogrocery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhy47XNbK_Bd8tA3yny-1RJ5g-QBBgb5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
