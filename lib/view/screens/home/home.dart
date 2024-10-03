@@ -1,13 +1,15 @@
 import 'dart:developer';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/state/providers/app_provider.dart';
-import 'package:tango/view/screens/home/favorite%20screen/favorite_screen.dart';
+import 'package:tango/state/providers/user_provider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import 'package:tango/view/screens/home/home%20screen/home_screen.dart';
 import 'package:tango/view/screens/home/profile%20screen/profile_screen.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
+import 'package:tango/view/screens/home/favorite%20screen/favorite_screen.dart';
+import 'package:tango/view/screens/home/home%20screen/product%20add/category_select.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -65,14 +67,17 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: const [
-          HomeScreen(),
-          FavoriteScreen(),
-          ProfileScreen(),
+        children: [
+          const HomeScreen(),
+          const FavoriteScreen(),
+          // if (userProvider.currentUser?.userType ?? false)
+          const CategorySelect(),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: WaterDropNavBar(
@@ -103,10 +108,11 @@ class _HomeState extends State<Home> {
             filledIcon: Icons.favorite_rounded,
             outlinedIcon: Icons.favorite_border_rounded,
           ),
-          // BarItem(
-          //   filledIcon: Icons.email_rounded,
-          //   outlinedIcon: Icons.email_outlined,
-          // ),
+          // if (userProvider.currentUser?.userType ?? false)
+          BarItem(
+            filledIcon: Icons.upload_rounded,
+            outlinedIcon: Icons.upload_outlined,
+          ),
           BarItem(
             filledIcon: Icons.person,
             outlinedIcon: Icons.person_outline,

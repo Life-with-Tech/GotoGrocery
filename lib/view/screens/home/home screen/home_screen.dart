@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,6 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        title: Image.asset(
+          color: AppColors.secondary,
+          "assets/icons/Untitled_design-removebg-preview.png",
+          filterQuality: FilterQuality.high,
+          fit: BoxFit.cover,
+          height: 100,
+          width: 100,
+        ),
         actions: [
           IconButton(
             onPressed: () {},

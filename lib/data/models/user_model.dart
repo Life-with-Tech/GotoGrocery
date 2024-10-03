@@ -12,21 +12,24 @@ class UserModel {
   String? email;
   String? longitude;
   String? updatedAt;
+  bool? userType;
 
-  UserModel(
-      {this.createdAt,
-      this.uid,
-      this.pincode,
-      this.city,
-      this.district,
-      this.latitude,
-      this.name,
-      this.fcm,
-      this.state,
-      this.platform,
-      this.email,
-      this.longitude,
-      this.updatedAt});
+  UserModel({
+    this.createdAt,
+    this.uid,
+    this.pincode,
+    this.city,
+    this.district,
+    this.latitude,
+    this.name,
+    this.fcm,
+    this.state,
+    this.platform,
+    this.email,
+    this.longitude,
+    this.updatedAt,
+    this.userType,
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     createdAt = json['createdAt'];
@@ -43,6 +46,7 @@ class UserModel {
     email = json['email'];
     longitude = json['longitude'];
     updatedAt = json['updatedAt'];
+    userType = json['userType'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +66,7 @@ class UserModel {
     data['email'] = email;
     data['longitude'] = longitude;
     data['updatedAt'] = updatedAt;
+    data['userType'] = userType;
     return data;
   }
 }
