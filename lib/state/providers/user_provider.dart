@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tango/data/models/user_model.dart';
+import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/utils/error_handler.dart';
+import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/router/app_routes_constant.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tango/data/repositories/auth_repository.dart';
 import 'package:tango/data/repositories/user_repository.dart';
-import 'package:tango/router/app_routes_constant.dart';
-import 'package:tango/router/routing_service.dart';
-import 'package:tango/view/widgets/other_widget.dart';
 
 UserProvider userProvider = UserProvider();
 
@@ -76,7 +76,7 @@ class UserProvider extends ChangeNotifier {
         if (onValue is Map<String, dynamic>) {
           _currentUser = UserModel.fromJson(onValue);
 
-          RoutingService().pushNamed(Routes.homeScreen.name);
+          RoutingService().goName(Routes.home.name);
         }
       },
     ).catchError((onError) {

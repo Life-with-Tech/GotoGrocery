@@ -2,13 +2,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tango/router/routing_service.dart';
-import 'package:tango/view/screens/home/home%20screen/cart/cart_screen.dart';
 import 'package:tango/view/screens/home/home.dart';
 import 'package:tango/view/screens/login_screen.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/screens/signup_screen.dart';
 import 'package:tango/view/screens/splash_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/home_screen.dart';
+import 'package:tango/view/screens/home/home%20screen/cart/cart_screen.dart';
+import 'package:tango/view/screens/home/home%20screen/product%20add/product_add.dart';
 
 class MyAppRoutes {
   final GlobalKey<NavigatorState> shellNavigatorKey =
@@ -62,6 +63,15 @@ class MyAppRoutes {
         builder: (BuildContext context, GoRouterState state) =>
             const CartScreen(),
       ),
+      GoRoute(
+          path: Routes.addProductScreen.path,
+          name: Routes.addProductScreen.name,
+          builder: (BuildContext context, GoRouterState state) {
+            String id = state.pathParameters['id'] ?? '';
+            return ProductAdd(
+              id: id,
+            );
+          }),
     ],
   );
 }
