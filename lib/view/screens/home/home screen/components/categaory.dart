@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
-import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/core/constants/cached_image_widget.dart';
 
 class Categaory extends StatefulWidget {
   const Categaory({super.key});
@@ -19,7 +19,7 @@ class _CategaoryState extends State<Categaory> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 textAlign: TextAlign.center,
@@ -27,9 +27,26 @@ class _CategaoryState extends State<Categaory> {
                 style: TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 15,
                 ),
               ),
+              Container(
+                height: 30,
+                width: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  // color: AppColors.onPrimary,
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                    color: AppColors.primary,
+                  ),
+                ),
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  color: AppColors.onPrimary,
+                  size: 15,
+                ),
+              )
             ],
           ),
         ),

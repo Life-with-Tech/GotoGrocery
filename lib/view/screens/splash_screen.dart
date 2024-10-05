@@ -56,11 +56,11 @@ class _SplashScreenState extends State<SplashScreen> {
               autoPlay: true,
               height: fullHeight(context) / 1.5,
               onPageChanged: (index, reason) {
-                if (index == 2) {
-                  RoutingService().goName(
-                    Routes.loginScreen.name,
-                  );
-                }
+                // if (index == 2) {
+                RoutingService().goName(
+                  Routes.home.name,
+                );
+                // }
                 log(index.toString());
                 currentIndex = index;
                 setState(() {});
