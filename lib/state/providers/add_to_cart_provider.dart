@@ -52,6 +52,11 @@ class AddToCartProvider extends ChangeNotifier {
     });
   }
 
+  bool idItemContains(String id) {
+    return _cart
+        .any((item) => item["id"] == id); // Assuming item has an 'id' field
+  }
+
   void updateQuantity(String id, int status) {
     final item = _cart.firstWhere((item) => item["id"] == id);
     if (item != null) {
@@ -67,6 +72,16 @@ class AddToCartProvider extends ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  Map<String, dynamic>? idByProduct(String id) {
+    Map<String, dynamic>? product;
+    try {
+      product = cart.firstWhere((e) => e["id"] == id);
+    } catch (e) {
+      log("message$e");
+    }
+    return product;
   }
 
   void clearCart() {

@@ -17,5 +17,5 @@ class Routes {
   static const RouteName cart =
       RouteName(name: "cart_screen", path: "/cart_screen");
   static const RouteName addProductScreen =
-      RouteName(name: "add_product_screen", path: "/add_product_screen");
+      RouteName(name: "add_product_screen", path: "/add_product_screen/:id");
 }
