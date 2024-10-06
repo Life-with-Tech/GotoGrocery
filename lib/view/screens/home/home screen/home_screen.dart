@@ -104,6 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Categaory(),
           Gap(10),
           ProductItem(),
+          Gap(10),
+          ProductItem(
+            whereCondition: "Fruits",
+          ),
         ],
       ),
     );

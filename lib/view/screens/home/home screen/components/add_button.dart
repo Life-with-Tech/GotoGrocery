@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 
@@ -31,9 +32,6 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // Future.delayed(Duration.zero,()async{
-    //   await addToCartProvider.idByProduct(widget.product["id"]);
-    //   });
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
@@ -158,11 +156,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
         curve: Curves.easeInOut,
       ),
     );
-
-    // Updated opacity animation to increase opacity
     Animation<double> opacityAnimation =
         Tween<double>(begin: 1.0, end: 0.3).animate(
-      // Adjust starting opacity to a bit higher
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,
@@ -203,8 +198,6 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
 
     overlayState.insert(overlayEntry);
     _isAnimating = true;
-
-    // Start reverse animation with increasing size and opacity
     _controller.reverse(from: 1).then((_) {
       overlayEntry.remove();
       _isAnimating = false;
@@ -219,7 +212,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
 
     return (addToCartProvider.idItemContains(widget.product["id"]))
         ? Container(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
               color: AppColors.primary,
               borderRadius: const BorderRadius.only(
@@ -228,6 +221,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               ),
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 InkWell(
                   onTap: () {
@@ -240,34 +234,47 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                       addToCartProvider.removeItem(product!["id"]);
                     }
                   },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 20,
+                    height: 20,
+                    child: Icon(
+                      Icons.remove,
+                      size: 15,
+                      color: AppColors.surface,
+                    ),
+                  ),
+                ),
+                const Gap(2),
+                Container(
+                  alignment: Alignment.center,
+                  width: 20,
+                  height: 20,
                   child: Text(
-                    "-",
+                    ((int.tryParse(product!["total_quantity"].toString()) ??
+                                0) /
+                            (int.tryParse(product!["quantity"].toString()) ??
+                                0))
+                        .toStringAsFixed(0),
                     style: TextStyle(
                       fontSize: 16,
                       color: AppColors.surface,
                     ),
                   ),
                 ),
-                const Gap(10),
-                Text(
-                  ((int.tryParse(product!["total_quantity"].toString()) ?? 0) /
-                          (int.tryParse(product!["quantity"].toString()) ?? 0))
-                      .toStringAsFixed(0),
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.surface,
-                  ),
-                ),
-                const Gap(10),
+                const Gap(2),
                 InkWell(
                   onTap: () {
                     addToCartAnimation();
                     addToCartProvider.updateQuantity(product!["id"], 1);
                   },
-                  child: Text(
-                    "+",
-                    style: TextStyle(
-                      fontSize: 16,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 20,
+                    height: 20,
+                    child: Icon(
+                      Icons.add,
+                      size: 15,
                       color: AppColors.surface,
                     ),
                   ),
@@ -281,6 +288,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               await addToCartProvider.addCart(widget.product);
             },
             child: Container(
+              width: 30,
+              height: 30,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 color: AppColors.primary,
@@ -294,6 +303,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 color: AppColors.surface,
                 size: 20,
               ),
-            ));
+            ),
+          );
   }
 }

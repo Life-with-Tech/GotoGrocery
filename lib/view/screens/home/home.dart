@@ -72,12 +72,12 @@ class _HomeState extends State<Home> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: [
-          const HomeScreen(),
-          const FavoriteScreen(),
+        children: const [
+          HomeScreen(),
+          FavoriteScreen(),
           // if (userProvider.currentUser?.userType ?? false)
-          const CategorySelect(),
-          const ProfileScreen(),
+          CategorySelect(),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: WaterDropNavBar(
