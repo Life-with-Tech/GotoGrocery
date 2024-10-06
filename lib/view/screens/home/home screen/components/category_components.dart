@@ -1,9 +1,11 @@
 import 'add_button.dart';
+import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:like_button/like_button.dart';
 import 'package:animated_icon/animated_icon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tango/core/utils/price_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
@@ -12,7 +14,11 @@ import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 
 class ProductItem extends StatefulWidget {
-  const ProductItem({super.key});
+  final String? whereCondition;
+  const ProductItem({
+    super.key,
+    this.whereCondition,
+  });
 
   @override
   State<ProductItem> createState() => _ProductItemState();
@@ -25,6 +31,7 @@ class _ProductItemState extends State<ProductItem> {
     GlobalKey cartKey = addToCartProvider.cartKey;
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -33,7 +40,9 @@ class _ProductItemState extends State<ProductItem> {
             children: [
               Text(
                 textAlign: TextAlign.center,
-                "You might need",
+                (widget.whereCondition != null)
+                    ? widget.whereCondition ?? ""
+                    : "You might need",
                 style: TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.bold,
@@ -60,15 +69,18 @@ class _ProductItemState extends State<ProductItem> {
             ],
           ),
         ),
-        SizedBox(
-          height: fullHeight(context) / 4,
-          width: fullWidth(context),
-          child: StreamBuilder(
-            stream:
-                FirebaseFirestore.instance.collection("products").snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
+        StreamBuilder(
+          stream: (widget.whereCondition != null)
+              ? FirebaseFirestore.instance
+                  .collection("products")
+                  .where("category", isEqualTo: widget.whereCondition)
+                  .snapshots()
+              : FirebaseFirestore.instance.collection("products").snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return SizedBox(
+                height: fullHeight(context) / 3.6,
+                child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
@@ -80,12 +92,15 @@ class _ProductItemState extends State<ProductItem> {
                     GlobalKey productKey = GlobalKey();
                     return Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      height: fullHeight(context) / 5,
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
                       width: fullWidth(context) / 2.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColors.primary),
+                        border: Border.all(
+                          color: AppColors.primary,
+                        ),
                       ),
                       child: Stack(
                         children: [
@@ -107,27 +122,93 @@ class _ProductItemState extends State<ProductItem> {
                                   children: [
                                     Text(
                                       item['name'],
+                                      maxLines: 1,
                                       style: const TextStyle(
-                                        fontSize: 18,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
+                                    const Gap(2),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 2,
+                                            horizontal: 5,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primary
+                                                .withOpacity(0.4),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                (double.tryParse(item['rating']
+                                                            .toString()) ??
+                                                        0.0.toInt())
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: AppColors.primary,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const Gap(3),
+                                              Icon(
+                                                Icons.star,
+                                                size: 15,
+                                                color: AppColors.primary,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Gap(5),
+                                        Text(
+                                          "${item['user_rating']} Ratings",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: AppColors.grey,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Gap(5),
                                     Text(
                                       '₹${item['price']} / ${item['quantity']} ${item['unit']}',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.green,
+                                      style: TextStyle(
+                                        decoration: (item['discount'])
+                                            ? TextDecoration.lineThrough
+                                            : null,
+                                        fontSize: (item['discount']) ? 10 : 16,
+                                        color: (item['discount'])
+                                            ? AppColors.grey
+                                            : Colors.green,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
-                                      '₹${((int.tryParse(item['price']) ?? 0) * (int.tryParse(item['discount_percentage']) ?? 0) / 100).toStringAsFixed(0)}',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.bold,
+                                    if (item['discount'])
+                                      Text(
+                                        "₹${calculateDiscountedPrice(
+                                          (int.tryParse(item['price']
+                                                      .toString()) ??
+                                                  0.0)
+                                              .toDouble(),
+                                          (int.tryParse(item[
+                                                          'discount_percentage']
+                                                      .toString()) ??
+                                                  0.0)
+                                              .toDouble(),
+                                        ).toStringAsFixed(0).toString()} / ${item['quantity']} ${item['unit']}",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -139,8 +220,7 @@ class _ProductItemState extends State<ProductItem> {
                             child: AddButton(
                               productId: productId,
                               product: item,
-                              productKey:
-                                  productKey, // Use the unique productKey here
+                              productKey: productKey,
                               cartKey: cartKey,
                             ),
                           ),
@@ -170,11 +250,11 @@ class _ProductItemState extends State<ProductItem> {
                       ),
                     );
                   },
-                );
-              }
-              return Container();
-            },
-          ),
+                ),
+              );
+            }
+            return Container();
+          },
         ),
       ],
     );
