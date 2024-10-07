@@ -5,8 +5,10 @@ import 'package:tango/data/models/user_model.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/utils/error_handler.dart';
 import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/core/constants/data_loding.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:tango/state/providers/location_provider.dart';
 import 'package:tango/data/repositories/auth_repository.dart';
 import 'package:tango/data/repositories/user_repository.dart';
 
@@ -27,6 +29,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future signIn({required String email, required String password}) async {
+    GlobalLoading.showLoadingDialog();
     await AuthRepository()
         .signIn(email: email, password: password)
         .then((onValue) async {
@@ -34,33 +37,31 @@ class UserProvider extends ChangeNotifier {
     }).catchError((onError) {
       ErrorHandler.handleSignUpError(onError);
     });
+    RoutingService().goBack();
   }
 
   Future signUp(
       {required String email,
       required String password,
       required String displayName}) async {
+    GlobalLoading.showLoadingDialog();
     await AuthRepository()
         .signUp(email: email, password: password)
         .then((onValue) async {
       log("signUp $onValue");
       if (onValue != null) {
         Map<String, dynamic> deviceData = await getDeviceData();
+        Map<String, dynamic> location = locationProvider.deviceData;
         await createUser(
           userId: onValue.uid,
           userData: {
             "uid": onValue.uid,
             "email": onValue.email,
             "name": displayName,
-            "state": "Bihar",
-            "district": "Chapra",
-            "city": "Amnour",
-            "pincode": "841418",
-            "latitude": "-12.451585",
-            "longitude": "74.5571242",
-            "createdAt": "02-24-2024",
+            "location": location,
             "platform": deviceData,
             "fcm": token,
+            "createdAt": DateTime.now().toString(),
             "updatedAt": "",
           },
         );
@@ -68,9 +69,11 @@ class UserProvider extends ChangeNotifier {
     }).catchError((onError) {
       ErrorHandler.handleSignUpError(onError);
     });
+    RoutingService().goBack();
   }
 
   Future setUser({required String userId}) async {
+    GlobalLoading.showLoadingDialog();
     await UserRepository().getUser(userId: userId).then(
       (onValue) {
         if (onValue is Map<String, dynamic>) {
@@ -83,11 +86,13 @@ class UserProvider extends ChangeNotifier {
       log("setUser catchError ${onError.toString()}");
     });
     log("currentUser ${currentUser?.toJson()}");
+    RoutingService().goBack();
     notifyListeners();
   }
 
   Future createUser(
       {required String userId, required Map<String, dynamic> userData}) async {
+    GlobalLoading.showLoadingDialog();
     await UserRepository()
         .createUser(userData: userData, userId: userId)
         .then((onValue) async {
@@ -96,5 +101,6 @@ class UserProvider extends ChangeNotifier {
     }).catchError((onError) {
       ErrorHandler.handleSignUpError(onError);
     });
+    RoutingService().goBack();
   }
 }
