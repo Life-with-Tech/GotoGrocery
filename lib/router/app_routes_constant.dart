@@ -11,6 +11,8 @@ class Routes {
       RouteName(name: "login_screen", path: "/login_screen");
   static const RouteName signupScreen =
       RouteName(name: "signup_screen", path: "/signup_screen");
+  static const RouteName editScreen =
+  RouteName(name: "edit_screen", path: "/edit_screen");
   static const RouteName homeScreen =
       RouteName(name: "home_screen", path: "/home_screen");
   static const RouteName home = RouteName(name: "home", path: "/home");
