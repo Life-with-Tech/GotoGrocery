@@ -57,7 +57,7 @@ class _CategorySelectState extends State<CategorySelect> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 1.25,
+                childAspectRatio: 1.20,
               ),
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
