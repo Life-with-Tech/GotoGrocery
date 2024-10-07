@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/l10n/l10n.dart';
 import 'package:tango/state/providers/app_provider.dart';
+import '../../edit_screen.dart';
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({super.key});
@@ -100,7 +101,10 @@ class ProfileDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen(),));
+              // RoutingService().pushNamed(
+              //   Routes.editScreen.name,
+              // );
             },
           ),
           ListTile(

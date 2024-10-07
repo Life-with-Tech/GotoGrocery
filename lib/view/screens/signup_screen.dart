@@ -52,7 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           Container(
             width: fullWidth(context),
-            height: fullHeight(context) / 2.2,
+            height: fullHeight(context) / 2.1,
             decoration: BoxDecoration(
               color: AppColors.primary,
               borderRadius: const BorderRadius.only(
@@ -104,7 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                   ),
-                  const Gap(5),
+                  const Gap(13),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -139,7 +139,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                   ),
-                  const Gap(5),
+                  const Gap(13),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
