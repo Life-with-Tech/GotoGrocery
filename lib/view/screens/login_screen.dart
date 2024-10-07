@@ -9,7 +9,6 @@ import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/core/constants/text_field.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/router/app_routes_constant.dart';
-import 'package:tango/state/providers/app_provider.dart';
 import 'package:tango/state/providers/user_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -98,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const Gap(5),
+                  const Gap(15),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
