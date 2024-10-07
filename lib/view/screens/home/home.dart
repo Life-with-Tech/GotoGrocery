@@ -19,12 +19,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int selectedIndex = 0;
   PageController pageController = PageController();
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: selectedIndex);
+    pageController = PageController(initialPage: appDataProvider.index);
     Future.delayed(Duration.zero, () {
       FirebaseMessaging.instance.getInitialMessage().then(
         (message) {
@@ -35,7 +34,6 @@ class _HomeState extends State<Home> {
         },
       );
 
-      // 2. This method only call when App in forground it mean app must be opened
       FirebaseMessaging.onMessage.listen(
         (message) {
           log("FirebaseMessaging.onMessage.listen!!!");
@@ -66,8 +64,17 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    Future.delayed(Duration.zero, () {
+      appDataProvider.updatedIndex(index: 0);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    AppDataProvider appDataProvider = Provider.of<AppDataProvider>(context);
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
@@ -87,18 +94,17 @@ class _HomeState extends State<Home> {
         waterDropColor: AppColors.surface,
         backgroundColor: AppColors.primary,
         onItemSelected: (int index) {
-          setState(() {
-            selectedIndex = index;
-          });
+          appDataProvider.updatedIndex(index: index);
+
           pageController.animateToPage(
-            selectedIndex,
+            appDataProvider.index,
             duration: const Duration(
               milliseconds: 400,
             ),
             curve: Curves.easeOutQuad,
           );
         },
-        selectedIndex: selectedIndex,
+        selectedIndex: appDataProvider.index,
         barItems: <BarItem>[
           BarItem(
             filledIcon: Icons.home,

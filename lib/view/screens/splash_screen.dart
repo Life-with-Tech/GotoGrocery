@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
               onPageChanged: (index, reason) {
                 // if (index == 2) {
                 RoutingService().goName(
-                  Routes.home.name,
+                  Routes.loginScreen.name,
                 );
                 // }
                 log(index.toString());
