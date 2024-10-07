@@ -3,13 +3,16 @@ import 'package:lottie/lottie.dart';
 import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tango/router/app_router.dart';
 import 'package:tango/core/utils/validators.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/core/constants/text_field.dart';
 import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/core/constants/data_loding.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/state/providers/user_provider.dart';
+import 'package:tango/state/providers/location_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,6 +26,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailControlller = TextEditingController();
   final TextEditingController _passwordControlller = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      await locationProvider.checkPermissionsAndGetLocation();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,13 @@ import "package:shared_preferences/shared_preferences.dart";
 AppDataProvider appDataProvider = AppDataProvider();
 
 class AppDataProvider extends ChangeNotifier {
+  int _index = 0;
+  int get index => _index;
+  void updatedIndex({required int index}) async {
+    _index = index;
+    notifyListeners();
+  }
+
   Locale? _locale;
   Locale? get locale => _locale;
 
