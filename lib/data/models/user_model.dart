@@ -5,6 +5,7 @@ class UserModel {
   String? city;
   String? district;
   String? latitude;
+  String? image;
   String? name;
   String? fcm;
   String? state;
@@ -22,6 +23,7 @@ class UserModel {
     this.district,
     this.latitude,
     this.name,
+    this.image,
     this.fcm,
     this.state,
     this.platform,
@@ -39,6 +41,7 @@ class UserModel {
     district = json['district'];
     latitude = json['latitude'];
     name = json['name'];
+    image = json['image'];
     state = json['state'];
     fcm = json['fcm'];
     platform =
@@ -59,6 +62,7 @@ class UserModel {
     data['latitude'] = latitude;
     data['fcm'] = fcm;
     data['name'] = name;
+    data['image'] = image;
     data['state'] = state;
     if (platform != null) {
       data['platform'] = platform!.toJson();

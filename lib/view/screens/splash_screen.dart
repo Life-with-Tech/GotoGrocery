@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/router/app_routes_constant.dart';
+import 'package:tango/state/providers/user_provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -46,6 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final CarouselController carouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Column(
@@ -56,11 +59,15 @@ class _SplashScreenState extends State<SplashScreen> {
               autoPlay: true,
               height: fullHeight(context) / 1.5,
               onPageChanged: (index, reason) {
-                // if (index == 2) {
-                RoutingService().goName(
-                  Routes.loginScreen.name,
-                );
-                // }
+                if (userProvider.currentUser != null) {
+                  RoutingService().goName(
+                    Routes.home.name,
+                  );
+                } else {
+                  RoutingService().goName(
+                    Routes.loginScreen.name,
+                  );
+                }
                 log(index.toString());
                 currentIndex = index;
                 setState(() {});

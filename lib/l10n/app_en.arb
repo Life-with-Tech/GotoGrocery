@@ -1,5 +1,8 @@
 {
     "@@locale": "en",
+    "english": "English",
+    "hindi": "Hindi",
+    "bangla": "Bangla",
     "login": "LogIn",
     "signUp": "SignUp",
     "termsAndCondition": "By signing up you agree with our Terms and conditions",
@@ -12,12 +15,11 @@
     "chooseYourDOB": "Choose Your DOB",
     "yourMobileNumber": "Your Mobile Number",
     "chooseYourGender": "Choose Your Gender",
-     "dontHaveAnAccoount": "Don't have an accoount",
-     "allreadyHaveAnAccoount": "Allready have an accoount",
-     "category":"Category",
-     "viewmore":"View More",
-     "profile":"Profile",
-     "favoriteProduct":"Favorite Product",
-     "cart":"Cart"
-
+    "dontHaveAnAccoount": "Don''t have an accoount",
+    "allreadyHaveAnAccoount": "Allready have an accoount",
+    "category": "Category",
+    "viewmore": "View More",
+    "profile": "Profile",
+    "favoriteProduct": "Favorite Product",
+    "cart": "Cart"
 }

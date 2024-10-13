@@ -1,9 +1,10 @@
+import 'package:gap/gap.dart';
+import '../../edit_screen.dart';
+import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
-import 'package:tango/l10n/l10n.dart';
 import 'package:tango/state/providers/app_provider.dart';
-import '../../edit_screen.dart';
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({super.key});
@@ -29,45 +30,78 @@ class ProfileDrawer extends StatelessWidget {
             ),
             itemBuilder: (context) => [
               // PopupMenuItem 1
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 1,
-                // row with 2 children
                 child: Row(
                   children: <Widget>[
-                    Icon(
-                      Icons.abc,
+                    Container(
+                      height: 15,
+                      width: 15,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      child: Image.asset(
+                        "assets/icons/language/english.png",
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("English")
+                    const Gap(10),
+                    Text(
+                      L10n().getValue()!.english,
+                    )
                   ],
                 ),
               ),
-              // PopupMenuItem 2
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 2,
-                // row with two children
                 child: Row(
                   children: [
-                    Icon(Icons.nearby_off),
-                    SizedBox(
-                      width: 10,
+                    Container(
+                      height: 15,
+                      width: 15,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      child: Image.asset(
+                        "assets/icons/language/hindi.png",
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    Text("Hindi")
+                    const Gap(10),
+                    Text(
+                      L10n().getValue()!.hindi,
+                    )
                   ],
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 3,
-                // row with two children
                 child: Row(
                   children: [
-                    Icon(Icons.nearby_off),
-                    SizedBox(
-                      width: 10,
+                    Container(
+                      height: 15,
+                      width: 15,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      child: Image.asset(
+                        "assets/icons/language/bangla.png",
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    Text("Bengali")
+                    const Gap(10),
+                    Text(
+                      L10n().getValue()!.bangla,
+                    )
                   ],
                 ),
               ),
@@ -101,7 +135,11 @@ class ProfileDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfileScreen(),
+                  ));
               // RoutingService().pushNamed(
               //   Routes.editScreen.name,
               // );
