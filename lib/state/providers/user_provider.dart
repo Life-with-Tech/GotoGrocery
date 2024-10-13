@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:tango/data/local/user_local.dart';
 import 'package:tango/data/models/user_model.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/utils/error_handler.dart';
@@ -22,9 +23,10 @@ class UserProvider extends ChangeNotifier {
   Future getToken() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     messaging.getToken().then((onValue) {
-      log("getToken $onValue");
       _token = onValue;
-    }).catchError((onError) {});
+    }).catchError((onError) {
+      log("getToken $onError");
+    });
     notifyListeners();
   }
 
@@ -75,10 +77,10 @@ class UserProvider extends ChangeNotifier {
   Future setUser({required String userId}) async {
     GlobalLoading.showLoadingDialog();
     await UserRepository().getUser(userId: userId).then(
-      (onValue) {
+      (onValue) async {
         if (onValue is Map<String, dynamic>) {
           _currentUser = UserModel.fromJson(onValue);
-
+          await setUserData(onValue);
           RoutingService().goName(Routes.home.name);
         }
       },
@@ -102,5 +104,10 @@ class UserProvider extends ChangeNotifier {
       ErrorHandler.handleSignUpError(onError);
     });
     RoutingService().goBack();
+  }
+
+  void setCurrentUser(UserModel userModel) {
+    _currentUser = userModel;
+    notifyListeners();
   }
 }

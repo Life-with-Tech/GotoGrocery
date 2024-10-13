@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tango/firebase_options.dart';
 import 'package:tango/router/app_router.dart';
+import 'package:tango/data/local/user_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tango/view/themes/app_theme.dart';
 import 'package:tango/state/providers/app_provider.dart';
@@ -24,18 +25,16 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  preferences = await SharedPreferences.getInstance();
 
   LocalNotificationService.initialize();
 
-  Future<void> backgroundHandler(RemoteMessage message) async {
-    log(message.data.toString());
-    log(message.notification!.title.toString());
-  }
+ 
 
   await userProvider.getToken();
   await appDataProvider.loadSavedLocale();
+  await getCurrentUser();
 
-  preferences = await SharedPreferences.getInstance();
   runApp(
     MultiProvider(
       providers: [
