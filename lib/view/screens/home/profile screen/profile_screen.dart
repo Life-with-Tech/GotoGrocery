@@ -1,11 +1,14 @@
+import 'dart:developer';
 import 'package:gap/gap.dart';
 import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/utils/string_utils.dart';
 import 'package:tango/core/constants/photo_type.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/state/providers/app_provider.dart';
 import 'package:tango/state/providers/user_provider.dart';
 import 'package:tango/core/constants/profile_bottom_semi_circle_clipper.dart';
@@ -25,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       endDrawer: const Drawer(
         child: ProfileDrawer(),
       ),
@@ -59,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 clipper: BottomSemiCircleClipper(),
                 child: Container(
                   width: fullWidth(context),
-                  height: fullHeight(context) / 4,
+                  height: fullHeight(context) / 7,
                   decoration: BoxDecoration(
                     color: AppColors.primary,
                   ),
@@ -87,7 +90,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: IconButton.styleFrom(
                           backgroundColor: AppColors.surface,
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await Future.microtask(() {
+                            RoutingService().pushNamed(
+                              Routes.editProfile.name,
+                              queryParameters: {
+                                "id": 1,
+                              },
+                            );
+                          });
+                        },
                         icon: Icon(
                           Icons.camera_alt,
                           size: 18,

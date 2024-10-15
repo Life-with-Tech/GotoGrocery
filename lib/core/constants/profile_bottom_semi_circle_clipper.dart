@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// lib/bottom_semi_circle_clipper.dart
 
 class BottomSemiCircleClipper extends CustomClipper<Path> {
   @override

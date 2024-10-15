@@ -1,10 +1,14 @@
 import 'package:gap/gap.dart';
 import '../../edit_screen.dart';
+import 'package:tango/main.dart';
 import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/state/providers/app_provider.dart';
+import 'package:tango/view/screens/home/profile%20screen/edit_profile_screen.dart';
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({super.key});
@@ -138,7 +142,7 @@ class ProfileDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditProfileScreen(),
+                    builder: (context) => const EditProfileScreen(),
                   ));
               // RoutingService().pushNamed(
               //   Routes.editScreen.name,
@@ -157,7 +161,10 @@ class ProfileDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pop(context);
+              preferences.clear();
+              RoutingService().goName(
+                Routes.loginScreen.name,
+              );
             },
           ),
         ],
