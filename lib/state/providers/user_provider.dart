@@ -42,31 +42,24 @@ class UserProvider extends ChangeNotifier {
     RoutingService().goBack();
   }
 
-  Future signUp(
-      {required String email,
-      required String password,
-      required String displayName}) async {
+  Future signUp({
+    required String email,
+    required String password,
+  }) async {
     GlobalLoading.showLoadingDialog();
     await AuthRepository()
         .signUp(email: email, password: password)
         .then((onValue) async {
       log("signUp $onValue");
       if (onValue != null) {
-        Map<String, dynamic> deviceData = await getDeviceData();
-        Map<String, dynamic> location = locationProvider.deviceData;
-        await createUser(
-          userId: onValue.uid,
-          userData: {
-            "uid": onValue.uid,
-            "email": onValue.email,
-            "name": displayName,
-            "location": location,
-            "platform": deviceData,
-            "fcm": token,
-            "createdAt": DateTime.now().toString(),
-            "updatedAt": "",
-          },
-        );
+        await Future.microtask(() {
+          RoutingService().pushNamed(
+            Routes.editProfile.name,
+            queryParameters: {
+              "id": 1,
+            },
+          );
+        });
       }
     }).catchError((onError) {
       ErrorHandler.handleSignUpError(onError);

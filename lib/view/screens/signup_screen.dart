@@ -23,7 +23,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailControlller = TextEditingController();
   final TextEditingController _passwordControlller = TextEditingController();
-  final TextEditingController _nameControlller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +51,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           Container(
             width: fullWidth(context),
-            height: fullHeight(context) / 2.1,
+            height: fullHeight(context) / 2.5,
             decoration: BoxDecoration(
               color: AppColors.primary,
               borderRadius: const BorderRadius.only(
@@ -70,41 +69,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.surface,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    child: TextFieldData.buildField(
-                      controller: _nameControlller,
-                      style: TextStyle(
-                        color: AppColors.black,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) => Validators.validateName(value),
-                      cursorColor: AppColors.black,
-                      decoration: InputDecoration(
-                        errorMaxLines: 1,
-                        errorStyle: TextStyle(
-                          color: AppColors.red,
-                        ),
-                        contentPadding: const EdgeInsets.all(15),
-                        prefixIcon: Icon(
-                          Icons.person,
-                          color: AppColors.primary,
-                        ),
-                        hintText: L10n().getValue()!.enterYourName,
-                        hintStyle: TextStyle(
-                          color: AppColors.primary,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  const Gap(13),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -228,7 +192,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           await userProvider.signUp(
                             email: _emailControlller.text,
                             password: _passwordControlller.text,
-                            displayName: _nameControlller.text,
                           );
                         }
                       },
@@ -243,7 +206,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            L10n().getValue()!.login,
+                            L10n().getValue()!.signUp,
                             style: TextStyle(
                               color: AppColors.surface,
                               fontSize: 18,

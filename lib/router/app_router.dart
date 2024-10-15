@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/view/screens/home/home.dart';
+import 'package:tango/view/screens/edit_screen.dart';
 import 'package:tango/view/screens/login_screen.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/screens/signup_screen.dart';
 import 'package:tango/view/screens/splash_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/home_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/cart/cart_screen.dart';
+import 'package:tango/view/screens/home/profile%20screen/edit_profile_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/product%20add/product_add.dart';
 
 class MyAppRoutes {
@@ -62,6 +64,17 @@ class MyAppRoutes {
         name: Routes.cart.name,
         builder: (BuildContext context, GoRouterState state) =>
             const CartScreen(),
+      ),
+      GoRoute(
+        path: Routes.editProfile.path,
+        name: Routes.editProfile.name,
+        builder: (BuildContext context, GoRouterState state) {
+          log("queryParameters${state.uri.queryParameters["id"].toString()}");
+          String? id = state.uri.queryParameters["id"];
+          return EditProfileScreen(
+            id: (id != null) ? int.parse(id) : null,
+          );
+        },
       ),
       GoRoute(
           path: Routes.addProductScreen.path,
