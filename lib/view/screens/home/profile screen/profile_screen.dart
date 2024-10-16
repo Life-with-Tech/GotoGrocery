@@ -95,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             RoutingService().pushNamed(
                               Routes.editProfile.name,
                               queryParameters: {
-                                "id": 1,
+                                "id": "1",
                               },
                             );
                           });
