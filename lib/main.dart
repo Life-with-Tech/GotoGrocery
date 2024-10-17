@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +27,6 @@ void main() async {
   preferences = await SharedPreferences.getInstance();
 
   LocalNotificationService.initialize();
-
- 
 
   await userProvider.getToken();
   await appDataProvider.loadSavedLocale();

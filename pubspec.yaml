@@ -66,6 +66,8 @@ dependencies:
   permission_handler: ^11.3.1
   geolocator: ^13.0.1
   geocoding: ^3.0.0
+  image_picker: ^1.1.2
+  firebase_storage: ^12.3.3
 
 dev_dependencies:
   flutter_test:
