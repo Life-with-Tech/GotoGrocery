@@ -35,7 +35,9 @@ class UserProvider extends ChangeNotifier {
     await AuthRepository()
         .signIn(email: email, password: password)
         .then((onValue) async {
-      await setUser(userId: onValue?.uid ?? "", email: onValue?.email ?? "");
+      await setUser(
+        userId: onValue?.uid ?? "",
+      );
     }).catchError((onError) {
       ErrorHandler.handleSignUpError(onError);
     });
@@ -68,7 +70,9 @@ class UserProvider extends ChangeNotifier {
     RoutingService().goBack();
   }
 
-  Future setUser({required String userId, required String email}) async {
+  Future setUser({
+    required String userId,
+  }) async {
     GlobalLoading.showLoadingDialog();
     await UserRepository().getUser(userId: userId).then(
       (onValue) async {
@@ -77,16 +81,6 @@ class UserProvider extends ChangeNotifier {
           _currentUser = UserModel.fromJson(onValue);
           await setUserData(onValue);
           RoutingService().goName(Routes.home.name);
-        } else {
-          await Future.microtask(() {
-            RoutingService().pushNamed(
-              Routes.editProfile.name,
-              queryParameters: {
-                "email": email,
-                "id": userId,
-              },
-            );
-          });
         }
       },
     ).catchError((onError) {
@@ -103,9 +97,9 @@ class UserProvider extends ChangeNotifier {
     await UserRepository()
         .createUser(userData: userData, userId: userId)
         .then((onValue) async {
-      // await setUser(
-      //   userId: userId,
-      // );
+      await setUser(
+        userId: userId,
+      );
       log("setUser$onValue");
     }).catchError((onError) {
       ErrorHandler.handleSignUpError(onError);
