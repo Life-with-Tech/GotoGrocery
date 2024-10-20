@@ -77,8 +77,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 100,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: loadImage(userProvider.currentUser?.image),
-                        ),
+                            image: loadImage(
+                              userProvider.currentUser?.image,
+                            ),
+                            fit: BoxFit.cover),
                         color: AppColors.grey,
                         shape: BoxShape.circle,
                       ),
