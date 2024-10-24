@@ -1,34 +1,30 @@
 class UserModel {
   String? createdAt;
   String? uid;
-  String? pincode;
-  String? city;
-  String? district;
-  String? latitude;
   String? image;
   String? name;
+  String? gender;
+  String? dob;
   String? fcm;
   String? state;
   Platform? platform;
+  Location? location;
   String? email;
-  String? longitude;
   String? updatedAt;
   bool? userType;
 
   UserModel({
     this.createdAt,
     this.uid,
-    this.pincode,
-    this.city,
-    this.district,
-    this.latitude,
     this.name,
     this.image,
     this.fcm,
+    this.dob,
+    this.gender,
     this.state,
     this.platform,
+    this.location,
     this.email,
-    this.longitude,
     this.updatedAt,
     this.userType,
   });
@@ -36,18 +32,15 @@ class UserModel {
   UserModel.fromJson(Map<String, dynamic> json) {
     createdAt = json['createdAt'];
     uid = json['uid'];
-    pincode = json['pincode'];
-    city = json['city'];
-    district = json['district'];
-    latitude = json['latitude'];
     name = json['name'];
     image = json['image'];
     state = json['state'];
     fcm = json['fcm'];
     platform =
         json['platform'] != null ? Platform.fromJson(json['platform']) : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     email = json['email'];
-    longitude = json['longitude'];
     updatedAt = json['updatedAt'];
     userType = json['userType'];
   }
@@ -56,10 +49,6 @@ class UserModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['createdAt'] = createdAt;
     data['uid'] = uid;
-    data['pincode'] = pincode;
-    data['city'] = city;
-    data['district'] = district;
-    data['latitude'] = latitude;
     data['fcm'] = fcm;
     data['name'] = name;
     data['image'] = image;
@@ -67,8 +56,10 @@ class UserModel {
     if (platform != null) {
       data['platform'] = platform!.toJson();
     }
+    if (platform != null) {
+      data['location'] = location!.toJson();
+    }
     data['email'] = email;
-    data['longitude'] = longitude;
     data['updatedAt'] = updatedAt;
     data['userType'] = userType;
     return data;
@@ -105,6 +96,40 @@ class Platform {
     data['device'] = device;
     data['version'] = version;
     data['manufacturer'] = manufacturer;
+    return data;
+  }
+}
+
+class Location {
+  String? pincode;
+  String? city;
+  String? district;
+  String? latitude;
+  String? longitude;
+  Location({
+    this.pincode,
+    this.city,
+    this.district,
+    this.latitude,
+    this.longitude,
+  });
+  Location.fromJson(Map<String, dynamic> json) {
+    pincode = json['pincode'];
+    city = json['city'];
+    district = json['district'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data['pincode'] = pincode;
+    data['city'] = city;
+    data['district'] = district;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+
     return data;
   }
 }

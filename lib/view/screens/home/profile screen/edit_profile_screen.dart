@@ -6,13 +6,16 @@ import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/constants/text_field.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/core/constants/photo_type.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/state/providers/user_provider.dart';
+import 'package:tango/core/utils/image_preview_modal.dart';
 import 'package:tango/core/utils/image_picker_helper.dart';
+import 'package:tango/core/utils/global_image_cropper.dart';
 import 'package:tango/core/utils/image_storage_helper.dart';
 import 'package:tango/core/constants/profile_bottom_semi_circle_clipper.dart';
 
@@ -39,6 +42,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       emailController.text = widget.email ?? "";
+      // _selectedImage = userProvider.currentUser?.image ?? "";
     });
   }
 
@@ -56,7 +60,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             await userProvider.createUser(
               userId: widget.id ?? "",
               userData: {
-                "profile_img": imageLink,
+                "uid": widget.id,
+                "image": imageLink,
                 "name": nameController.text,
                 "email": emailController.text,
                 "number": numberController.text,
@@ -69,11 +74,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   "pincode": "841418",
                   "latitude": "-12.451585",
                   "longitude": "74.5571242",
-                  "createdAt": "02-24-2024",
                 },
                 "platform": deviceData,
                 "fcm": userProvider.token,
                 "updatedAt": "",
+                "createdAt": DateTime.now().toString(),
               },
             );
           }
@@ -136,16 +141,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 bottom: 0,
                 child: Stack(
                   children: [
-                    Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: loadImage(_selectedImage?.path),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ImagePreviewModal(
+                              body: _selectedImage!.path,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: loadImage(_selectedImage?.path ??
+                                userProvider.currentUser?.image ??
+                                ""),
+                          ),
+                          color: AppColors.grey,
+                          shape: BoxShape.circle,
                         ),
-                        color: AppColors.grey,
-                        shape: BoxShape.circle,
                       ),
                     ),
                     Positioned(
@@ -361,19 +380,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  void _pickImage(ImageSource source) async {
-    ImagePickerHelper imagePickerHelper = ImagePickerHelper();
-    File? image;
-    if (source == ImageSource.camera) {
-      image = await imagePickerHelper.pickImageFromCamera();
-    } else if (source == ImageSource.gallery) {
-      image = await imagePickerHelper.pickImageFromGallery();
-    }
+  Future<void> _getCroppedImage(ImageSource source) async {
+    final croppedImage = await GlobalImageCropper.pickAndCropImage(
+      cropStyle: CropStyle.circle,
+      source: source,
+      aspectRatio: const CropAspectRatio(
+        ratioX: 1,
+        ratioY: 1,
+      ),
+    );
     RoutingService().goBack();
-
-    if (image != null) {
+    log(croppedImage.toString());
+    if (croppedImage != null) {
       setState(() {
-        _selectedImage = image;
+        _selectedImage = croppedImage;
       });
     }
   }
@@ -405,7 +425,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Icons.camera_alt,
                 ),
                 title: const Text('Camera'),
-                onTap: () => _pickImage(
+                onTap: () => _getCroppedImage(
                   ImageSource.camera,
                 ),
               ),
@@ -414,10 +434,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Icons.photo_album,
                 ),
                 title: const Text('Gallery'),
-                onTap: () => _pickImage(
+                onTap: () => _getCroppedImage(
                   ImageSource.gallery,
                 ),
               ),
+              if (_selectedImage != null)
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete,
+                  ),
+                  title: const Text('Remove Photo'),
+                  onTap: () {
+                    _selectedImage = null;
+                    RoutingService().goBack();
+                    setState(() {});
+                  },
+                ),
             ],
           ),
         );
