@@ -16,9 +16,9 @@ class GlobalLoading {
           body: Center(
             child: SpinKitWaveSpinner(
               size: fullHeight(context) / 10,
-              trackColor: AppColors.primary,
-              waveColor: AppColors.primary,
-              color: AppColors.onPrimary,
+              trackColor: AppColors.lightPrimary,
+              waveColor: AppColors.lightPrimary,
+              color: AppColors.lightOnPrimary,
             ),
           ),
         );

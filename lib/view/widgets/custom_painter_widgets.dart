@@ -3,13 +3,15 @@ import 'package:tango/core/constants/app_colors.dart';
 
 class DiscountBannerPainter extends CustomPainter {
   final String discountText;
+  final Color discountColor;
 
-  DiscountBannerPainter({required this.discountText});
+  DiscountBannerPainter(
+      {required this.discountColor, required this.discountText});
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.red
+      ..color = discountColor
       ..style = PaintingStyle.fill;
     final path = Path();
     path.moveTo(0, 0);
@@ -22,8 +24,8 @@ class DiscountBannerPainter extends CustomPainter {
     final textPainter = TextPainter(
       text: TextSpan(
         text: discountText,
-        style: TextStyle(
-          color: AppColors.surface,
+        style: const TextStyle(
+          color: AppColors.darkSurface,
           fontSize: 10,
           fontWeight: FontWeight.bold,
         ),

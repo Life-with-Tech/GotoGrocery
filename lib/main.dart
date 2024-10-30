@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:tango/view/themes/app_theme.dart';
 import 'package:tango/state/providers/app_provider.dart';
 import 'package:tango/state/providers/user_provider.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
@@ -31,6 +32,7 @@ void main() async {
   await userProvider.getToken();
   await appDataProvider.loadSavedLocale();
   await getCurrentUser();
+  await getCurrentTheme();
 
   runApp(
     MultiProvider(
@@ -42,6 +44,9 @@ void main() async {
         ChangeNotifierProvider<AppDataProvider>.value(value: appDataProvider),
         ChangeNotifierProvider<AddToCartProvider>.value(
             value: addToCartProvider),
+        ChangeNotifierProvider<ThemeProvider>.value(
+          value: themeProvider,
+        ),
       ],
       child: const MyApp(),
     ),
@@ -67,9 +72,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     Provider.of<ConnectivityProvider>(context, listen: false).startMonitoring();
 
-    return Consumer<AppDataProvider>(
-      builder: (BuildContext context, value, Widget? child) =>
-          MaterialApp.router(
+    return Consumer2<AppDataProvider, ThemeProvider>(
+      builder: (context, value, themeData, child) => MaterialApp.router(
         locale: value.locale,
         supportedLocales:
             L10n().all.map((e) => Locale(e["value"]! as String)).toList(),
@@ -79,7 +83,9 @@ class _MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        theme: appTheme(),
+        themeMode: themeData.themeMode,
+        theme: AppTheme.lightThemeData,
+        darkTheme: AppTheme.darkThemeData,
         debugShowCheckedModeBanner: false,
         routerDelegate: router.routerDelegate,
         routeInformationParser: router.routeInformationParser,

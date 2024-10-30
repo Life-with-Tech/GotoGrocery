@@ -8,6 +8,7 @@ import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/state/providers/user_provider.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -49,8 +50,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+        ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: themeProvider.isDark
+                  ? AppColors.lightPrimary
+                  : AppColors.darkPrimary,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -93,8 +98,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       Text(
                         textAlign: TextAlign.center,
                         i["title"],
-                        style: TextStyle(
-                          color: AppColors.surface,
+                        style: const TextStyle(
+                          color: AppColors.darkSurface,
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
                         ),
@@ -103,8 +108,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       Text(
                         textAlign: TextAlign.center,
                         i["discription"],
-                        style: TextStyle(
-                          color: AppColors.surface,
+                        style: const TextStyle(
+                          color: AppColors.darkSurface,
                           fontSize: 18,
                         ),
                       ),
@@ -121,7 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
               viewportFraction: 1.0,
             ),
             count: _imagePaths.length,
-            effect: WormEffect(
+            effect: const WormEffect(
               activeDotColor: AppColors.secondary,
               dotColor: AppColors.surface,
               dotHeight: 8,

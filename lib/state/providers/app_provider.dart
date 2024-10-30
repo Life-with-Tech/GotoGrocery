@@ -1,7 +1,7 @@
 import "dart:developer";
+import "package:tango/main.dart";
 import "package:tango/l10n/l10n.dart";
 import "package:flutter/material.dart";
-import "package:shared_preferences/shared_preferences.dart";
 
 AppDataProvider appDataProvider = AppDataProvider();
 
@@ -17,8 +17,7 @@ class AppDataProvider extends ChangeNotifier {
   Locale? get locale => _locale;
 
   Future<void> loadSavedLocale() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? languageCode = prefs.getString("language_code");
+    final String? languageCode = preferences.getString("language_code");
     if (languageCode != null) {
       _locale = L10n().getLocale(languageCode);
     } else {
@@ -34,8 +33,7 @@ class AppDataProvider extends ChangeNotifier {
       return;
     }
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("language_code", code);
+    await preferences.setString("language_code", code);
     _locale = locale;
     log(locale.languageCode);
 
@@ -44,8 +42,7 @@ class AppDataProvider extends ChangeNotifier {
 
   Future<void> clearLocale() async {
     _locale = null;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove("language_code");
+    await preferences.remove("language_code");
     notifyListeners();
   }
 }

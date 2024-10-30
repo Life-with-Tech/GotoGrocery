@@ -43,7 +43,7 @@ class _ProductItemState extends State<ProductItem> {
                 (widget.whereCondition != null)
                     ? widget.whereCondition ?? ""
                     : "You might need",
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -54,13 +54,12 @@ class _ProductItemState extends State<ProductItem> {
                 width: 30,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  // color: AppColors.onPrimary,
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: AppColors.primary,
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_forward_ios,
                   color: AppColors.onPrimary,
                   size: 15,
@@ -150,14 +149,14 @@ class _ProductItemState extends State<ProductItem> {
                                                             .toString()) ??
                                                         0.0.toInt())
                                                     .toString(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 12,
                                                   color: AppColors.primary,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                               const Gap(3),
-                                              Icon(
+                                              const Icon(
                                                 Icons.star,
                                                 size: 15,
                                                 color: AppColors.primary,

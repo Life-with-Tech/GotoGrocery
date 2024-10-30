@@ -21,5 +21,6 @@
     "viewmore": "View More",
     "profile": "Profile",
     "favoriteProduct": "Favorite Product",
-    "cart": "Cart"
+    "cart": "Cart",
+    "log_out": "Log Out"
 }

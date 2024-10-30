@@ -11,6 +11,7 @@ import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/state/providers/app_provider.dart';
 import 'package:tango/state/providers/user_provider.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/core/constants/profile_bottom_semi_circle_clipper.dart';
 import 'package:tango/view/screens/home/profile%20screen/profile_drawer.dart';
 
@@ -24,7 +25,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    AppDataProvider appDataProvider = Provider.of<AppDataProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
@@ -35,17 +36,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: Text(
           L10n().getValue()!.profile,
-          style: TextStyle(
-            color: AppColors.surface,
+          style: const TextStyle(
             fontSize: 18,
           ),
         ),
         actions: [
           Builder(
             builder: (context) => IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.settings,
-                color: AppColors.surface,
               ),
               onPressed: () => Scaffold.of(context).openEndDrawer(),
             ),
@@ -64,7 +63,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: fullWidth(context),
                   height: fullHeight(context) / 7,
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: themeProvider.isDark
+                        ? AppColors.lightPrimary
+                        : AppColors.darkPrimary,
                   ),
                 ),
               ),
@@ -90,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             textAlign: TextAlign.center,
             capitalizeFirstLetter(userProvider.currentUser?.name ?? ""),
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.primary,
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -99,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             textAlign: TextAlign.center,
             userProvider.currentUser?.email ?? "",
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.primary,
               fontWeight: FontWeight.bold,
               fontSize: 12,
@@ -117,7 +118,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fullWidth(context) / 2.5,
                   40,
                 ),
-                backgroundColor: AppColors.primary,
               ),
               onPressed: () async {
                 await Future.microtask(() {
@@ -129,11 +129,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   );
                 });
               },
-              child: Text(
+              child: const Text(
                 textAlign: TextAlign.center,
                 "Edit Profile",
                 style: TextStyle(
-                  color: AppColors.surface,
+                  color: AppColors.darkSurface,
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),
