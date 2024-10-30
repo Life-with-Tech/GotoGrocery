@@ -17,9 +17,12 @@ UserProvider userProvider = UserProvider();
 
 class UserProvider extends ChangeNotifier {
   UserModel? _currentUser;
+
   UserModel? get currentUser => _currentUser;
   String? _token;
+
   String? get token => _token;
+
   Future getToken() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     messaging.getToken().then((onValue) {
@@ -74,22 +77,47 @@ class UserProvider extends ChangeNotifier {
     required String userId,
   }) async {
     GlobalLoading.showLoadingDialog();
-    await UserRepository().getUser(userId: userId).then(
-      (onValue) async {
-        log("cruuent :- ${onValue.toString()}");
-        if (onValue is Map<String, dynamic>) {
-          _currentUser = UserModel.fromJson(onValue);
-          await setUserData(onValue);
-          RoutingService().goName(Routes.home.name);
-        }
-      },
-    ).catchError((onError) {
-      log("setUser catchError ${onError.toString()}");
-    });
-    log("currentUser ${currentUser?.toJson()}");
-    RoutingService().goBack();
-    notifyListeners();
+    try {
+      final onValue = await UserRepository().getUser(userId: userId);
+      log("Current user data: $onValue");
+
+      if (onValue is Map<String, dynamic>) {
+        _currentUser = UserModel.fromJson(onValue);
+        await setUserData(onValue);
+        RoutingService().goName(Routes.home.name);
+      } else {
+        log("User data is null, navigating to edit profile screen.");
+        RoutingService().goName(Routes.editProfile.name);
+      }
+    } catch (error) {
+      log("setUser catchError ${error.toString()}");
+    } finally {
+      log("currentUser ${currentUser?.toJson()}");
+      RoutingService().goBack();
+      notifyListeners();
+    }
   }
+
+  // Future setUser({
+  //   required String userId,
+  // }) async {
+  //   GlobalLoading.showLoadingDialog();
+  //   await UserRepository().getUser(userId: userId).then(
+  //     (onValue) async {
+  //       log("cruuent :- ${onValue.toString()}");
+  //       if (onValue is Map<String, dynamic>) {
+  //         _currentUser = UserModel.fromJson(onValue);
+  //         await setUserData(onValue);
+  //         RoutingService().goName(Routes.home.name);
+  //       }
+  //     },
+  //   ).catchError((onError) {
+  //     log("setUser catchError ${onError.toString()}");
+  //   });
+  //   log("currentUser ${currentUser?.toJson()}");
+  //   RoutingService().goBack();
+  //   notifyListeners();
+  // }
 
   Future createUser(
       {required String userId, required Map<String, dynamic> userData}) async {
