@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/state/providers/app_provider.dart';
 import 'package:tango/state/providers/user_provider.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import 'package:tango/view/screens/home/home%20screen/home_screen.dart';
@@ -74,6 +75,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     AppDataProvider appDataProvider = Provider.of<AppDataProvider>(context);
     return Scaffold(
       body: PageView(
@@ -90,9 +93,15 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: WaterDropNavBar(
         iconSize: 30,
         bottomPadding: 10,
-        inactiveIconColor: AppColors.surface,
-        waterDropColor: AppColors.surface,
-        backgroundColor: AppColors.primary,
+        inactiveIconColor: themeProvider.isDark
+            ? AppColors.lightSurface
+            : AppColors.lightOnSecondary,
+        waterDropColor: themeProvider.isDark
+            ? AppColors.lightSurface
+            : AppColors.lightOnSecondary,
+        backgroundColor: themeProvider.isDark
+            ? AppColors.lightPrimary
+            : AppColors.darkPrimary,
         onItemSelected: (int index) {
           appDataProvider.updatedIndex(index: index);
 

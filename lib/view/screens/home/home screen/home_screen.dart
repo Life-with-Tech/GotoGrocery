@@ -5,6 +5,7 @@ import 'package:tango/router/routing_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/router/app_routes_constant.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 import 'package:tango/view/screens/home/home%20screen/components/banner.dart';
 import 'package:tango/view/screens/home/home%20screen/components/categaory.dart';
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     AddToCartProvider addToCartProvider =
         Provider.of<AddToCartProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,20 +38,24 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.chat, color: AppColors.surface),
+            icon: const Icon(
+              Icons.chat,
+            ),
           )
         ],
       ),
       floatingActionButton: FloatingActionButton(
         key: addToCartProvider.cartKey,
-        backgroundColor: AppColors.primary,
+        backgroundColor: themeProvider.isDark
+            ? AppColors.lightPrimary
+            : AppColors.darkPrimary,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            Center(
+            const Center(
               child: Icon(
                 Icons.shopping_cart,
-                color: AppColors.surface,
+                color: AppColors.darkSurface,
                 size: 28,
               ),
             ),
@@ -73,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Text(
                       _formatNumber(addToCartProvider.cart.length),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.surface,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
