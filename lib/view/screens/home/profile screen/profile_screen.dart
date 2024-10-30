@@ -70,46 +70,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Positioned(
                 bottom: 0,
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: loadImage(
-                              userProvider.currentUser?.image,
-                            ),
-                            fit: BoxFit.cover),
-                        color: AppColors.grey,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: -5,
-                      right: -5,
-                      child: IconButton(
-                        style: IconButton.styleFrom(
-                          backgroundColor: AppColors.surface,
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: loadImage(
+                          userProvider.currentUser?.image,
                         ),
-                        onPressed: () async {
-                          await Future.microtask(() {
-                            RoutingService().pushNamed(
-                              Routes.editProfile.name,
-                              queryParameters: {
-                                "id": "1",
-                              },
-                            );
-                          });
-                        },
-                        icon: Icon(
-                          Icons.camera_alt,
-                          size: 18,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    )
-                  ],
+                        fit: BoxFit.cover),
+                    color: AppColors.grey,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
             ],
@@ -133,6 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               fontSize: 12,
             ),
           ),
+          const Gap(10),
           Align(
             alignment: Alignment.center,
             child: ElevatedButton(
@@ -146,7 +119,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 backgroundColor: AppColors.primary,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                await Future.microtask(() {
+                  RoutingService().pushNamed(
+                    Routes.editProfile.name,
+                    queryParameters: {
+                      "id": "1",
+                    },
+                  );
+                });
+              },
               child: Text(
                 textAlign: TextAlign.center,
                 "Edit Profile",
@@ -156,336 +138,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 12,
                 ),
               ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primary,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  "Products",
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-                const Icon(
-                  Icons.arrow_right_rounded,
-                )
-              ],
             ),
           ),
         ],
