@@ -19,6 +19,8 @@ import 'package:tango/core/utils/global_image_cropper.dart';
 import 'package:tango/core/utils/image_storage_helper.dart';
 import 'package:tango/core/constants/profile_bottom_semi_circle_clipper.dart';
 
+import '../../../../router/app_routes_constant.dart';
+
 class EditProfileScreen extends StatefulWidget {
   final String? email;
   final String? id;
@@ -41,6 +43,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
+      log("Email: ${widget.email}");
+      log("ID: ${widget.id}");
       emailController.text = widget.email ?? "";
       // _selectedImage = userProvider.currentUser?.image ?? "";
     });
@@ -51,6 +55,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       bottomNavigationBar: InkWell(
         onTap: () async {
+          log("Starting profile update...");
           String? imageLink = await ImageStorageHelper().uploadImage(
             _selectedImage,
             folderPath: "user_profile/${widget.id}",
@@ -81,6 +86,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 "createdAt": DateTime.now().toString(),
               },
             );
+            log("User created, navigating...");
+            RoutingService().goName(Routes.home.name);
+          } else {
+            log("Missing ID or email, cannot proceed with profile update.");
           }
         },
         child: Container(
