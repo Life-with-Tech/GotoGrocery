@@ -11,6 +11,7 @@ class UserModel {
   Location? location;
   String? email;
   String? updatedAt;
+  String? number;
   bool? userType;
 
   UserModel({
@@ -27,6 +28,7 @@ class UserModel {
     this.email,
     this.updatedAt,
     this.userType,
+    this.number,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class UserModel {
     name = json['name'];
     image = json['image'];
     state = json['state'];
+    dob = json['dob'];
     fcm = json['fcm'];
     platform =
         json['platform'] != null ? Platform.fromJson(json['platform']) : null;
@@ -43,6 +46,8 @@ class UserModel {
     email = json['email'];
     updatedAt = json['updatedAt'];
     userType = json['userType'];
+    gender = json['gender'];
+    number = json['number'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +55,8 @@ class UserModel {
     data['createdAt'] = createdAt;
     data['uid'] = uid;
     data['fcm'] = fcm;
+    data['dob'] = dob;
+    data['gender'] = gender;
     data['name'] = name;
     data['image'] = image;
     data['state'] = state;
@@ -62,6 +69,7 @@ class UserModel {
     data['email'] = email;
     data['updatedAt'] = updatedAt;
     data['userType'] = userType;
+    data['number'] = number;
     return data;
   }
 }

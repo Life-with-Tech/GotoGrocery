@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:tango/router/routing_service.dart';
+import '../../../../router/app_routes_constant.dart';
 import 'package:tango/core/constants/text_field.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/core/constants/photo_type.dart';
@@ -18,8 +19,6 @@ import 'package:tango/core/utils/image_picker_helper.dart';
 import 'package:tango/core/utils/global_image_cropper.dart';
 import 'package:tango/core/utils/image_storage_helper.dart';
 import 'package:tango/core/constants/profile_bottom_semi_circle_clipper.dart';
-
-import '../../../../router/app_routes_constant.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String? email;
@@ -43,11 +42,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      log("Email: ${widget.email}");
-      log("ID: ${widget.id}");
-      emailController.text = widget.email ?? "";
-      // _selectedImage = userProvider.currentUser?.image ?? "";
+      await doThisLunchScreen();
     });
+  }
+
+  Future doThisLunchScreen() async {
+    log("${userProvider.currentUser?.toJson()}");
+
+    nameController.text = userProvider.currentUser?.name ?? "";
+    emailController.text = userProvider.currentUser?.email ?? "";
+    dobController.text = userProvider.currentUser?.dob ?? "";
+    gender = userProvider.currentUser?.gender ?? "";
+    numberController.text = userProvider.currentUser?.number ?? "";
+    setState(() {});
   }
 
   @override
