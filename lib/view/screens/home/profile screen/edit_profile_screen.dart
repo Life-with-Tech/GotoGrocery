@@ -86,6 +86,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 "createdAt": DateTime.now().toString(),
               },
             );
+
             log("User created, navigating...");
             RoutingService().goName(Routes.home.name);
           } else {
