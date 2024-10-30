@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 
@@ -208,12 +209,16 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     AddToCartProvider addToCartProvider =
         Provider.of<AddToCartProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     product = addToCartProvider.idByProduct(widget.product["id"]);
     return (addToCartProvider.idItemContains(widget.product["id"]))
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: themeProvider.isDark
+                  ? AppColors.lightPrimary
+                  : AppColors.darkPrimary,
               borderRadius: const BorderRadius.only(
                 bottomRight: Radius.circular(10),
                 topLeft: Radius.circular(10),
@@ -237,10 +242,10 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                     alignment: Alignment.center,
                     width: 20,
                     height: 20,
-                    child: Icon(
+                    child: const Icon(
                       Icons.remove,
                       size: 15,
-                      color: AppColors.surface,
+                      color: AppColors.darkSurface,
                     ),
                   ),
                 ),
@@ -255,9 +260,9 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                             (int.tryParse(product!["quantity"].toString()) ??
                                 0))
                         .toStringAsFixed(0),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
-                      color: AppColors.surface,
+                      color: AppColors.darkSurface,
                     ),
                   ),
                 ),
@@ -271,10 +276,10 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                     alignment: Alignment.center,
                     width: 20,
                     height: 20,
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       size: 15,
-                      color: AppColors.surface,
+                      color: AppColors.darkSurface,
                     ),
                   ),
                 ),
@@ -291,15 +296,17 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               height: 30,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: AppColors.primary,
+                color: themeProvider.isDark
+                    ? AppColors.lightPrimary
+                    : AppColors.darkPrimary,
                 borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(10),
                   topLeft: Radius.circular(10),
                 ),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.add,
-                color: AppColors.surface,
+                color: AppColors.darkSurface,
                 size: 20,
               ),
             ),

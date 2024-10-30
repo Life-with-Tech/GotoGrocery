@@ -23,10 +23,9 @@ class _CategorySelectState extends State<CategorySelect> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Add Product",
           style: TextStyle(
-            color: AppColors.surface,
             fontSize: 18,
           ),
         ),
@@ -36,7 +35,7 @@ class _CategorySelectState extends State<CategorySelect> {
             child: MaterialButton(
               color: AppColors.surface,
               onPressed: () {},
-              child: Text(
+              child: const Text(
                 "Add New Category",
                 style: TextStyle(
                   color: AppColors.primary,
@@ -93,7 +92,7 @@ class _CategorySelectState extends State<CategorySelect> {
                         const Gap(8),
                         Text(
                           item['name'] ?? 'Unknown Category',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: AppColors.primary,
                           ),

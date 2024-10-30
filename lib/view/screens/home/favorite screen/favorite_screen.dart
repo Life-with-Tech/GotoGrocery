@@ -64,8 +64,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
         title: Text(
           L10n().getValue()!.favoriteProduct,
-          style: TextStyle(
-            color: AppColors.surface,
+          style: const TextStyle(
             fontSize: 18,
           ),
         ),
