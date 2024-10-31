@@ -22,4 +22,6 @@ class Routes {
       RouteName(name: "edit_profile_screen", path: "/edit_profile_screen");
   static const RouteName addProductScreen =
       RouteName(name: "add_product_screen", path: "/add_product_screen/:id");
+  static const RouteName devicePermissionScreen = RouteName(
+      name: "device_permission_screen", path: "/device_permission_screen");
 }

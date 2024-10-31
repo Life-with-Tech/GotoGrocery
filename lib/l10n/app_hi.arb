@@ -22,5 +22,8 @@
     "profile": "प्रोफ़ाइल",
     "favoriteProduct": "पसंदीदा उत्पाद",
     "cart": "कार्ट",
-    "log_out": "लॉग आउट"
+    "dark_theme": "डार्क थीम",
+    "light_theme": "लाइट थीम",
+    "log_out": "लॉग आउट",
+    "device_permission": "डिवाइस अनुमति"
 }
