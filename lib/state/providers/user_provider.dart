@@ -78,46 +78,26 @@ class UserProvider extends ChangeNotifier {
   }) async {
     GlobalLoading.showLoadingDialog();
     try {
-      final onValue = await UserRepository().getUser(userId: userId);
-      log("Current user data: $onValue");
-
-      if (onValue is Map<String, dynamic>) {
-        _currentUser = UserModel.fromJson(onValue);
-        await setUserData(onValue);
-        RoutingService().goName(Routes.home.name);
-      } else {
-        log("User data is null, navigating to edit profile screen.");
-        RoutingService().goName(Routes.editProfile.name);
-      }
+      await UserRepository().getUser(userId: userId).then((onValue) async {
+        if (onValue is Map<String, dynamic>) {
+          if (onValue["status"]) {
+            _currentUser = UserModel.fromJson(onValue);
+            await setUserData(onValue);
+            RoutingService().goName(Routes.home.name);
+          } else {
+            RoutingService().goName(Routes.accountBlockedScreen.name);
+          }
+        } else {
+          RoutingService().goName(Routes.editProfile.name);
+        }
+      });
     } catch (error) {
       log("setUser catchError ${error.toString()}");
     } finally {
-      log("currentUser ${currentUser?.toJson()}");
       RoutingService().goBack();
       notifyListeners();
     }
   }
-
-  // Future setUser({
-  //   required String userId,
-  // }) async {
-  //   GlobalLoading.showLoadingDialog();
-  //   await UserRepository().getUser(userId: userId).then(
-  //     (onValue) async {
-  //       log("cruuent :- ${onValue.toString()}");
-  //       if (onValue is Map<String, dynamic>) {
-  //         _currentUser = UserModel.fromJson(onValue);
-  //         await setUserData(onValue);
-  //         RoutingService().goName(Routes.home.name);
-  //       }
-  //     },
-  //   ).catchError((onError) {
-  //     log("setUser catchError ${onError.toString()}");
-  //   });
-  //   log("currentUser ${currentUser?.toJson()}");
-  //   RoutingService().goBack();
-  //   notifyListeners();
-  // }
 
   Future createUser(
       {required String userId, required Map<String, dynamic> userData}) async {

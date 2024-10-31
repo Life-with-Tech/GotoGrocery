@@ -24,6 +24,8 @@
     "cart": "Cart",
     "dark_theme": "Dark Theme",
     "light_theme": "Light Theme",
+    "delete_account": "Delete Account",
+    "block_account": "Blocked Account",
     "log_out": "Log Out",
     "device_permission": "Device Permission"
 }
