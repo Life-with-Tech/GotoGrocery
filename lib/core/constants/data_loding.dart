@@ -25,8 +25,4 @@ class GlobalLoading {
       },
     );
   }
-
-  static void hideLoadingDialog(BuildContext context) {
-    Navigator.pop(context);
-  }
 }

@@ -24,6 +24,8 @@
     "cart": "কার্ট",
     "dark_theme": "ডার্ক থিম",
     "light_theme": "লাইট থিম",
+    "delete_account": "অ্যাকাউন্ট মুছুন",
+    "block_account": "ব্লক করা অ্যাকাউন্ট",
     "log_out": "লগ আউট করুন",
     "device_permission": "ডিভাইসের অনুমতি"
 }

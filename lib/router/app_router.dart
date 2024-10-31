@@ -8,6 +8,7 @@ import 'package:tango/view/screens/login_screen.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/screens/signup_screen.dart';
 import 'package:tango/view/screens/splash_screen.dart';
+import 'package:tango/view/screens/Account/account_blocked_sreeen.dart';
 import 'package:tango/view/screens/home/home%20screen/home_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/cart/cart_screen.dart';
 import 'package:tango/view/screens/home/profile%20screen/edit_profile_screen.dart';
@@ -48,6 +49,12 @@ class MyAppRoutes {
         name: Routes.signupScreen.name,
         builder: (BuildContext context, GoRouterState state) =>
             const SignupScreen(),
+      ),
+      GoRoute(
+        path: Routes.accountBlockedScreen.path,
+        name: Routes.accountBlockedScreen.name,
+        builder: (BuildContext context, GoRouterState state) =>
+            const AccountBlockedScreen(),
       ),
       GoRoute(
         path: Routes.homeScreen.path,

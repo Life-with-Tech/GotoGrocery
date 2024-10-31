@@ -24,6 +24,8 @@
     "cart": "कार्ट",
     "dark_theme": "डार्क थीम",
     "light_theme": "लाइट थीम",
+    "delete_account": "खाता हटा दो",
+    "block_account": "अवरुद्ध खाता",
     "log_out": "लॉग आउट",
     "device_permission": "डिवाइस अनुमति"
 }
