@@ -35,15 +35,11 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
     ),
-    elevatedButtonTheme: const ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(
-          AppColors.lightPrimary,
-        ),
-        textStyle: WidgetStatePropertyAll(
-          TextStyle(
-            color: AppColors.darkSurface,
-          ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.lightPrimary,
+        textStyle: const TextStyle(
+          color: AppColors.lightSurface,
         ),
       ),
     ),
@@ -81,26 +77,22 @@ class AppTheme {
         color: AppColors.black,
       ),
     ),
-    elevatedButtonTheme: const ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(
-          AppColors.darkPrimary,
-        ),
-        textStyle: WidgetStatePropertyAll(
-          TextStyle(
-            color: AppColors.darkSurface,
-          ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.darkPrimary,
+        textStyle: const TextStyle(
+          color: AppColors.darkSurface,
         ),
       ),
     ),
     iconTheme: const IconThemeData(
-      color: AppColors.surface,
+      color: AppColors.darkSurface,
     ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.darkPrimary,
-      iconTheme: IconThemeData(color: AppColors.white),
-      toolbarTextStyle: TextStyle(color: AppColors.white),
-      titleTextStyle: TextStyle(color: AppColors.white),
+      iconTheme: IconThemeData(color: AppColors.darkSurface),
+      toolbarTextStyle: TextStyle(color: AppColors.darkSurface),
+      titleTextStyle: TextStyle(color: AppColors.darkSurface),
     ),
     scaffoldBackgroundColor: AppColors.darkSurface,
   );

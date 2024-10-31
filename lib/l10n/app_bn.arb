@@ -22,5 +22,8 @@
     "profile": "প্রোফাইল",
     "favoriteProduct": "প্রিয় পণ্য",
     "cart": "কার্ট",
-    "log_out": "লগ আউট করুন"
+    "dark_theme": "ডার্ক থিম",
+    "light_theme": "লাইট থিম",
+    "log_out": "লগ আউট করুন",
+    "device_permission": "ডিভাইসের অনুমতি"
 }

@@ -50,12 +50,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
-        ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      backgroundColor: themeProvider.isDark
-                  ? AppColors.lightPrimary
-                  : AppColors.darkPrimary,
+      backgroundColor:
+          themeProvider.isDark ? AppColors.darkPrimary : AppColors.lightPrimary,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

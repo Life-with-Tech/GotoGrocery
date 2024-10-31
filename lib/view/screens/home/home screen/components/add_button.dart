@@ -217,8 +217,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
               color: themeProvider.isDark
-                  ? AppColors.lightPrimary
-                  : AppColors.darkPrimary,
+                  ? AppColors.darkPrimary
+                  : AppColors.lightPrimary,
               borderRadius: const BorderRadius.only(
                 bottomRight: Radius.circular(10),
                 topLeft: Radius.circular(10),
@@ -242,10 +242,12 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                     alignment: Alignment.center,
                     width: 20,
                     height: 20,
-                    child: const Icon(
+                    child: Icon(
                       Icons.remove,
                       size: 15,
-                      color: AppColors.darkSurface,
+                      color: themeProvider.isDark
+                          ? AppColors.darkSurface
+                          : AppColors.lightSurface,
                     ),
                   ),
                 ),
@@ -260,9 +262,11 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                             (int.tryParse(product!["quantity"].toString()) ??
                                 0))
                         .toStringAsFixed(0),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
-                      color: AppColors.darkSurface,
+                      color: themeProvider.isDark
+                          ? AppColors.darkSurface
+                          : AppColors.lightSurface,
                     ),
                   ),
                 ),
@@ -276,10 +280,12 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                     alignment: Alignment.center,
                     width: 20,
                     height: 20,
-                    child: const Icon(
+                    child: Icon(
                       Icons.add,
                       size: 15,
-                      color: AppColors.darkSurface,
+                      color: themeProvider.isDark
+                          ? AppColors.darkSurface
+                          : AppColors.lightSurface,
                     ),
                   ),
                 ),
@@ -297,16 +303,18 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 color: themeProvider.isDark
-                    ? AppColors.lightPrimary
-                    : AppColors.darkPrimary,
+                    ? AppColors.darkPrimary
+                    : AppColors.lightPrimary,
                 borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(10),
                   topLeft: Radius.circular(10),
                 ),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.add,
-                color: AppColors.darkSurface,
+                color: themeProvider.isDark
+                    ? AppColors.darkSurface
+                    : AppColors.lightSurface,
                 size: 20,
               ),
             ),

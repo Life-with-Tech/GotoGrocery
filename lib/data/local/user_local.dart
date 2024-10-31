@@ -28,8 +28,8 @@ Future setThemeData(bool data) async {
 
 Future getCurrentTheme() async {
   try {
-    bool? data = preferences.getBool(themeKey);
-    themeProvider.toggleThemeMode(data ?? false);
+    var data = preferences.getBool(themeKey);
+    themeProvider.toggleThemeMode(data);
   } catch (e) {
     log(e.toString());
   }
