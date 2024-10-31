@@ -18,8 +18,8 @@ class DiscountBannerWidget extends StatelessWidget {
       painter: DiscountBannerPainter(
         discountText: discount,
         discountColor: themeProvider.isDark
-            ? AppColors.lightPrimary
-            : AppColors.darkPrimary,
+            ? AppColors.darkPrimary
+            : AppColors.lightPrimary,
       ),
     );
   }

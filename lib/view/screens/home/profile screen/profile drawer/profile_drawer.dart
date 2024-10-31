@@ -1,6 +1,6 @@
 import 'package:gap/gap.dart';
-import '../../edit_screen.dart';
 import 'package:tango/main.dart';
+import '../../../edit_screen.dart';
 import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,19 +43,26 @@ class ProfileDrawer extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppColors.black,
+                          color: themeProvider.isDark
+                              ? AppColors.lightSurface
+                              : AppColors.darkSurface,
                         ),
                       ),
                       child: Image.asset(
                         "assets/icons/language/english.png",
+                        color: themeProvider.isDark
+                            ? AppColors.lightSurface
+                            : AppColors.darkSurface,
                         fit: BoxFit.cover,
                       ),
                     ),
                     const Gap(10),
                     Text(
                       L10n().getValue()!.english,
-                      style: const TextStyle(
-                        color: AppColors.surface,
+                      style: TextStyle(
+                        color: themeProvider.isDark
+                            ? AppColors.lightSurface
+                            : AppColors.darkSurface,
                       ),
                     )
                   ],
@@ -71,19 +78,26 @@ class ProfileDrawer extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppColors.black,
+                          color: themeProvider.isDark
+                              ? AppColors.lightSurface
+                              : AppColors.darkSurface,
                         ),
                       ),
                       child: Image.asset(
                         "assets/icons/language/hindi.png",
                         fit: BoxFit.cover,
+                        color: themeProvider.isDark
+                            ? AppColors.lightSurface
+                            : AppColors.darkSurface,
                       ),
                     ),
                     const Gap(10),
                     Text(
                       L10n().getValue()!.hindi,
-                      style: const TextStyle(
-                        color: AppColors.surface,
+                      style: TextStyle(
+                        color: themeProvider.isDark
+                            ? AppColors.lightSurface
+                            : AppColors.darkSurface,
                       ),
                     )
                   ],
@@ -99,19 +113,26 @@ class ProfileDrawer extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppColors.black,
+                          color: themeProvider.isDark
+                              ? AppColors.lightSurface
+                              : AppColors.darkSurface,
                         ),
                       ),
                       child: Image.asset(
                         "assets/icons/language/bangla.png",
                         fit: BoxFit.cover,
+                        color: themeProvider.isDark
+                            ? AppColors.lightSurface
+                            : AppColors.darkSurface,
                       ),
                     ),
                     const Gap(10),
                     Text(
                       L10n().getValue()!.bangla,
-                      style: const TextStyle(
-                        color: AppColors.surface,
+                      style: TextStyle(
+                        color: themeProvider.isDark
+                            ? AppColors.lightSurface
+                            : AppColors.darkSurface,
                       ),
                     )
                   ],
@@ -132,30 +153,28 @@ class ProfileDrawer extends StatelessWidget {
         ],
       ),
       backgroundColor:
-          themeProvider.isDark ? AppColors.lightPrimary : AppColors.darkPrimary,
+          themeProvider.isDark ? AppColors.darkPrimary : AppColors.lightPrimary,
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
-          ListTile(
-            leading: Icon(
-              Icons.info,
-              color: AppColors.white,
-            ),
-            title: Text(
-              'About',
-              style: TextStyle(
-                color: AppColors.white,
-              ),
-            ),
-            onTap: () {},
-          ),
           SwitchListTile(
+            secondary: Icon(
+              themeProvider.isDark ? Icons.dark_mode : Icons.light_mode,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 18,
+            ),
+            activeColor: AppColors.darkSurface,
             title: Text(
-              'Theme',
+              themeProvider.isDark
+                  ? L10n().getValue()!.dark_theme
+                  : L10n().getValue()!.light_theme,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: AppColors.white,
-                fontSize: 18,
+                color: themeProvider.isDark
+                    ? AppColors.darkSurface
+                    : AppColors.lightSurface,
+                fontSize: 15,
               ),
             ),
             value: themeProvider.isDark,
@@ -165,14 +184,57 @@ class ProfileDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
+              Icons.smartphone_sharp,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 18,
+            ),
+            title: Text(
+              L10n().getValue()!.device_permission,
+              style: TextStyle(
+                color: themeProvider.isDark
+                    ? AppColors.darkSurface
+                    : AppColors.lightSurface,
+                fontSize: 15,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 15,
+            ),
+            onTap: () {
+              RoutingService().pushNamed(
+                Routes.devicePermissionScreen.name,
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.logout,
-              color: AppColors.white,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 18,
             ),
             title: Text(
               L10n().getValue()!.log_out,
               style: TextStyle(
-                color: AppColors.white,
+                color: themeProvider.isDark
+                    ? AppColors.darkSurface
+                    : AppColors.lightSurface,
+                fontSize: 15,
               ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 15,
             ),
             onTap: () {
               preferences.clear();

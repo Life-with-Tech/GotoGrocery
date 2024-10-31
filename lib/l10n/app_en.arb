@@ -22,5 +22,8 @@
     "profile": "Profile",
     "favoriteProduct": "Favorite Product",
     "cart": "Cart",
-    "log_out": "Log Out"
+    "dark_theme": "Dark Theme",
+    "light_theme": "Light Theme",
+    "log_out": "Log Out",
+    "device_permission": "Device Permission"
 }

@@ -12,6 +12,7 @@ import 'package:tango/view/screens/home/home%20screen/home_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/cart/cart_screen.dart';
 import 'package:tango/view/screens/home/profile%20screen/edit_profile_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/product%20add/product_add.dart';
+import 'package:tango/view/screens/home/profile%20screen/profile%20drawer/device_permission.dart';
 
 class MyAppRoutes {
   final GlobalKey<NavigatorState> shellNavigatorKey =
@@ -79,14 +80,22 @@ class MyAppRoutes {
         },
       ),
       GoRoute(
-          path: Routes.addProductScreen.path,
-          name: Routes.addProductScreen.name,
-          builder: (BuildContext context, GoRouterState state) {
-            String id = state.pathParameters['id'] ?? '';
-            return ProductAdd(
-              id: id,
-            );
-          }),
+        path: Routes.addProductScreen.path,
+        name: Routes.addProductScreen.name,
+        builder: (BuildContext context, GoRouterState state) {
+          String id = state.pathParameters['id'] ?? '';
+          return ProductAdd(
+            id: id,
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.devicePermissionScreen.path,
+        name: Routes.devicePermissionScreen.name,
+        builder: (BuildContext context, GoRouterState state) {
+          return PermissionsScreen();
+        },
+      ),
     ],
   );
 }

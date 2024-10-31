@@ -10,6 +10,7 @@ import 'package:tango/core/constants/text_field.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/state/providers/user_provider.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -27,11 +28,8 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
-
-    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: AppColors.surface,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -53,7 +51,9 @@ class _SignupScreenState extends State<SignupScreen> {
             width: fullWidth(context),
             height: fullHeight(context) / 2.5,
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: themeProvider.isDark
+                  ? AppColors.darkPrimary
+                  : AppColors.lightPrimary,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(50),
                 topRight: Radius.circular(50),
@@ -72,14 +72,18 @@ class _SignupScreenState extends State<SignupScreen> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: AppColors.surface,
+                      color: themeProvider.isDark
+                          ? AppColors.darkSurface
+                          : AppColors.lightSurface,
                     ),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
                     child: TextFieldData.buildField(
                       controller: _emailControlller,
                       style: TextStyle(
-                        color: AppColors.black,
+                        color: themeProvider.isDark
+                            ? AppColors.white
+                            : AppColors.black,
                       ),
                       keyboardType: TextInputType.emailAddress,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -93,21 +97,27 @@ class _SignupScreenState extends State<SignupScreen> {
                         contentPadding: const EdgeInsets.all(15),
                         prefixIcon: Icon(
                           Icons.email,
-                          color: AppColors.primary,
+                          color: themeProvider.isDark
+                              ? AppColors.darkPrimary
+                              : AppColors.lightPrimary,
                         ),
                         hintText: L10n().getValue()!.enterYourEmail,
                         hintStyle: TextStyle(
-                          color: AppColors.primary,
+                          color: themeProvider.isDark
+                              ? AppColors.darkPrimary
+                              : AppColors.lightPrimary,
                         ),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  const Gap(13),
+                  const Gap(15),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: AppColors.surface,
+                      color: themeProvider.isDark
+                          ? AppColors.darkSurface
+                          : AppColors.lightSurface,
                     ),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
@@ -115,7 +125,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       controller: _passwordControlller,
                       obscureText: _obscureText,
                       style: TextStyle(
-                        color: AppColors.black,
+                        color: themeProvider.isDark
+                            ? AppColors.white
+                            : AppColors.black,
                       ),
                       keyboardType: TextInputType.text,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -129,14 +141,18 @@ class _SignupScreenState extends State<SignupScreen> {
                         contentPadding: const EdgeInsets.all(15),
                         prefixIcon: Icon(
                           Icons.lock,
-                          color: AppColors.primary,
+                          color: themeProvider.isDark
+                              ? AppColors.darkPrimary
+                              : AppColors.lightPrimary,
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureText
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: AppColors.primary,
+                            color: themeProvider.isDark
+                                ? AppColors.darkPrimary
+                                : AppColors.lightPrimary,
                           ),
                           onPressed: () {
                             setState(() {
@@ -146,7 +162,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         hintText: L10n().getValue()!.enterYourPassword,
                         hintStyle: TextStyle(
-                          color: AppColors.primary,
+                          color: themeProvider.isDark
+                              ? AppColors.darkPrimary
+                              : AppColors.lightPrimary,
                         ),
                         border: InputBorder.none,
                       ),
@@ -157,7 +175,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text(
                         L10n().getValue()!.allreadyHaveAnAccoount,
                         style: TextStyle(
-                          color: AppColors.surface,
+                          color: themeProvider.isDark
+                              ? AppColors.darkSecondary
+                              : AppColors.lightSecondary,
                           fontSize: 15,
                         ),
                       ),
@@ -174,7 +194,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Text(
                           L10n().getValue()!.login,
                           style: TextStyle(
-                            color: AppColors.surface,
+                            color: themeProvider.isDark
+                                ? AppColors.darkSecondary
+                                : AppColors.lightSecondary,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -200,14 +222,14 @@ class _SignupScreenState extends State<SignupScreen> {
                         height: 60,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: AppColors.surface,
-                          ),
+                          color: themeProvider.isDark
+                              ? AppColors.darkSecondary
+                              : AppColors.lightSecondary,
                         ),
                         child: Center(
                           child: Text(
                             L10n().getValue()!.signUp,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppColors.surface,
                               fontSize: 18,
                             ),

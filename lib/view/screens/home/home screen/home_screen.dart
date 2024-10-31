@@ -47,15 +47,17 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         key: addToCartProvider.cartKey,
         backgroundColor: themeProvider.isDark
-            ? AppColors.lightPrimary
-            : AppColors.darkPrimary,
+            ? AppColors.darkPrimary
+            : AppColors.lightPrimary,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            const Center(
+            Center(
               child: Icon(
                 Icons.shopping_cart,
-                color: AppColors.darkSurface,
+                color: themeProvider.isDark
+                    ? AppColors.darkSurface
+                    : AppColors.lightSurface,
                 size: 28,
               ),
             ),

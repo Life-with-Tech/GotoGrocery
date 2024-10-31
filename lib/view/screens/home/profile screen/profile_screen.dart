@@ -13,7 +13,7 @@ import 'package:tango/state/providers/app_provider.dart';
 import 'package:tango/state/providers/user_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/core/constants/profile_bottom_semi_circle_clipper.dart';
-import 'package:tango/view/screens/home/profile%20screen/profile_drawer.dart';
+import 'package:tango/view/screens/home/profile%20screen/profile%20drawer/profile_drawer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -64,8 +64,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: fullHeight(context) / 7,
                   decoration: BoxDecoration(
                     color: themeProvider.isDark
-                        ? AppColors.lightPrimary
-                        : AppColors.darkPrimary,
+                        ? AppColors.darkPrimary
+                        : AppColors.lightPrimary,
                   ),
                 ),
               ),
@@ -91,8 +91,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             textAlign: TextAlign.center,
             capitalizeFirstLetter(userProvider.currentUser?.name ?? ""),
-            style: const TextStyle(
-              color: AppColors.primary,
+            style: TextStyle(
+              color: themeProvider.isDark
+                  ? AppColors.darkPrimary
+                  : AppColors.lightPrimary,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
@@ -100,10 +102,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             textAlign: TextAlign.center,
             userProvider.currentUser?.email ?? "",
-            style: const TextStyle(
-              color: AppColors.primary,
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12,
+              color: themeProvider.isDark
+                  ? AppColors.darkPrimary
+                  : AppColors.lightPrimary,
             ),
           ),
           const Gap(10),
@@ -129,11 +133,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   );
                 });
               },
-              child: const Text(
+              child: Text(
                 textAlign: TextAlign.center,
                 "Edit Profile",
                 style: TextStyle(
-                  color: AppColors.darkSurface,
+                  color: themeProvider.isDark
+                      ? AppColors.darkSurface
+                      : AppColors.lightSurface,
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),

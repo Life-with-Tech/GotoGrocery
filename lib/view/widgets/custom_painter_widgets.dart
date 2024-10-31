@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 
 class DiscountBannerPainter extends CustomPainter {
   final String discountText;
@@ -24,8 +25,10 @@ class DiscountBannerPainter extends CustomPainter {
     final textPainter = TextPainter(
       text: TextSpan(
         text: discountText,
-        style: const TextStyle(
-          color: AppColors.darkSurface,
+        style: TextStyle(
+          color: themeProvider.isDark
+              ? AppColors.darkSurface
+              : AppColors.lightSurface,
           fontSize: 10,
           fontWeight: FontWeight.bold,
         ),
