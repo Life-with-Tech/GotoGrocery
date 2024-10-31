@@ -9,6 +9,7 @@ import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/state/providers/app_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
+import 'package:tango/core/services/firebase_auth_service.dart';
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({super.key});
@@ -211,6 +212,64 @@ class ProfileDrawer extends StatelessWidget {
                 Routes.devicePermissionScreen.name,
               );
             },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.block,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 18,
+            ),
+            title: Text(
+              L10n().getValue()!.block_account,
+              style: TextStyle(
+                color: themeProvider.isDark
+                    ? AppColors.darkSurface
+                    : AppColors.lightSurface,
+                fontSize: 15,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 15,
+            ),
+            onTap: () async {
+              await FirebaseAuthService.updateUserStatus();
+              preferences.clear();
+              RoutingService().goName(
+                Routes.loginScreen.name,
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.delete,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 18,
+            ),
+            title: Text(
+              L10n().getValue()!.delete_account,
+              style: TextStyle(
+                color: themeProvider.isDark
+                    ? AppColors.darkSurface
+                    : AppColors.lightSurface,
+                fontSize: 15,
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              size: 15,
+            ),
+            onTap: () async {},
           ),
           ListTile(
             leading: Icon(

@@ -3,8 +3,6 @@ import 'package:tango/core/services/firebase_auth_service.dart';
 
 class AuthRepository {
   final FirebaseAuthService _authService = FirebaseAuthService();
-
-  // Sign up using email and password
   Future<User?> signUp({
     required String email,
     required String password,
