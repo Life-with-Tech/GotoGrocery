@@ -40,6 +40,7 @@ class UserProvider extends ChangeNotifier {
         .then((onValue) async {
       await setUser(
         userId: onValue?.uid ?? "",
+        email: email,
       );
     }).catchError((onError) {
       ErrorHandler.handleSignUpError(onError);
@@ -75,12 +76,14 @@ class UserProvider extends ChangeNotifier {
 
   Future setUser({
     required String userId,
+    required String email,
   }) async {
     GlobalLoading.showLoadingDialog();
     try {
       await UserRepository().getUser(userId: userId).then((onValue) async {
+        log("This is FirebaseFirestore Data :- ${onValue.toString()}");
         if (onValue is Map<String, dynamic>) {
-          if (onValue["status"]) {
+          if (onValue["status"] ?? false) {
             _currentUser = UserModel.fromJson(onValue);
             await setUserData(onValue);
             RoutingService().goName(Routes.home.name);
@@ -88,7 +91,10 @@ class UserProvider extends ChangeNotifier {
             RoutingService().goName(Routes.accountBlockedScreen.name);
           }
         } else {
-          RoutingService().goName(Routes.editProfile.name);
+          RoutingService().goName(Routes.editProfile.name, queryParameters: {
+            "id": userId,
+            "email": email,
+          });
         }
       });
     } catch (error) {
@@ -107,6 +113,7 @@ class UserProvider extends ChangeNotifier {
         .then((onValue) async {
       await setUser(
         userId: userId,
+        email: userData["email"],
       );
       log("setUser$onValue");
     }).catchError((onError) {
