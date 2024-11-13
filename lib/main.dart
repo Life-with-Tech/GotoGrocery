@@ -9,6 +9,7 @@ import 'package:tango/data/local/user_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tango/view/themes/app_theme.dart';
 import 'package:tango/state/providers/app_provider.dart';
+import 'package:tango/state/providers/home_provider.dart';
 import 'package:tango/state/providers/user_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -38,6 +39,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<UserProvider>.value(value: userProvider),
+        ChangeNotifierProvider<HomeProvider>.value(value: homeProvider),
         ChangeNotifierProvider<ConnectivityProvider>.value(
           value: connectivityProvider,
         ),

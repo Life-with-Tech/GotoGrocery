@@ -12,7 +12,6 @@ class UserModel {
   String? email;
   String? updatedAt;
   String? number;
-  bool? userType;
 
   UserModel({
     this.createdAt,
@@ -27,7 +26,6 @@ class UserModel {
     this.location,
     this.email,
     this.updatedAt,
-    this.userType,
     this.number,
   });
 
@@ -45,7 +43,6 @@ class UserModel {
         json['location'] != null ? Location.fromJson(json['location']) : null;
     email = json['email'];
     updatedAt = json['updatedAt'];
-    userType = json['userType'];
     gender = json['gender'];
     number = json['number'];
   }
@@ -68,7 +65,6 @@ class UserModel {
     }
     data['email'] = email;
     data['updatedAt'] = updatedAt;
-    data['userType'] = userType;
     data['number'] = number;
     return data;
   }

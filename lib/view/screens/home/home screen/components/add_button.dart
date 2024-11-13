@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/data/models/product_model.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/core/constants/cached_image_widget.dart';
@@ -10,7 +11,7 @@ import 'package:tango/state/providers/add_to_cart_provider.dart';
 
 class AddButton extends StatefulWidget {
   final String productId;
-  final Map<String, dynamic> product;
+  final ProductModel product;
   final GlobalKey productKey;
   final GlobalKey cartKey;
 
@@ -104,7 +105,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   child: CachedImageWidget(
-                    imageUrl: widget.product['image_url'],
+                    imageUrl: widget.product.imageUrl ?? "",
                     height: sizeAnimation.value,
                     width: sizeAnimation.value,
                     fit: BoxFit.contain,
@@ -184,7 +185,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   child: CachedImageWidget(
-                    imageUrl: widget.product['image_url'],
+                    imageUrl: widget.product.imageUrl ?? "",
                     height: sizeAnimation.value,
                     width: sizeAnimation.value,
                     fit: BoxFit.contain,
@@ -211,8 +212,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
         Provider.of<AddToCartProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
-    product = addToCartProvider.idByProduct(widget.product["id"]);
-    return (addToCartProvider.idItemContains(widget.product["id"]))
+    product = addToCartProvider.idByProduct(widget.product.id ?? "");
+    return (addToCartProvider.idItemContains(widget.product.id ?? ""))
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
