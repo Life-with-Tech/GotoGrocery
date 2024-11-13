@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 import 'dart:developer';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
@@ -48,12 +49,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future doThisLunchScreen() async {
     log("${userProvider.currentUser?.toJson()}");
+    if (widget.id != null && widget.email != null) {
+      emailController.text = widget.email ?? "";
+    } else {
+      nameController.text = userProvider.currentUser?.name ?? "";
+      emailController.text = userProvider.currentUser?.email ?? "";
+      dobController.text = userProvider.currentUser?.dob ?? "";
+      gender = userProvider.currentUser?.gender ?? "";
+      numberController.text = userProvider.currentUser?.number ?? "";
+    }
 
-    nameController.text = userProvider.currentUser?.name ?? "";
-    emailController.text = userProvider.currentUser?.email ?? "";
-    dobController.text = userProvider.currentUser?.dob ?? "";
-    gender = userProvider.currentUser?.gender ?? "";
-    numberController.text = userProvider.currentUser?.number ?? "";
     setState(() {});
   }
 
@@ -89,13 +94,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
                 "platform": deviceData,
                 "fcm": userProvider.token,
+                "status": true,
                 "updatedAt": "",
                 "createdAt": DateTime.now().toString(),
               },
             );
 
             log("User created, navigating...");
-            RoutingService().goName(Routes.home.name);
           } else {
             log("Missing ID or email, cannot proceed with profile update.");
           }
@@ -104,10 +109,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           width: fullWidth(context),
           height: 50,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppColors.primary,
           ),
-          child: Text(
+          child: const Text(
             "Edit Profile",
             style: TextStyle(
               color: AppColors.surface,
@@ -120,19 +125,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () async {
-            await RoutingService().goBack();
+            if (widget.id != null && widget.email != null) {
+              RoutingService().goName(Routes.loginScreen.name);
+            } else {
+              unawaited(RoutingService().goBack());
+            }
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_rounded,
             color: AppColors.surface,
           ),
         ),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: AppColors.surface,
         ),
         title: Text(
           L10n().getValue()!.profile,
-          style: TextStyle(
+          style: const TextStyle(
             color: AppColors.surface,
             fontSize: 18,
           ),
@@ -149,7 +158,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Container(
                   width: fullWidth(context),
                   height: fullHeight(context) / 7,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.primary,
                   ),
                 ),
@@ -194,10 +203,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onPressed: () {
                           _showImagePickerBottomSheet(context);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.camera_alt,
                           size: 18,
-                          color: AppColors.primary,
+                          // color: AppColors.primary,
                         ),
                       ),
                     )
@@ -216,7 +225,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               children: [
                 TextFieldData.buildField(
                   controller: nameController,
-                  label: Text(
+                  label: const Text(
                     "Name",
                     style: TextStyle(
                       fontSize: 14,
@@ -229,7 +238,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   controller: emailController,
                   readOnly: true,
                   enabled: false,
-                  label: Text(
+                  label: const Text(
                     "Email",
                     style: TextStyle(
                       fontSize: 14,
@@ -245,7 +254,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     LengthLimitingTextInputFormatter(10),
                     FilteringTextInputFormatter.digitsOnly,
                   ],
-                  label: Text(
+                  label: const Text(
                     "Number",
                     style: TextStyle(
                       fontSize: 14,
@@ -258,7 +267,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   controller: dobController,
                   readOnly: true,
                   onTap: () => selectDate(context),
-                  label: Text(
+                  label: const Text(
                     "DOB",
                     style: TextStyle(
                       fontSize: 14,
@@ -283,7 +292,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Select Gender",
                         style: TextStyle(
                           fontSize: 14,
