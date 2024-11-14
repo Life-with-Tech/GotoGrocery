@@ -30,7 +30,7 @@ class AddButton extends StatefulWidget {
 class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
   late AnimationController _controller;
   bool _isAnimating = false;
-  Map<String, dynamic>? product;
+  ProductModel? product;
   @override
   void initState() {
     super.initState();
@@ -231,12 +231,11 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 InkWell(
                   onTap: () {
                     removeFromCartAnimation();
-                    if ((int.tryParse(product!["total_quantity"].toString()) ??
-                            0) >
-                        (int.tryParse(product!["quantity"].toString()) ?? 0)) {
-                      addToCartProvider.updateQuantity(product!["id"], 0);
+                    if ((int.tryParse(product!.totalQuantity.toString()) ?? 0) >
+                        (int.tryParse(product!.quantity.toString()) ?? 0)) {
+                      addToCartProvider.updateQuantity(product!.id!, 0);
                     } else {
-                      addToCartProvider.removeItem(product!["id"]);
+                      addToCartProvider.removeItem(product!.id!);
                     }
                   },
                   child: Container(
@@ -258,10 +257,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                   width: 20,
                   height: 20,
                   child: Text(
-                    ((int.tryParse(product!["total_quantity"].toString()) ??
-                                0) /
-                            (int.tryParse(product!["quantity"].toString()) ??
-                                0))
+                    ((int.tryParse(product!.totalQuantity.toString()) ?? 0) /
+                            (int.tryParse(product!.quantity.toString()) ?? 0))
                         .toStringAsFixed(0),
                     style: TextStyle(
                       fontSize: 16,
@@ -275,7 +272,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 InkWell(
                   onTap: () {
                     addToCartAnimation();
-                    addToCartProvider.updateQuantity(product!["id"], 1);
+                    addToCartProvider.updateQuantity(product!.id!, 1);
                   },
                   child: Container(
                     alignment: Alignment.center,

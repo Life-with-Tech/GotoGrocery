@@ -14,23 +14,26 @@ class ProductModel {
   String? rating;
   String? unit;
   String? userRating;
+  int? totalQuantity;
 
-  ProductModel(
-      {this.category,
-      this.discount,
-      this.discountPercentage,
-      this.id,
-      this.imageUrl,
-      this.inStock,
-      this.isOrganic,
-      this.name,
-      this.onSale,
-      this.isInWishlist,
-      this.price,
-      this.quantity,
-      this.rating,
-      this.unit,
-      this.userRating});
+  ProductModel({
+    this.category,
+    this.discount,
+    this.discountPercentage,
+    this.id,
+    this.imageUrl,
+    this.inStock,
+    this.isOrganic,
+    this.name,
+    this.onSale,
+    this.isInWishlist,
+    this.price,
+    this.quantity,
+    this.rating,
+    this.unit,
+    this.userRating,
+    this.totalQuantity,
+  });
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     category = json['category'];
@@ -48,6 +51,7 @@ class ProductModel {
     rating = json['rating'];
     unit = json['unit'];
     userRating = json['user_rating'];
+    totalQuantity = json["total_quantity"];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +71,7 @@ class ProductModel {
     data['rating'] = rating;
     data['unit'] = unit;
     data['user_rating'] = userRating;
+    data['total_quantity'] = totalQuantity;
     return data;
   }
 }
