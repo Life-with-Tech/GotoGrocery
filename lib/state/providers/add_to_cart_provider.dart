@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:tango/data/models/product_model.dart';
+import 'package:tango/core/utils/price_utils.dart';
 
 AddToCartProvider addToCartProvider = AddToCartProvider();
 
@@ -51,6 +52,18 @@ class AddToCartProvider extends ChangeNotifier {
       return sum +
           (price / (int.tryParse(item.quantity.toString()) ?? 0) * quantity);
     });
+  }
+
+  double cartPrice(Map product) {
+    if (product['discount']) {
+      return calculateDiscountedPrice(
+        (int.tryParse(product['price'].toString()) ?? 0.0).toDouble(),
+        (int.tryParse(product['discount_percentage'].toString()) ?? 0.0)
+            .toDouble(),
+      );
+    } else {
+      return (int.tryParse(product['price'].toString()) ?? 0.0).toDouble();
+    }
   }
 
   bool idItemContains(String id) {
