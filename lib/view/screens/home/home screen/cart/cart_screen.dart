@@ -72,7 +72,7 @@ class _CartScreenState extends State<CartScreen> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.network(
-                              item["image_url"],
+                              item.imageUrl ?? "",
                               width: 70,
                               height: 70,
                               fit: BoxFit.contain,
@@ -86,7 +86,7 @@ class _CartScreenState extends State<CartScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  item["name"],
+                                  item.name ?? "",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -96,7 +96,7 @@ class _CartScreenState extends State<CartScreen> {
                                     height:
                                         4), // Spacing between name and price
                                 Text(
-                                  '₹${item["price"].toString()} / ${item["quantity"]} ${item["unit"]}',
+                                  '₹${item.price.toString()} / ${item.quantity} ${item.unit}',
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 14,
@@ -112,16 +112,15 @@ class _CartScreenState extends State<CartScreen> {
                                 icon:
                                     const Icon(Icons.remove, color: Colors.red),
                                 onPressed: () {
-                                  if ((int.tryParse(item["total_quantity"]
-                                              .toString()) ??
+                                  if ((int.tryParse(
+                                              item.totalQuantity.toString()) ??
                                           0) >
-                                      (int.tryParse(
-                                              item["quantity"].toString()) ??
+                                      (int.tryParse(item.quantity.toString()) ??
                                           0)) {
                                     addToCartProvider.updateQuantity(
-                                        item["id"], 0);
+                                        item.id!, 0);
                                   } else {
-                                    cartProvider.removeItem(item["id"]);
+                                    cartProvider.removeItem(item.id!);
                                   }
                                 },
                               ),
@@ -133,11 +132,11 @@ class _CartScreenState extends State<CartScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
-                                  ((int.tryParse(item["total_quantity"]
+                                  ((int.tryParse(item.totalQuantity
                                                   .toString()) ??
                                               0) /
-                                          (int.tryParse(item["quantity"]
-                                                  .toString()) ??
+                                          (int.tryParse(
+                                                  item.quantity.toString()) ??
                                               0))
                                       .toStringAsFixed(0),
                                   style: const TextStyle(fontSize: 16),
@@ -147,8 +146,7 @@ class _CartScreenState extends State<CartScreen> {
                                 icon:
                                     const Icon(Icons.add, color: Colors.green),
                                 onPressed: () {
-                                  addToCartProvider.updateQuantity(
-                                      item["id"], 1);
+                                  addToCartProvider.updateQuantity(item.id!, 1);
                                 },
                               ),
                             ],
@@ -156,7 +154,7 @@ class _CartScreenState extends State<CartScreen> {
                           IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
-                              cartProvider.removeItem(item["id"]);
+                              cartProvider.removeItem(item.id!);
                             },
                           ),
                         ],

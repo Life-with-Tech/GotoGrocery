@@ -145,7 +145,7 @@ class _ProductAddState extends State<ProductAdd> {
     log(widget.id);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: AppColors.surface,
         ),
       ),
@@ -153,7 +153,7 @@ class _ProductAddState extends State<ProductAdd> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         children: [
           TextFieldData.buildField(
-            label: Text(
+            label: const Text(
               "Product Name",
               style: TextStyle(
                 fontSize: 14,
@@ -163,7 +163,7 @@ class _ProductAddState extends State<ProductAdd> {
           ),
           const Gap(5),
           TextFieldData.buildField(
-            label: Text(
+            label: const Text(
               "Price",
               style: TextStyle(
                 fontSize: 14,
@@ -208,7 +208,7 @@ class _ProductAddState extends State<ProductAdd> {
             ),
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: Text(
                     "Discount",
                     style: TextStyle(
@@ -228,7 +228,7 @@ class _ProductAddState extends State<ProductAdd> {
           ),
           const Gap(5),
           TextFieldData.buildField(
-            label: Text(
+            label: const Text(
               "Discount Price",
               style: TextStyle(
                 fontSize: 14,
@@ -247,7 +247,7 @@ class _ProductAddState extends State<ProductAdd> {
             ),
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: Text(
                     "Discount",
                     style: TextStyle(
