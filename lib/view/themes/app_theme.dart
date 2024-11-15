@@ -64,7 +64,7 @@ class AppTheme {
 //! Dark theme data
   static ThemeData darkThemeData = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: AppColors.darkPrimary,
+    primaryColor: AppColors.lightPrimary,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.darkPrimary,
       onPrimary: AppColors.darkOnPrimary,
@@ -79,20 +79,21 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.darkPrimary,
+        backgroundColor: AppColors.lightPrimary,
         textStyle: const TextStyle(
-          color: AppColors.darkSurface,
+          color: AppColors.lightSurface,
         ),
       ),
     ),
     iconTheme: const IconThemeData(
       color: AppColors.darkSurface,
     ),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.darkPrimary,
-      iconTheme: IconThemeData(color: AppColors.darkSurface),
-      toolbarTextStyle: TextStyle(color: AppColors.darkSurface),
-      titleTextStyle: TextStyle(color: AppColors.darkSurface),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.lightPrimary,
+      iconTheme: IconThemeData(color: AppColors.white),
+      toolbarTextStyle: TextStyle(color: AppColors.white),
+      titleTextStyle: TextStyle(color: AppColors.white),
+      // color: AppColors.white,
     ),
     scaffoldBackgroundColor: AppColors.darkSurface,
   );
