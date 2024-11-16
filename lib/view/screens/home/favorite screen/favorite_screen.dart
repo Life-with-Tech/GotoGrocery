@@ -1,10 +1,11 @@
 import 'dart:developer';
+import 'package:provider/provider.dart';
+import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/state/providers/home_provider.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/state/providers/user_provider.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -16,13 +17,8 @@ class FavoriteScreen extends StatefulWidget {
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
-  void initState() {
-    super.initState();
-    // fetchFavoriteProductIds();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -56,8 +52,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   return Card(
                     elevation: 4,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
+                        borderRadius: BorderRadius.circular(15),
+                        side: BorderSide(
+                          color: themeProvider.isDark
+                              ? AppColors.white
+                              : AppColors.black,
+                        )),
                     child: ListTile(
                       leading: Image.network(
                         product['image_url'],

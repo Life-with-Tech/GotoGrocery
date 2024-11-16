@@ -1,14 +1,12 @@
-import 'dart:developer';
+import 'package:tango/state/providers/theme_provider.dart';
+
 import 'add_button.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:like_button/like_button.dart';
-import 'package:animated_icon/animated_icon.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tango/core/utils/price_utils.dart';
 import 'package:tango/data/models/product_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/view/widgets/discount_banner.dart';
@@ -41,6 +39,7 @@ class _ProductItemState extends State<ProductItem> {
     AddToCartProvider addToCartProvider =
         Provider.of<AddToCartProvider>(context);
     HomeProvider homeProvider = Provider.of<HomeProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     GlobalKey cartKey = addToCartProvider.cartKey;
 
     return Column(
@@ -56,8 +55,9 @@ class _ProductItemState extends State<ProductItem> {
                 (widget.whereCondition != null)
                     ? widget.whereCondition ?? ""
                     : "You might need",
-                style: const TextStyle(
-                  color: AppColors.primary,
+                style: TextStyle(
+                  color:
+                      themeProvider.isDark ? AppColors.white : AppColors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
@@ -69,12 +69,15 @@ class _ProductItemState extends State<ProductItem> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
-                    color: AppColors.primary,
+                    color: themeProvider.isDark
+                        ? AppColors.white
+                        : AppColors.black,
                   ),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_forward_ios,
-                  color: AppColors.onPrimary,
+                  color:
+                      themeProvider.isDark ? AppColors.white : AppColors.black,
                   size: 15,
                 ),
               )
@@ -101,7 +104,9 @@ class _ProductItemState extends State<ProductItem> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: AppColors.primary,
+                    color: themeProvider.isDark
+                        ? AppColors.white
+                        : AppColors.black,
                   ),
                 ),
                 child: Stack(
@@ -124,7 +129,10 @@ class _ProductItemState extends State<ProductItem> {
                               Text(
                                 item.name ?? "",
                                 maxLines: 1,
-                                style: const TextStyle(
+                                style: TextStyle(
+                                  color: themeProvider.isDark
+                                      ? AppColors.white
+                                      : AppColors.black,
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -169,7 +177,9 @@ class _ProductItemState extends State<ProductItem> {
                                     "${item.rating} Ratings",
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: AppColors.grey,
+                                      color: themeProvider.isDark
+                                          ? AppColors.white
+                                          : AppColors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

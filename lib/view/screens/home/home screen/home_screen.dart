@@ -1,6 +1,7 @@
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tango/l10n/l10n.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
@@ -27,13 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          color: AppColors.secondary,
-          "assets/icons/Untitled_design-removebg-preview.png",
-          filterQuality: FilterQuality.high,
-          fit: BoxFit.cover,
-          height: 100,
-          width: 100,
+        title: Text(
+          L10n().getValue()!.app_title,
+          maxLines: 1,
+          style: TextStyle(
+            color: AppColors.white,
+            overflow: TextOverflow.ellipsis,
+            fontSize: 20,
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           IconButton(
@@ -46,18 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         key: addToCartProvider.cartKey,
-        backgroundColor: themeProvider.isDark
-            ? AppColors.darkPrimary
-            : AppColors.lightPrimary,
+        backgroundColor: AppColors.lightPrimary,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Center(
               child: Icon(
                 Icons.shopping_cart,
-                color: themeProvider.isDark
-                    ? AppColors.darkSurface
-                    : AppColors.lightSurface,
+                color: themeProvider.isDark ? AppColors.white : AppColors.white,
                 size: 28,
               ),
             ),

@@ -153,28 +153,24 @@ class ProfileDrawer extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor:
-          themeProvider.isDark ? AppColors.darkPrimary : AppColors.lightPrimary,
+      backgroundColor: themeProvider.isDark ? AppColors.black : AppColors.white,
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
           SwitchListTile(
             secondary: Icon(
               themeProvider.isDark ? Icons.dark_mode : Icons.light_mode,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 18,
             ),
-            activeColor: AppColors.darkSurface,
+            activeColor:
+                themeProvider.isDark ? AppColors.white : AppColors.black,
             title: Text(
               themeProvider.isDark
                   ? L10n().getValue()!.dark_theme
                   : L10n().getValue()!.light_theme,
               style: TextStyle(
-                color: themeProvider.isDark
-                    ? AppColors.darkSurface
-                    : AppColors.lightSurface,
+                color: themeProvider.isDark ? AppColors.white : AppColors.black,
                 fontSize: 15,
               ),
             ),
@@ -186,25 +182,19 @@ class ProfileDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.smartphone_sharp,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 18,
             ),
             title: Text(
               L10n().getValue()!.device_permission,
               style: TextStyle(
-                color: themeProvider.isDark
-                    ? AppColors.darkSurface
-                    : AppColors.lightSurface,
+                color: themeProvider.isDark ? AppColors.white : AppColors.black,
                 fontSize: 15,
               ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 15,
             ),
             onTap: () {
@@ -216,25 +206,19 @@ class ProfileDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.block,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 18,
             ),
             title: Text(
               L10n().getValue()!.block_account,
               style: TextStyle(
-                color: themeProvider.isDark
-                    ? AppColors.darkSurface
-                    : AppColors.lightSurface,
+                color: themeProvider.isDark ? AppColors.white : AppColors.black,
                 fontSize: 15,
               ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 15,
             ),
             onTap: () async {
@@ -248,25 +232,19 @@ class ProfileDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.delete,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 18,
             ),
             title: Text(
               L10n().getValue()!.delete_account,
               style: TextStyle(
-                color: themeProvider.isDark
-                    ? AppColors.darkSurface
-                    : AppColors.lightSurface,
+                color: themeProvider.isDark ? AppColors.white : AppColors.black,
                 fontSize: 15,
               ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 15,
             ),
             onTap: () async {},
@@ -274,25 +252,19 @@ class ProfileDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.logout,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 18,
             ),
             title: Text(
               L10n().getValue()!.log_out,
               style: TextStyle(
-                color: themeProvider.isDark
-                    ? AppColors.darkSurface
-                    : AppColors.lightSurface,
+                color: themeProvider.isDark ? AppColors.white : AppColors.black,
                 fontSize: 15,
               ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
-              color: themeProvider.isDark
-                  ? AppColors.darkSurface
-                  : AppColors.lightSurface,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               size: 15,
             ),
             onTap: () {

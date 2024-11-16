@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/core/constants/cached_image_widget.dart';
 
@@ -14,6 +16,7 @@ class Categaory extends StatefulWidget {
 class _CategaoryState extends State<Categaory> {
   @override
   Widget build(BuildContext context) {
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: [
         Padding(
@@ -25,7 +28,8 @@ class _CategaoryState extends State<Categaory> {
                 textAlign: TextAlign.center,
                 "Category",
                 style: TextStyle(
-                  color: AppColors.primary,
+                  color:
+                      themeProvider.isDark ? AppColors.white : AppColors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
@@ -38,12 +42,15 @@ class _CategaoryState extends State<Categaory> {
                   // color: AppColors.onPrimary,
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
-                    color: AppColors.primary,
+                    color: themeProvider.isDark
+                        ? AppColors.white
+                        : AppColors.black,
                   ),
                 ),
                 child: Icon(
                   Icons.arrow_forward_ios,
-                  color: AppColors.onPrimary,
+                  color:
+                      themeProvider.isDark ? AppColors.white : AppColors.black,
                   size: 15,
                 ),
               )
@@ -82,7 +89,11 @@ class _CategaoryState extends State<Categaory> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColors.primary),
+                        border: Border.all(
+                          color: themeProvider.isDark
+                              ? AppColors.white
+                              : AppColors.black,
+                        ),
                       ),
                       child: Center(
                         child: CachedImageWidget(
