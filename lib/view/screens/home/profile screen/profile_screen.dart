@@ -63,9 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: fullWidth(context),
                   height: fullHeight(context) / 7,
                   decoration: BoxDecoration(
-                    color: themeProvider.isDark
-                        ? AppColors.darkPrimary
-                        : AppColors.lightPrimary,
+                    color: AppColors.lightPrimary,
                   ),
                 ),
               ),
@@ -92,9 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             textAlign: TextAlign.center,
             capitalizeFirstLetter(userProvider.currentUser?.name ?? ""),
             style: TextStyle(
-              color: themeProvider.isDark
-                  ? AppColors.darkPrimary
-                  : AppColors.lightPrimary,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
@@ -105,9 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12,
-              color: themeProvider.isDark
-                  ? AppColors.darkPrimary
-                  : AppColors.lightPrimary,
+              color: themeProvider.isDark ? AppColors.white : AppColors.black,
             ),
           ),
           const Gap(10),
@@ -137,9 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 textAlign: TextAlign.center,
                 "Edit Profile",
                 style: TextStyle(
-                  color: themeProvider.isDark
-                      ? AppColors.darkSurface
-                      : AppColors.lightSurface,
+                  color: AppColors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),

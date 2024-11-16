@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/data/models/product_model.dart';
-import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
@@ -30,7 +29,7 @@ class AddButton extends StatefulWidget {
 class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
   late AnimationController _controller;
   bool _isAnimating = false;
-  Map<String, dynamic>? product;
+  ProductModel? product;
   @override
   void initState() {
     super.initState();
@@ -217,9 +216,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
-              color: themeProvider.isDark
-                  ? AppColors.darkPrimary
-                  : AppColors.lightPrimary,
+              color: AppColors.lightPrimary,
               borderRadius: const BorderRadius.only(
                 bottomRight: Radius.circular(10),
                 topLeft: Radius.circular(10),
@@ -231,12 +228,11 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 InkWell(
                   onTap: () {
                     removeFromCartAnimation();
-                    if ((int.tryParse(product!["total_quantity"].toString()) ??
-                            0) >
-                        (int.tryParse(product!["quantity"].toString()) ?? 0)) {
-                      addToCartProvider.updateQuantity(product!["id"], 0);
+                    if ((int.tryParse(product!.totalQuantity.toString()) ?? 0) >
+                        (int.tryParse(product!.quantity.toString()) ?? 0)) {
+                      addToCartProvider.updateQuantity(product!.id!, 0);
                     } else {
-                      addToCartProvider.removeItem(product!["id"]);
+                      addToCartProvider.removeItem(product!.id!);
                     }
                   },
                   child: Container(
@@ -258,10 +254,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                   width: 20,
                   height: 20,
                   child: Text(
-                    ((int.tryParse(product!["total_quantity"].toString()) ??
-                                0) /
-                            (int.tryParse(product!["quantity"].toString()) ??
-                                0))
+                    ((int.tryParse(product!.totalQuantity.toString()) ?? 0) /
+                            (int.tryParse(product!.quantity.toString()) ?? 0))
                         .toStringAsFixed(0),
                     style: TextStyle(
                       fontSize: 16,
@@ -275,7 +269,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 InkWell(
                   onTap: () {
                     addToCartAnimation();
-                    addToCartProvider.updateQuantity(product!["id"], 1);
+                    addToCartProvider.updateQuantity(product!.id!, 1);
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -303,9 +297,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               height: 30,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: themeProvider.isDark
-                    ? AppColors.darkPrimary
-                    : AppColors.lightPrimary,
+                color: AppColors.lightPrimary,
                 borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(10),
                   topLeft: Radius.circular(10),
@@ -313,9 +305,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               ),
               child: Icon(
                 Icons.add,
-                color: themeProvider.isDark
-                    ? AppColors.darkSurface
-                    : AppColors.lightSurface,
+                color: AppColors.lightSurface,
                 size: 20,
               ),
             ),
