@@ -11,6 +11,15 @@
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>groceryapp</string>
+			</array>
+		</dict>
+	</array>
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>gotogrocery</string>
