@@ -28,5 +28,7 @@
     "delete_account": "खाता हटा दो",
     "block_account": "अवरुद्ध खाता",
     "log_out": "लॉग आउट",
-    "device_permission": "डिवाइस अनुमति"
+    "device_permission": "डिवाइस अनुमति",
+    "product_view_all": "उत्पाद सभी देखें",
+     "product_details": "उत्पाद विवरण"
 }

@@ -40,13 +40,11 @@ class _CartScreenState extends State<CartScreen> {
             },
             icon: Icon(
               Icons.arrow_back_rounded,
-              color: AppColors.surface,
             ),
           ),
           title: Text(
             L10n().getValue()!.cart,
             style: TextStyle(
-              color: AppColors.surface,
               fontSize: 18,
             ),
           ),

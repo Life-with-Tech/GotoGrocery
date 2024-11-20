@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tango/router/routing_service.dart';
+import 'package:tango/view/screens/home/home%20screen/product_details_screen.dart';
+import 'package:tango/view/screens/home/home%20screen/product_view_all.dart';
 import 'package:tango/view/screens/home/home.dart';
 import 'package:tango/view/screens/edit_screen.dart';
 import 'package:tango/view/screens/login_screen.dart';
@@ -101,6 +103,26 @@ class MyAppRoutes {
         name: Routes.devicePermissionScreen.name,
         builder: (BuildContext context, GoRouterState state) {
           return PermissionsScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.productViewAll.path,
+        name: Routes.productViewAll.name,
+        builder: (BuildContext context, GoRouterState state) {
+          return ProductViewAll();
+        },
+      ),
+      GoRoute(
+        path: Routes.productDetailsScreen.path,
+        name: Routes.productDetailsScreen.name,
+        builder: (BuildContext context, GoRouterState state) {
+          final String id = state.uri.queryParameters["post_id"].toString();
+          final String categoryId =
+              state.uri.queryParameters["category_id"].toString();
+          return ProductDetailsScreen(
+            id: id,
+            categoryId: categoryId,
+          );
         },
       ),
     ],
