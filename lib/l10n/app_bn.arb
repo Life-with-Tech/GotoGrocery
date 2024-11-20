@@ -28,5 +28,8 @@
     "delete_account": "অ্যাকাউন্ট মুছুন",
     "block_account": "ব্লক করা অ্যাকাউন্ট",
     "log_out": "লগ আউট করুন",
-    "device_permission": "ডিভাইসের অনুমতি"
+    "device_permission": "ডিভাইসের অনুমতি",
+    "product_view_all": "সমস্ত পণ্য দেখুন",
+    "product_details": "পণ্যের বিবরণ"
+
 }

@@ -1,3 +1,8 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:tango/router/app_routes_constant.dart';
+import 'package:tango/router/routing_service.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 
 import 'add_button.dart';
@@ -62,23 +67,30 @@ class _ProductItemState extends State<ProductItem> {
                   fontSize: 15,
                 ),
               ),
-              Container(
-                height: 30,
-                width: 30,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
+              InkWell(
+                onTap: () {
+                  unawaited(
+                      RoutingService().pushNamed(Routes.productViewAll.name));
+                },
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: themeProvider.isDark
+                          ? AppColors.white
+                          : AppColors.black,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
                     color: themeProvider.isDark
                         ? AppColors.white
                         : AppColors.black,
+                    size: 15,
                   ),
-                ),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  color:
-                      themeProvider.isDark ? AppColors.white : AppColors.black,
-                  size: 15,
                 ),
               )
             ],
@@ -94,169 +106,187 @@ class _ProductItemState extends State<ProductItem> {
             itemBuilder: (context, index) {
               ProductModel item = homeProvider.product[index];
               String productId = homeProvider.product[index].id ?? '';
+              log("Snapshot: ${item.id}");
+              log("Snapshot: ${item.categoryId}");
               GlobalKey productKey = GlobalKey();
-              return Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 10,
-                ),
-                width: fullWidth(context) / 2.5,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: themeProvider.isDark
-                        ? AppColors.white
-                        : AppColors.black,
+              return InkWell(
+                onTap: () {
+                  unawaited(
+                    RoutingService().pushNamed(
+                      Routes.productDetailsScreen.name,
+                      queryParameters: {
+                        'post_id': item.id,
+                        'category_id': item.categoryId,
+                      },
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10,
                   ),
-                ),
-                child: Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CachedImageWidget(
-                          key: productKey,
-                          imageUrl: item.imageUrl ?? "",
-                          height: 100,
-                          width: double.infinity,
-                          fit: BoxFit.contain,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.name ?? "",
-                                maxLines: 1,
-                                style: TextStyle(
-                                  color: themeProvider.isDark
-                                      ? AppColors.white
-                                      : AppColors.black,
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Gap(2),
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 2,
-                                      horizontal: 5,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primary.withOpacity(0.4),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          (double.tryParse(
-                                                      item.rating.toString()) ??
-                                                  0.0.toInt())
-                                              .toString(),
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: AppColors.primary,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const Gap(3),
-                                        const Icon(
-                                          Icons.star,
-                                          size: 15,
-                                          color: AppColors.primary,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const Gap(5),
-                                  Text(
-                                    "${item.rating} Ratings",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: themeProvider.isDark
-                                          ? AppColors.white
-                                          : AppColors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Gap(5),
-                              Text(
-                                '₹${item.price} / ${item.quantity} ${item.unit}',
-                                style: TextStyle(
-                                  decoration: (item.discount ?? false)
-                                      ? TextDecoration.lineThrough
-                                      : null,
-                                  fontSize: (item.discount ?? false) ? 10 : 16,
-                                  color: (item.discount ?? false)
-                                      ? AppColors.grey
-                                      : Colors.green,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              if (item.discount ?? false)
+                  width: fullWidth(context) / 2.5,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: themeProvider.isDark
+                          ? AppColors.white
+                          : AppColors.black,
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CachedImageWidget(
+                            key: productKey,
+                            imageUrl: item.imageUrl ?? "",
+                            height: 100,
+                            width: double.infinity,
+                            fit: BoxFit.contain,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Text(
-                                  "₹${calculateDiscountedPrice(
-                                    (int.tryParse(item.price.toString()) ?? 0.0)
-                                        .toDouble(),
-                                    (int.tryParse(item.discountPercentage
-                                                .toString()) ??
-                                            0.0)
-                                        .toDouble(),
-                                  ).toStringAsFixed(0).toString()} / ${item.quantity} ${item.unit}",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.green,
+                                  item.name ?? "",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: themeProvider.isDark
+                                        ? AppColors.white
+                                        : AppColors.black,
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                            ],
+                                const Gap(2),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 2,
+                                        horizontal: 5,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            AppColors.primary.withOpacity(0.4),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            (double.tryParse(item.rating
+                                                        .toString()) ??
+                                                    0.0.toInt())
+                                                .toString(),
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: AppColors.primary,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const Gap(3),
+                                          const Icon(
+                                            Icons.star,
+                                            size: 15,
+                                            color: AppColors.primary,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Gap(5),
+                                    Text(
+                                      "${item.rating} Ratings",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: themeProvider.isDark
+                                            ? AppColors.white
+                                            : AppColors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Gap(5),
+                                Text(
+                                  '₹${item.price} / ${item.quantity} ${item.unit}',
+                                  style: TextStyle(
+                                    decoration: (item.discount ?? false)
+                                        ? TextDecoration.lineThrough
+                                        : null,
+                                    fontSize:
+                                        (item.discount ?? false) ? 10 : 16,
+                                    color: (item.discount ?? false)
+                                        ? AppColors.grey
+                                        : Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                if (item.discount ?? false)
+                                  Text(
+                                    "₹${calculateDiscountedPrice(
+                                      (int.tryParse(item.price.toString()) ??
+                                              0.0)
+                                          .toDouble(),
+                                      (int.tryParse(item.discountPercentage
+                                                  .toString()) ??
+                                              0.0)
+                                          .toDouble(),
+                                    ).toStringAsFixed(0).toString()} / ${item.quantity} ${item.unit}",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: AddButton(
-                        productId: productId,
-                        product: item,
-                        productKey: productKey,
-                        cartKey: cartKey,
+                        ],
                       ),
-                    ),
-                    if (item.discount ?? false)
                       Positioned(
-                        top: 0,
-                        left: 10,
-                        child: DiscountBannerWidget(
-                            discount:
-                                "${item.discountPercentage.toString()}% OFF"),
+                        bottom: 0,
+                        right: 0,
+                        child: AddButton(
+                          productId: productId,
+                          product: item,
+                          productKey: productKey,
+                          cartKey: cartKey,
+                        ),
                       ),
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: LikeButton(
-                        onTap: (isLiked) async {
-                          if (isLiked) {
-                            homeProvider.removeFromWishlist(item.id ?? "");
-                            return false;
-                          } else {
-                            homeProvider.addWishlist(item);
-                            return true;
-                          }
-                        },
-                        size: 18,
-                        isLiked: item.isInWishlist,
-                        animationDuration: const Duration(milliseconds: 1000),
+                      if (item.discount ?? false)
+                        Positioned(
+                          top: 0,
+                          left: 10,
+                          child: DiscountBannerWidget(
+                              discount:
+                                  "${item.discountPercentage.toString()}% OFF"),
+                        ),
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: LikeButton(
+                          onTap: (isLiked) async {
+                            if (isLiked) {
+                              homeProvider.removeFromWishlist(item.id ?? "");
+                              return false;
+                            } else {
+                              homeProvider.addWishlist(item);
+                              return true;
+                            }
+                          },
+                          size: 18,
+                          isLiked: item.isInWishlist,
+                          animationDuration: const Duration(milliseconds: 1000),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

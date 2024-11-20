@@ -1,5 +1,6 @@
 class ProductModel {
   String? category;
+  String? categoryId;
   bool? discount;
   String? discountPercentage;
   String? id;
@@ -18,6 +19,7 @@ class ProductModel {
 
   ProductModel({
     this.category,
+    this.categoryId,
     this.discount,
     this.discountPercentage,
     this.id,
@@ -37,6 +39,7 @@ class ProductModel {
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     category = json['category'];
+    categoryId = json['category_id'];
     discount = json['discount'];
     discountPercentage = json['discount_percentage'];
     id = json['id'];
@@ -57,6 +60,7 @@ class ProductModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['category'] = category;
+    data['category_id'] = categoryId;
     data['discount'] = discount;
     data['discount_percentage'] = discountPercentage;
     data['id'] = id;
