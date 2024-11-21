@@ -15,6 +15,8 @@ class ProductModel {
   String? rating;
   String? unit;
   String? userRating;
+  String? postUserId;
+  String? description;
   int? totalQuantity;
 
   ProductModel({
@@ -22,6 +24,7 @@ class ProductModel {
     this.categoryId,
     this.discount,
     this.discountPercentage,
+    this.description,
     this.id,
     this.imageUrl,
     this.inStock,
@@ -31,6 +34,7 @@ class ProductModel {
     this.isInWishlist,
     this.price,
     this.quantity,
+    this.postUserId,
     this.rating,
     this.unit,
     this.userRating,
@@ -41,7 +45,9 @@ class ProductModel {
     category = json['category'];
     categoryId = json['category_id'];
     discount = json['discount'];
+    postUserId = json['post_user_id'];
     discountPercentage = json['discount_percentage'];
+    description = json['description'];
     id = json['id'];
     imageUrl = json['image_url'];
     inStock = json['in_stock'];
@@ -61,8 +67,10 @@ class ProductModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['category'] = category;
     data['category_id'] = categoryId;
+    data['post_user_id'] = postUserId;
     data['discount'] = discount;
     data['discount_percentage'] = discountPercentage;
+    data['description'] = description;
     data['id'] = id;
     data['image_url'] = imageUrl;
     data['in_stock'] = inStock;

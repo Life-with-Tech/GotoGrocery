@@ -32,4 +32,8 @@ class Routes {
     name: "product_details_screen",
     path: "/product_details_screen",
   );
+  static const RouteName rateProductScreen = RouteName(
+    name: "rate_product_screen",
+    path: "/rate_product_screen",
+  );
 }

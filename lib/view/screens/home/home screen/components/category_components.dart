@@ -1,21 +1,19 @@
 import 'dart:async';
 import 'dart:developer';
-
-import 'package:tango/router/app_routes_constant.dart';
-import 'package:tango/router/routing_service.dart';
-import 'package:tango/state/providers/theme_provider.dart';
-
 import 'add_button.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:like_button/like_button.dart';
+import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/utils/price_utils.dart';
 import 'package:tango/data/models/product_model.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/widgets/discount_banner.dart';
 import 'package:tango/state/providers/home_provider.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 
@@ -106,8 +104,7 @@ class _ProductItemState extends State<ProductItem> {
             itemBuilder: (context, index) {
               ProductModel item = homeProvider.product[index];
               String productId = homeProvider.product[index].id ?? '';
-              log("Snapshot: ${item.id}");
-              log("Snapshot: ${item.categoryId}");
+
               GlobalKey productKey = GlobalKey();
               return InkWell(
                 onTap: () {
