@@ -15,6 +15,7 @@ import 'package:tango/state/providers/theme_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import 'package:tango/state/providers/view_all_provider.dart';
 import 'package:tango/core/services/notification_services.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 import 'package:tango/state/providers/connectivity_provider.dart';
@@ -40,6 +41,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider<UserProvider>.value(value: userProvider),
         ChangeNotifierProvider<HomeProvider>.value(value: homeProvider),
+        ChangeNotifierProvider<ViewAllProvider>.value(value: viewAllProvider),
         ChangeNotifierProvider<ConnectivityProvider>.value(
           value: connectivityProvider,
         ),

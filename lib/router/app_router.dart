@@ -2,8 +2,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tango/router/routing_service.dart';
-import 'package:tango/view/screens/home/home%20screen/product_details_screen.dart';
-import 'package:tango/view/screens/home/home%20screen/product_view_all.dart';
 import 'package:tango/view/screens/home/home.dart';
 import 'package:tango/view/screens/edit_screen.dart';
 import 'package:tango/view/screens/login_screen.dart';
@@ -12,7 +10,10 @@ import 'package:tango/view/screens/signup_screen.dart';
 import 'package:tango/view/screens/splash_screen.dart';
 import 'package:tango/view/screens/Account/account_blocked_sreeen.dart';
 import 'package:tango/view/screens/home/home%20screen/home_screen.dart';
+import 'package:tango/view/screens/home/home%20screen/rate_product.dart';
+import 'package:tango/view/screens/home/home%20screen/product_view_all.dart';
 import 'package:tango/view/screens/home/home%20screen/cart/cart_screen.dart';
+import 'package:tango/view/screens/home/home%20screen/product_details_screen.dart';
 import 'package:tango/view/screens/home/profile%20screen/edit_profile_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/product%20add/product_add.dart';
 import 'package:tango/view/screens/home/profile%20screen/profile%20drawer/device_permission.dart';
@@ -122,6 +123,17 @@ class MyAppRoutes {
           return ProductDetailsScreen(
             id: id,
             categoryId: categoryId,
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.rateProductScreen.path,
+        name: Routes.rateProductScreen.name,
+        builder: (BuildContext context, GoRouterState state) {
+          final String productId =
+              state.uri.queryParameters["product_id"].toString();
+          return RateProduct(
+            productId: productId,
           );
         },
       ),
