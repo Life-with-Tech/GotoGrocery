@@ -1,20 +1,20 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:like_button/like_button.dart';
-import 'package:provider/provider.dart';
-import 'package:tango/core/constants/app_colors.dart';
-import 'package:tango/core/constants/cached_image_widget.dart';
-import 'package:tango/core/utils/price_utils.dart';
-import 'package:tango/data/models/product_model.dart';
 import 'package:tango/l10n/l10n.dart';
-import 'package:tango/router/app_routes_constant.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:like_button/like_button.dart';
+import 'package:tango/core/utils/price_utils.dart';
 import 'package:tango/router/routing_service.dart';
+import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/data/models/product_model.dart';
+import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/router/app_routes_constant.dart';
+import 'package:tango/view/widgets/discount_banner.dart';
 import 'package:tango/state/providers/home_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
-import 'package:tango/view/widgets/discount_banner.dart';
-import 'package:tango/view/widgets/other_widget.dart';
+import 'package:tango/core/constants/cached_image_widget.dart';
+import 'package:tango/state/providers/add_to_cart_provider.dart';
 
 class ProductViewAll extends StatefulWidget {
   const ProductViewAll({super.key});
@@ -32,9 +32,13 @@ class _ProductViewAllState extends State<ProductViewAll> {
     });
   }
 
+  ProductModel? product;
   @override
   Widget build(BuildContext context) {
     HomeProvider homeProvider = Provider.of<HomeProvider>(context);
+    AddToCartProvider addToCartProvider =
+        Provider.of<AddToCartProvider>(context);
+
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
@@ -51,10 +55,19 @@ class _ProductViewAllState extends State<ProductViewAll> {
         itemCount: homeProvider.productList.length,
         itemBuilder: (BuildContext context, int index) {
           ProductModel item = homeProvider.productList[index];
+
+          product = addToCartProvider.idByProduct((item.id).toString());
           return InkWell(
             onTap: () {
               unawaited(
-                  RoutingService().pushNamed(Routes.productDetailsScreen.name));
+                RoutingService().pushNamed(
+                  Routes.productDetailsScreen.name,
+                  queryParameters: {
+                    'post_id': item.id,
+                    'category_id': item.categoryId,
+                  },
+                ),
+              );
             },
             child: Container(
               margin: const EdgeInsets.symmetric(
@@ -65,7 +78,7 @@ class _ProductViewAllState extends State<ProductViewAll> {
                 horizontal: 10,
                 vertical: 10,
               ),
-              width: fullWidth(context) / 2.5,
+              // width: fullWidth(context),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
@@ -80,6 +93,9 @@ class _ProductViewAllState extends State<ProductViewAll> {
                     children: [
                       Card(
                         elevation: 20,
+                        shadowColor: themeProvider.isDark
+                            ? AppColors.white
+                            : AppColors.black,
                         child: CachedImageWidget(
                           imageUrl: item.imageUrl ?? "",
                           height: fullHeight(context) / 9,
@@ -153,35 +169,165 @@ class _ProductViewAllState extends State<ProductViewAll> {
                               ],
                             ),
                             const Gap(5),
-                            Text(
-                              '₹${item.price} / ${item.quantity} ${item.unit}',
-                              style: TextStyle(
-                                decoration: (item.discount ?? false)
-                                    ? TextDecoration.lineThrough
-                                    : null,
-                                fontSize: (item.discount ?? false) ? 10 : 16,
-                                color: (item.discount ?? false)
-                                    ? AppColors.grey
-                                    : Colors.green,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            if (item.discount ?? false)
-                              Text(
-                                "₹${calculateDiscountedPrice(
-                                  (int.tryParse(item.price.toString()) ?? 0.0)
-                                      .toDouble(),
-                                  (int.tryParse(item.discountPercentage
-                                              .toString()) ??
-                                          0.0)
-                                      .toDouble(),
-                                ).toStringAsFixed(0).toString()} / ${item.quantity} ${item.unit}",
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.bold,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '₹${item.price} / ${item.quantity} ${item.unit}',
+                                      style: TextStyle(
+                                        decoration: (item.discount ?? false)
+                                            ? TextDecoration.lineThrough
+                                            : null,
+                                        fontSize:
+                                            (item.discount ?? false) ? 10 : 16,
+                                        color: (item.discount ?? false)
+                                            ? AppColors.grey
+                                            : Colors.green,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    if (item.discount ?? false)
+                                      Text(
+                                        "₹${calculateDiscountedPrice(
+                                          (int.tryParse(
+                                                      item.price.toString()) ??
+                                                  0.0)
+                                              .toDouble(),
+                                          (int.tryParse(item.discountPercentage
+                                                      .toString()) ??
+                                                  0.0)
+                                              .toDouble(),
+                                        ).toStringAsFixed(0).toString()} / ${item.quantity} ${item.unit}",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                  ],
                                 ),
-                              ),
+                                // const Gap(25),
+                                // (addToCartProvider
+                                //         .idItemContains(item.id ?? ""))
+                                //     ? Container(
+                                //         padding: const EdgeInsets.symmetric(
+                                //             vertical: 5, horizontal: 5),
+                                //         decoration: BoxDecoration(
+                                //           color: AppColors.lightPrimary,
+                                //           borderRadius: const BorderRadius.only(
+                                //             topLeft: Radius.circular(10),
+                                //             bottomLeft: Radius.circular(10),
+                                //           ),
+                                //         ),
+                                //         child: Row(
+                                //           mainAxisSize: MainAxisSize.min,
+                                //           children: [
+                                //             InkWell(
+                                //               onTap: () {
+                                //                 if ((int.tryParse(product!
+                                //                             .totalQuantity
+                                //                             .toString()) ??
+                                //                         0) >
+                                //                     (int.tryParse(product!
+                                //                             .quantity
+                                //                             .toString()) ??
+                                //                         0)) {
+                                //                   addToCartProvider
+                                //                       .updateQuantity(
+                                //                           product!.id!, 0);
+                                //                 } else {
+                                //                   addToCartProvider
+                                //                       .removeItem(product!.id!);
+                                //                 }
+                                //               },
+                                //               child: Container(
+                                //                 alignment: Alignment.center,
+                                //                 width: 20,
+                                //                 height: 20,
+                                //                 child: Icon(
+                                //                   Icons.remove,
+                                //                   size: 15,
+                                //                   color: themeProvider.isDark
+                                //                       ? AppColors.darkSurface
+                                //                       : AppColors.lightSurface,
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //             const Gap(2),
+                                //             Container(
+                                //               alignment: Alignment.center,
+                                //               width: 20,
+                                //               height: 20,
+                                //               child: Text(
+                                //                 ((int.tryParse(product!
+                                //                                 .totalQuantity
+                                //                                 .toString()) ??
+                                //                             0) /
+                                //                         (int.tryParse(product!
+                                //                                 .quantity
+                                //                                 .toString()) ??
+                                //                             0))
+                                //                     .toStringAsFixed(0),
+                                //                 style: TextStyle(
+                                //                   fontSize: 16,
+                                //                   color: themeProvider.isDark
+                                //                       ? AppColors.darkSurface
+                                //                       : AppColors.lightSurface,
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //             const Gap(2),
+                                //             InkWell(
+                                //               onTap: () {
+                                //                 addToCartProvider
+                                //                     .updateQuantity(
+                                //                         product!.id!, 1);
+                                //               },
+                                //               child: Container(
+                                //                 alignment: Alignment.center,
+                                //                 width: 20,
+                                //                 height: 20,
+                                //                 child: Icon(
+                                //                   Icons.add,
+                                //                   size: 15,
+                                //                   color: themeProvider.isDark
+                                //                       ? AppColors.darkSurface
+                                //                       : AppColors.lightSurface,
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       )
+                                //     : GestureDetector(
+                                //         onTap: () async {
+                                //           await addToCartProvider.addCart(item);
+                                //         },
+                                //         child: Container(
+                                //           padding: const EdgeInsets.symmetric(
+                                //               horizontal: 10, vertical: 10),
+                                //           decoration: BoxDecoration(
+                                //             color: AppColors.lightPrimary,
+                                //             borderRadius:
+                                //                 BorderRadius.circular(10),
+                                //           ),
+                                //           child: Icon(
+                                //             Icons.add,
+                                //             size: 15,
+                                //             color: themeProvider.isDark
+                                //                 ? AppColors.darkSurface
+                                //                 : AppColors.lightSurface,
+                                //           ),
+                                //         ),
+                                //       ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
