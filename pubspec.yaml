@@ -74,6 +74,8 @@ dependencies:
   share_plus: ^10.1.2
   path_provider: ^2.1.5
   firebase_dynamic_links: ^6.0.10
+  app_links: ^6.3.2
+  quick_actions: ^1.0.8
 
 dev_dependencies:
   flutter_test:

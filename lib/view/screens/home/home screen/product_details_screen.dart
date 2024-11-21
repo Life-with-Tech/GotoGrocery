@@ -1,22 +1,22 @@
-import 'dart:developer';
 import 'dart:io';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import "package:http/http.dart" as http;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:gap/gap.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:tango/l10n/l10n.dart';
+import 'package:flutter/material.dart';
+import "package:http/http.dart" as http;
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:tango/router/routing_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/data/models/product_model.dart';
-import 'package:tango/l10n/l10n.dart';
-import 'package:tango/router/routing_service.dart';
+import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/state/providers/home_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:tango/view/screens/home/home%20screen/product%20add/product_add.dart';
-import 'package:tango/view/widgets/other_widget.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final String id;
@@ -76,7 +76,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             onTap: () async {
               // log("responseLead $image");
 
-              String link = await generateProductShareUrl(
+              String link = generateProductShareUrl(
                 postId: widget.id.toString(),
                 categoryId: widget.categoryId.toString(),
               );
@@ -197,36 +197,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Future<String> generateProductShareUrl({
+  String generateProductShareUrl({
     required String postId,
     required String categoryId,
-  }) async {
-    // String url = "groceryapp://product_details_screen/";
+  }) {
+    String url = "https://indiangrocery.com/product_details_screen/";
 
-    // url += "?post_id=$postId";
+    url += "?post_id=$postId";
 
-    // url += "&category_id=$categoryId";
+    url += "&category_id=$categoryId";
 
-    // return url;
+    return url;
 
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      //!/RtQw
-      uriPrefix:
-          'https://gotogrocery.page.link', // Replace with your Firebase Dynamic Link prefix
-      link: Uri.parse(
-        'https://yourapp.com/product_details_screen?post_id=$postId&category_id=$categoryId',
-      ),
-      androidParameters: AndroidParameters(
-        packageName:
-            'com.example.gotogrocery', // Replace with your package name
-      ),
-      iosParameters: IOSParameters(
-        bundleId: 'com.example.gotogrocery', // Replace with your iOS bundle ID
-      ),
-    );
+    // final DynamicLinkParameters parameters = DynamicLinkParameters(
+    //   //!/RtQw
+    //   uriPrefix:
+    //       'https://gotogrocery.page.link',
+    //   link: Uri.parse(
+    //     'https://yourapp.com/product_details_screen?post_id=$postId&category_id=$categoryId',
+    //   ),
+    //   androidParameters: AndroidParameters(
+    //     packageName:
+    //         'com.example.gotogrocery',
+    //   ),
+    //   iosParameters: IOSParameters(
+    //     bundleId: 'com.example.gotogrocery',
+    //   ),
+    // );
 
-    final ShortDynamicLink dynamicLink =
-        await FirebaseDynamicLinks.instance.buildShortLink(parameters);
-    return dynamicLink.shortUrl.toString();
+    // final ShortDynamicLink dynamicLink =
+    //     await FirebaseDynamicLinks.instance.buildShortLink(parameters);
+    // return dynamicLink.shortUrl.toString();
   }
 }
