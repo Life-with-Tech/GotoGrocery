@@ -66,6 +66,72 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
+      bottomNavigationBar: addToCartProvider.cart.isNotEmpty
+          ? Container(
+              color: AppColors.primary,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Total Price Display
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '${addToCartProvider.cart.length}', // Assuming `totalPrice` is a property in `addToCartProvider`
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Gap(2),
+                      Text(
+                        'Items added',
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await Future.microtask(() {
+                        RoutingService().pushNamed(
+                          Routes.cart.name,
+                        );
+                      });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'View Cart', // Assuming `totalPrice` is a property in `addToCartProvider`
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Gap(2),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 15,
+                          color: AppColors.white,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : null,
       appBar: AppBar(
         leading: Container(
           margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 9),
@@ -127,16 +193,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 9),
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.white.withOpacity(0.7),
-            ),
-            child: Icon(
-              Icons.favorite,
-              size: 22,
+          InkWell(
+            onTap: () {
+              if (viewAllProvider.detailsProduct?.isInWishlist ?? false) {
+                viewAllProvider.removeFromWishlist(
+                    viewAllProvider.detailsProduct?.id ?? "");
+              } else {
+                viewAllProvider.addWishlist(viewAllProvider.detailsProduct!);
+              }
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 9),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.white.withOpacity(0.7),
+              ),
+              child: Icon(
+                viewAllProvider.detailsProduct?.isInWishlist ?? false
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+                size: 22,
+              ),
             ),
           ),
           const Gap(5),
