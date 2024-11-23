@@ -33,9 +33,7 @@ class _CartScreenState extends State<CartScreen> {
           leading: IconButton(
             onPressed: () async {
               await Future.microtask(() {
-                RoutingService().goName(
-                  Routes.home.name,
-                );
+                RoutingService().goBack();
               });
             },
             icon: Icon(

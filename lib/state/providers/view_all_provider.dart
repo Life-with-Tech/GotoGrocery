@@ -14,10 +14,12 @@ import 'package:tango/state/providers/user_provider.dart';
 ViewAllProvider viewAllProvider = ViewAllProvider();
 
 class ViewAllProvider extends ChangeNotifier {
+  List<ProductModel> _product = [];
   ProductModel? _detailsProduct;
   UserModel? _userData;
-  List<RatingModel>? _ratingProduct;
-  List<RatingModel>? get ratingProduct => _ratingProduct;
+  List<RatingModel> _ratingProduct = [];
+  List<ProductModel> get product => _product;
+  List<RatingModel> get ratingProduct => _ratingProduct;
   UserModel? get userData => _userData;
   ProductModel? get detailsProduct => _detailsProduct;
 
@@ -34,8 +36,20 @@ class ViewAllProvider extends ChangeNotifier {
         .then((onValue) async {
       if ((onValue.docs).isNotEmpty) {
         _detailsProduct = ProductModel.fromJson(onValue.docs.first.data());
-        // log("Error by getIdByProductRating ${(onValue.docs.first.data()["id"])}");
+        await FirebaseFirestore.instance
+            .collection('wishlists')
+            .doc(userProvider.currentUser?.uid)
+            .collection('items')
+            .where("id", isEqualTo: onValue.docs.first.data()["id"])
+            .get()
+            .then((onValue) {
+          final wishlistProductIds = onValue.docs.map((doc) => doc.id).toSet();
 
+          _detailsProduct?.isInWishlist =
+              wishlistProductIds.contains(_detailsProduct?.id);
+        }).catchError((onError) {
+          log("Error by getIdByUser ${onError.toString()}");
+        });
         try {
           await getIdByUser(
               userId: (onValue.docs.first["post_user_id"]).toString());
@@ -95,16 +109,16 @@ class ViewAllProvider extends ChangeNotifier {
     });
     notifyListeners();
 
-    log((ratingProduct ?? []).length.toString());
+    log((ratingProduct).length.toString());
   }
 
   double calculateAverageRating() {
-    if ((ratingProduct ?? []).isEmpty) return 0.0;
-    final total = (ratingProduct ?? []).fold(
+    if ((ratingProduct).isEmpty) return 0.0;
+    final total = (ratingProduct).fold(
         0.0,
         (sum, rating) =>
             sum + (double.tryParse((rating.rating).toString()) ?? 0.0));
-    return total / (ratingProduct ?? []).length;
+    return total / (ratingProduct).length;
   }
 
   Future<int> setRatingAndReview({
@@ -142,5 +156,98 @@ class ViewAllProvider extends ChangeNotifier {
 
       return 0;
     });
+  }
+
+  Future getProduct() async {
+    GlobalLoading.showLoadingDialog();
+    await FirebaseFirestore.instance
+        .collection("products")
+        .get()
+        .then((onValue) async {
+      if ((onValue.docs).isNotEmpty) {
+        _product = onValue.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))
+            .toList();
+
+        await FirebaseFirestore.instance
+            .collection('wishlists')
+            .doc(userProvider.currentUser?.uid)
+            .collection('items')
+            .get()
+            .then((onValue) {
+          final wishlistProductIds = onValue.docs.map((doc) => doc.id).toSet();
+          for (var item in product) {
+            item.isInWishlist = wishlistProductIds.contains(item.id);
+          }
+          notifyListeners();
+        }).catchError((onError) {
+          log("wishlists${onError.toString()}");
+        });
+        await FirebaseFirestore.instance
+            .collection('product_ratings')
+            .get()
+            .then((onValue) {
+          final ratingProduct = onValue.docs
+              .map((doc) => RatingModel.fromJson(doc.data()))
+              .toList();
+          for (var item in product) {
+            final productRatings = ratingProduct
+                .where((rating) => rating.productId == item.id)
+                .toList();
+
+            if (productRatings.isNotEmpty) {
+              final total = productRatings.fold(
+                  0.0,
+                  (sum, rating) =>
+                      sum +
+                      (double.tryParse((rating.rating).toString()) ?? 0.0));
+              item.rating = (total / productRatings.length).toStringAsFixed(1);
+            } else {
+              item.rating = "0.0";
+            }
+          }
+        }).catchError((onError) {
+          log("Error fetching product ratings: ${onError.toString()}");
+        });
+      } else {
+        _product = [];
+      }
+    }).catchError((onError) {
+      log("onError${onError.toString()}");
+    });
+    notifyListeners();
+    RoutingService().goBack();
+  }
+
+  Future addWishlist(ProductModel productModel) async {
+    final wishlistRef = FirebaseFirestore.instance
+        .collection('wishlists')
+        .doc(userProvider.currentUser?.uid)
+        .collection('items')
+        .doc(productModel.id);
+
+    await wishlistRef.set(productModel.toJson());
+    final index = product.indexWhere((item) => item.id == productModel.id);
+    if (index != -1) {
+      product[index].isInWishlist = true;
+      _detailsProduct?.isInWishlist = true;
+    }
+    notifyListeners();
+  }
+
+  Future<void> removeFromWishlist(String productId) async {
+    final wishlistRef = FirebaseFirestore.instance
+        .collection('wishlists')
+        .doc(userProvider.currentUser?.uid)
+        .collection('items')
+        .doc(productId);
+
+    await wishlistRef.delete();
+    final index = product.indexWhere((item) => item.id == productId);
+    if (index != -1) {
+      product[index].isInWishlist = false;
+      _detailsProduct?.isInWishlist = false;
+    }
+    notifyListeners();
   }
 }
