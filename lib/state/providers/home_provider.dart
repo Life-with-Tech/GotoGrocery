@@ -33,7 +33,6 @@ class HomeProvider extends ChangeNotifier {
       }).onError((handleError) {
         log(handleError.toString());
       });
-      ;
     }).onError((handleError) {
       log(handleError.toString());
     });

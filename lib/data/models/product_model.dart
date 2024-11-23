@@ -14,7 +14,7 @@ class ProductModel {
   String? quantity;
   String? rating;
   String? unit;
-  String? userRating;
+
   String? postUserId;
   String? description;
   int? totalQuantity;
@@ -37,7 +37,6 @@ class ProductModel {
     this.postUserId,
     this.rating,
     this.unit,
-    this.userRating,
     this.totalQuantity,
   });
 
@@ -59,7 +58,7 @@ class ProductModel {
     quantity = json['quantity'];
     rating = json['rating'];
     unit = json['unit'];
-    userRating = json['user_rating'];
+
     totalQuantity = json["total_quantity"];
   }
 
@@ -82,7 +81,7 @@ class ProductModel {
     data['quantity'] = quantity;
     data['rating'] = rating;
     data['unit'] = unit;
-    data['user_rating'] = userRating;
+
     data['total_quantity'] = totalQuantity;
     return data;
   }

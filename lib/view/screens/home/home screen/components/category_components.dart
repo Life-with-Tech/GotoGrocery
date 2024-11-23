@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:tango/state/providers/view_all_provider.dart';
+
 import 'add_button.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +35,7 @@ class _ProductItemState extends State<ProductItem> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      await homeProvider.getProduct();
+      await viewAllProvider.getProduct();
     });
   }
 
@@ -41,7 +43,7 @@ class _ProductItemState extends State<ProductItem> {
   Widget build(BuildContext context) {
     AddToCartProvider addToCartProvider =
         Provider.of<AddToCartProvider>(context);
-    HomeProvider homeProvider = Provider.of<HomeProvider>(context);
+    ViewAllProvider viewAllProvider = Provider.of<ViewAllProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     GlobalKey cartKey = addToCartProvider.cartKey;
 
@@ -100,10 +102,10 @@ class _ProductItemState extends State<ProductItem> {
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             padding: EdgeInsets.zero,
-            itemCount: homeProvider.product.length,
+            itemCount: viewAllProvider.product.length,
             itemBuilder: (context, index) {
-              ProductModel item = homeProvider.product[index];
-              String productId = homeProvider.product[index].id ?? '';
+              ProductModel item = viewAllProvider.product[index];
+              String productId = viewAllProvider.product[index].id ?? '';
 
               GlobalKey productKey = GlobalKey();
               return InkWell(
@@ -270,10 +272,10 @@ class _ProductItemState extends State<ProductItem> {
                         child: LikeButton(
                           onTap: (isLiked) async {
                             if (isLiked) {
-                              homeProvider.removeFromWishlist(item.id ?? "");
+                              viewAllProvider.removeFromWishlist(item.id ?? "");
                               return false;
                             } else {
-                              homeProvider.addWishlist(item);
+                              viewAllProvider.addWishlist(item);
                               return true;
                             }
                           },
