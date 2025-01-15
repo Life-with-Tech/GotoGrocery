@@ -1,31 +1,25 @@
 import 'dart:io';
-import 'dart:developer';
 import 'package:gap/gap.dart';
-import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tango/core/utils/price_utils.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/utils/date_helpers.dart';
 import 'package:tango/data/models/rating_model.dart';
-import 'package:tango/core/constants/text_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/data/models/product_model.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/router/app_routes_constant.dart';
-import 'package:tango/state/providers/home_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tango/state/providers/view_all_provider.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:tango/core/constants/custom_cached_network_image.dart';
-import 'package:tango/view/screens/home/home%20screen/product%20add/product_add.dart';
+import 'package:tango/core/constants/custom_share_bottom_sheet%20.dart';
+// ignore_for_file: deprecated_member_use
 
 class ProductDetailsScreen extends StatefulWidget {
   final String id;
@@ -158,27 +152,37 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           InkWell(
             onTap: () async {
               // log("responseLead $image");
-
-              String link = generateProductShareUrl(
-                postId: widget.id.toString(),
-                categoryId: widget.categoryId.toString(),
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
+                ),
+                builder: (context) {
+                  return CustomShareContent();
+                },
               );
-              final imageData =
-                  "https://firebasestorage.googleapis.com/v0/b/gotogrocery-15ced.appspot.com/o/products%2FGreenspoon-Kwik-Basket-Sweet-Banana-removebg-preview%20(1).png?alt=media&token=90302e0b-7574-4991-b95a-fda4fd3e0327";
+              // String link = generateProductShareUrl(
+              //   postId: widget.id.toString(),
+              //   categoryId: widget.categoryId.toString(),
+              // );
+              // final imageData =
+              //     "https://firebasestorage.googleapis.com/v0/b/gotogrocery-15ced.appspot.com/o/products%2FGreenspoon-Kwik-Basket-Sweet-Banana-removebg-preview%20(1).png?alt=media&token=90302e0b-7574-4991-b95a-fda4fd3e0327";
 
-              final temp = await getTemporaryDirectory();
+              // final temp = await getTemporaryDirectory();
 
-              final path = "${temp.path}/image.jpg";
-              // log(link.toString());
-              final uri = Uri.parse(imageData ?? "");
-              final res = await http.get(uri);
-              final bytes = res.bodyBytes;
-              File(path).writeAsBytesSync(bytes);
-              await Share.shareXFiles(
-                [XFile(path)],
-                text:
-                    "Take a look at this Vikash Kumar on Krishi Vikas Udyog ${link.toString()}",
-              );
+              // final path = "${temp.path}/image.jpg";
+              // // log(link.toString());
+              // final uri = Uri.parse(imageData ?? "");
+              // final res = await http.get(uri);
+              // final bytes = res.bodyBytes;
+              // File(path).writeAsBytesSync(bytes);
+              // await Share.shareXFiles(
+              //   [XFile(path)],
+              //   text:
+              //       "Take a look at this Vikash Kumar on Krishi Vikas Udyog ${link.toString()}",
+              // );
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 9),
@@ -847,7 +851,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     required String postId,
     required String categoryId,
   }) {
-    String url = "https://indiangrocery.com/product_details_screen/";
+    String url = "https://indiangrocery.page.link/product_details_screen/";
 
     url += "?post_id=$postId";
 

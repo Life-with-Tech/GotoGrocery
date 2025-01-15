@@ -1,6 +1,5 @@
 import 'package:gap/gap.dart';
 import 'package:tango/main.dart';
-import '../../../edit_screen.dart';
 import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +58,7 @@ class ProfileDrawer extends StatelessWidget {
                     ),
                     const Gap(10),
                     Text(
-                      L10n().getValue()!.english,
+                      "English",
                       style: TextStyle(
                         color: themeProvider.isDark
                             ? AppColors.lightSurface
@@ -94,7 +93,7 @@ class ProfileDrawer extends StatelessWidget {
                     ),
                     const Gap(10),
                     Text(
-                      L10n().getValue()!.hindi,
+                      "हिंदी",
                       style: TextStyle(
                         color: themeProvider.isDark
                             ? AppColors.lightSurface
@@ -129,7 +128,7 @@ class ProfileDrawer extends StatelessWidget {
                     ),
                     const Gap(10),
                     Text(
-                      L10n().getValue()!.bangla,
+                      "বাংলা",
                       style: TextStyle(
                         color: themeProvider.isDark
                             ? AppColors.lightSurface
