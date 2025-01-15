@@ -25,9 +25,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    AppDataProvider appDataProvider = Provider.of<AppDataProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
-
     return Scaffold(
       // extendBodyBehindAppBar: true,
       endDrawer: const Drawer(

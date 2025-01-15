@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:developer';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
+import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/constants/dropdown.dart';
 import 'package:tango/core/utils/string_utils.dart';
 import 'package:tango/core/constants/app_colors.dart';
@@ -145,12 +147,25 @@ class _ProductAddState extends State<ProductAdd> {
     log(widget.id);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: AppColors.surface,
+        leading: IconButton(
+          onPressed: () async {
+            await Future.microtask(() {
+              RoutingService().goBack();
+            });
+          },
+          icon: Icon(
+            (Platform.isAndroid)
+                ? Icons.arrow_back
+                : Icons.arrow_back_ios_new_rounded,
+            color: AppColors.white,
+          ),
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 10,
+        ),
         children: [
           TextFieldData.buildField(
             label: const Text(

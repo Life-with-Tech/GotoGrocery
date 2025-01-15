@@ -1,11 +1,12 @@
 import 'package:gap/gap.dart';
+import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tango/l10n/l10n.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/router/app_routes_constant.dart';
+import 'package:tango/state/providers/app_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 import 'package:tango/view/screens/home/home%20screen/components/banner.dart';
@@ -20,6 +21,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      appDataProvider.updatedIndex(index: 0);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     AddToCartProvider addToCartProvider =

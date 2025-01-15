@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:tango/state/providers/view_all_provider.dart';
-
 import 'add_button.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +14,10 @@ import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/widgets/discount_banner.dart';
 import 'package:tango/state/providers/home_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
+import 'package:tango/state/providers/view_all_provider.dart';
 import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
+
 
 class ProductItem extends StatefulWidget {
   final String? whereCondition;

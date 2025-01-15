@@ -211,8 +211,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
         Provider.of<AddToCartProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
-    product = addToCartProvider.idByProduct(widget.product.id ?? "");
-    return (addToCartProvider.idItemContains(widget.product.id ?? ""))
+
+        return (addToCartProvider.idItemContains(widget.product.id ?? ""))
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
