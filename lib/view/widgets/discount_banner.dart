@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/view/widgets/custom_painter_widgets.dart';
 
 class DiscountBannerWidget extends StatelessWidget {
@@ -13,7 +14,9 @@ class DiscountBannerWidget extends StatelessWidget {
       size: const Size(30, 35), // Specify the size of the banner
       painter: DiscountBannerPainter(
         discountText: discount,
-        discountColor: AppColors.lightPrimary,
+        discountColor: themeProvider.isDark
+            ? AppColors.darkPrimary
+            : AppColors.lightPrimary,
       ),
     );
   }

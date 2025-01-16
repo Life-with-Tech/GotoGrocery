@@ -6,7 +6,6 @@ import 'package:tango/view/screens/home/home.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/screens/splash_screen.dart';
 import 'package:tango/view/screens/Account/login_screen.dart';
-import 'package:tango/view/screens/Account/signup_screen.dart';
 import 'package:tango/view/screens/Account/account_blocked_sreeen.dart';
 import 'package:tango/view/screens/home/home%20screen/home_screen.dart';
 import 'package:tango/view/screens/home/home%20screen/rate_product.dart';
@@ -45,12 +44,6 @@ class MyAppRoutes {
         name: Routes.loginScreen.name,
         builder: (BuildContext context, GoRouterState state) =>
             const LoginScreen(),
-      ),
-      GoRoute(
-        path: Routes.signupScreen.path,
-        name: Routes.signupScreen.name,
-        builder: (BuildContext context, GoRouterState state) =>
-            const SignupScreen(),
       ),
       GoRoute(
         path: Routes.accountBlockedScreen.path,

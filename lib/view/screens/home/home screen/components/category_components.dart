@@ -18,7 +18,6 @@ import 'package:tango/state/providers/view_all_provider.dart';
 import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 
-
 class ProductItem extends StatefulWidget {
   final String? whereCondition;
   const ProductItem({
@@ -61,8 +60,9 @@ class _ProductItemState extends State<ProductItem> {
                     ? widget.whereCondition ?? ""
                     : "You might need",
                 style: TextStyle(
-                  color:
-                      themeProvider.isDark ? AppColors.white : AppColors.black,
+                  color: themeProvider.isDark
+                      ? AppColors.darkPrimary
+                      : AppColors.lightPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
@@ -77,18 +77,16 @@ class _ProductItemState extends State<ProductItem> {
                   width: 30,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
+                    color: themeProvider.isDark
+                        ? AppColors.darkPrimary
+                        : AppColors.lightPrimary,
                     borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: themeProvider.isDark
-                          ? AppColors.white
-                          : AppColors.black,
-                    ),
                   ),
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: themeProvider.isDark
-                        ? AppColors.white
-                        : AppColors.black,
+                        ? AppColors.darkSurface
+                        : AppColors.lightSurface,
                     size: 15,
                   ),
                 ),
@@ -130,8 +128,8 @@ class _ProductItemState extends State<ProductItem> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: themeProvider.isDark
-                          ? AppColors.white
-                          : AppColors.black,
+                          ? AppColors.darkPrimary
+                          : AppColors.lightPrimary,
                     ),
                   ),
                   child: Stack(
@@ -156,8 +154,8 @@ class _ProductItemState extends State<ProductItem> {
                                   maxLines: 1,
                                   style: TextStyle(
                                     color: themeProvider.isDark
-                                        ? AppColors.white
-                                        : AppColors.black,
+                                        ? AppColors.darkPrimary
+                                        : AppColors.lightPrimary,
                                     overflow: TextOverflow.ellipsis,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -172,8 +170,11 @@ class _ProductItemState extends State<ProductItem> {
                                         horizontal: 5,
                                       ),
                                       decoration: BoxDecoration(
-                                        color:
-                                            AppColors.primary.withOpacity(0.4),
+                                        color: themeProvider.isDark
+                                            ? AppColors.darkPrimary
+                                                .withValues(alpha: 0.4)
+                                            : AppColors.lightPrimary
+                                                .withValues(alpha: 0.4),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
@@ -183,17 +184,21 @@ class _ProductItemState extends State<ProductItem> {
                                                         .toString()) ??
                                                     0.0.toInt())
                                                 .toString(),
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 12,
-                                              color: AppColors.primary,
+                                              color: themeProvider.isDark
+                                                  ? AppColors.darkPrimary
+                                                  : AppColors.lightPrimary,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           const Gap(3),
-                                          const Icon(
+                                          Icon(
                                             Icons.star,
                                             size: 15,
-                                            color: AppColors.primary,
+                                            color: themeProvider.isDark
+                                                ? AppColors.darkPrimary
+                                                : AppColors.lightPrimary,
                                           ),
                                         ],
                                       ),
@@ -204,8 +209,8 @@ class _ProductItemState extends State<ProductItem> {
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: themeProvider.isDark
-                                            ? AppColors.white
-                                            : AppColors.black,
+                                            ? AppColors.darkPrimary
+                                            : AppColors.lightPrimary,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -222,7 +227,9 @@ class _ProductItemState extends State<ProductItem> {
                                         (item.discount ?? false) ? 10 : 16,
                                     color: (item.discount ?? false)
                                         ? AppColors.grey
-                                        : Colors.green,
+                                        : themeProvider.isDark
+                                            ? AppColors.darkPrimary
+                                            : AppColors.lightPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -237,9 +244,11 @@ class _ProductItemState extends State<ProductItem> {
                                               0.0)
                                           .toDouble(),
                                     ).toStringAsFixed(0).toString()} / ${item.quantity} ${item.unit}",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.green,
+                                      color: themeProvider.isDark
+                                          ? AppColors.darkPrimary
+                                          : AppColors.lightPrimary,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -270,6 +279,14 @@ class _ProductItemState extends State<ProductItem> {
                         top: 8,
                         right: 8,
                         child: LikeButton(
+                          circleColor: CircleColor(
+                            start: AppColors.darkPrimary,
+                            end: AppColors.darkPrimary,
+                          ),
+                          bubblesColor: BubblesColor(
+                            dotPrimaryColor: AppColors.darkPrimary,
+                            dotSecondaryColor: AppColors.darkPrimary,
+                          ),
                           onTap: (isLiked) async {
                             if (isLiked) {
                               viewAllProvider.removeFromWishlist(item.id ?? "");
