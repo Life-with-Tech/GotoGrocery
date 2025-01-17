@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:gap/gap.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'package:tango/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,6 @@ import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/widgets/discount_banner.dart';
 import 'package:tango/state/providers/home_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
-import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 
 class ProductViewAll extends StatefulWidget {
@@ -162,8 +162,8 @@ class _ProductViewAllState extends State<ProductViewAll> {
                         shadowColor: themeProvider.isDark
                             ? AppColors.white
                             : AppColors.black,
-                        child: CachedImageWidget(
-                          imageUrl: item.imageUrl ?? "",
+                        child: CustomCachedNetworkImage(
+                          imageUrl: item.imageUrl?.first ?? "",
                           height: fullHeight(context) / 9,
                           width: fullWidth(context) / 3,
                           fit: BoxFit.contain,

@@ -1,5 +1,5 @@
 import 'package:gap/gap.dart';
-import 'package:tango/l10n/l10n.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/router/routing_service.dart';
@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/state/providers/user_provider.dart';
-import 'package:tango/core/constants/cached_image_widget.dart';
 
 class CategorySelect extends StatefulWidget {
   const CategorySelect({super.key});
@@ -82,7 +81,7 @@ class _CategorySelectState extends State<CategorySelect> {
                     ),
                     child: Column(
                       children: [
-                        CachedImageWidget(
+                        CustomCachedNetworkImage(
                           imageUrl:
                               item['logo'] ?? '', // Ensure imageUrl exists
                           height: 100,

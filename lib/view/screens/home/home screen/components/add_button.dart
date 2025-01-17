@@ -3,9 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'package:tango/data/models/product_model.dart';
 import 'package:tango/state/providers/theme_provider.dart';
-import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 
 class AddButton extends StatefulWidget {
@@ -103,8 +103,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 opacity: opacityAnimation.value,
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  child: CachedImageWidget(
-                    imageUrl: widget.product.imageUrl ?? "",
+                  child: CustomCachedNetworkImage(
+                    imageUrl: widget.product.imageUrl?.first ?? "",
                     height: sizeAnimation.value,
                     width: sizeAnimation.value,
                     fit: BoxFit.contain,
@@ -183,8 +183,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 opacity: opacityAnimation.value,
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  child: CachedImageWidget(
-                    imageUrl: widget.product.imageUrl ?? "",
+                  child: CustomCachedNetworkImage(
+                    imageUrl: widget.product.imageUrl?.first ?? "",
                     height: sizeAnimation.value,
                     width: sizeAnimation.value,
                     fit: BoxFit.contain,

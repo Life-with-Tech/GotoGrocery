@@ -1,9 +1,16 @@
 import 'dart:io';
 import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:tango/core/constants/coustom_generate_id.dart';
+import 'package:tango/core/constants/image_uploding_firebase.dart';
+import 'package:tango/core/services/firebase_auth_service.dart';
+import 'package:tango/core/services/firestore_service.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/constants/dropdown.dart';
 import 'package:tango/core/utils/string_utils.dart';
@@ -158,20 +165,25 @@ class _ProductAddState extends State<ProductAdd> {
   bool isSale = true;
 
   // List to hold images (nullable type)
-  List<File?> images = [null, null, null];
+  List<File?> images = [null, null, null, null];
 
   final ImagePicker _picker = ImagePicker();
 
   // Method to pick an image
   Future<void> _pickImage(int index) async {
     log("message");
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        images[index] =
-            File(pickedFile.path); // Update the image at the specified index
-      });
+    try {
+      final XFile? pickedFile =
+          await _picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        setState(() {
+          images[index] =
+              File(pickedFile.path); // Update the image at the specified index
+        });
+      }
+    } catch (e) {
+      log("message1$e");
     }
   }
 
@@ -181,7 +193,7 @@ class _ProductAddState extends State<ProductAdd> {
       return Image.file(images[index]!, fit: BoxFit.cover);
     } else {
       return Image.asset(
-        'assets/images/food-13646 1.png', // Placeholder asset
+        'assets/images/placeholder-image.png', // Placeholder asset
         fit: BoxFit.cover,
       );
     }
@@ -459,6 +471,7 @@ class _ProductAddState extends State<ProductAdd> {
           if (isDiscount && (!isFlat)) const Gap(10),
           if (isDiscount && (!isFlat))
             TextFieldData.buildField(
+              controller: _discountPresantageController,
               style: TextStyle(
                 color: themeProvider.isDark
                     ? AppColors.darkPrimary
@@ -563,6 +576,7 @@ class _ProductAddState extends State<ProductAdd> {
           if (isFlat && (!isDiscount)) const Gap(10),
           if (isFlat && (!isDiscount))
             TextFieldData.buildField(
+              controller: _discountFlatController,
               style: TextStyle(
                 color: themeProvider.isDark
                     ? AppColors.darkPrimary
@@ -743,34 +757,128 @@ class _ProductAddState extends State<ProductAdd> {
           ),
           const Gap(10),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildImageContainer(0),
-              _buildImageContainer(1),
-              _buildImageContainer(2),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(
+                images.length,
+                (index) => GestureDetector(
+                  onTap: () => _pickImage(index),
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: EdgeInsets.all(8),
+                        margin: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: _buildImage(index),
+                        ),
+                      ),
+                      if (images[index] != null)
+                        Positioned(
+                          top: 5,
+                          right: 5,
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                images[index] = null;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: themeProvider.isDark
+                                    ? AppColors.darkPrimary
+                                    : AppColors.lightPrimary,
+                              ),
+                              padding: EdgeInsets.all(2),
+                              child: Icon(
+                                Icons.close,
+                                color: themeProvider.isDark
+                                    ? AppColors.darkSurface
+                                    : AppColors.lightSurface,
+                                size: 18,
+                              ),
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
+      ),
+      bottomNavigationBar: InkWell(
+        onTap: () async {
+          await setAddProduct();
+        },
+        child: Container(
+          width: double.infinity,
+          height: 50,
+          decoration: BoxDecoration(
+            color: themeProvider.isDark
+                ? AppColors.darkPrimary
+                : AppColors.lightPrimary,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            "Add Product",
+            style: TextStyle(
+              fontSize: 18,
+              color: themeProvider.isDark
+                  ? AppColors.darkSurface
+                  : AppColors.lightSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildImageContainer(int index) {
-    return GestureDetector(
-      onTap: () => _pickImage(index),
-      child: Container(
-        width: 100,
-        height: 100,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: _buildImage(index),
-        ),
-      ),
-    );
+  Future setAddProduct() async {
+    try {
+      List<String> imageUrls = [];
+      for (File? image in images) {
+        if (image != null) {
+          String downloadUrl =
+              await ImageUploadHelper.uploadImageAndGetUrl(image);
+          imageUrls.add(downloadUrl); // Add the URL to the list
+        }
+      }
+
+      await FirestoreService.saveToFirestore(
+        "products",
+        {
+          "id": ProductIdHelper.generateProductId("product"),
+          "category_id": widget.id,
+          'name': _nameController.text,
+          'price': _priceController.text,
+          'isDiscount': isDiscount,
+          'discountPercentage':
+              isDiscount ? _discountPresantageController.text : null,
+          'isFlat': isFlat,
+          'discountFlat': isFlat ? _discountFlatController.text : null,
+          'isStock': isStock,
+          "image": imageUrls,
+          'isOrganic': isOrganic,
+          'isSale': isSale,
+          'createdAt': DateTime.now().toString(),
+          'updatedAt': "",
+        },
+      );
+      log("Product added successfully");
+    } catch (e) {
+      log("Error adding product: $e");
+    }
   }
 }

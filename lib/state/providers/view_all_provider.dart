@@ -165,6 +165,7 @@ class ViewAllProvider extends ChangeNotifier {
         .get()
         .then((onValue) async {
       if ((onValue.docs).isNotEmpty) {
+        // onValue.docs.map((e) => log("message${e.data()}")).toList();
         _product = onValue.docs
             .map((doc) => ProductModel.fromJson(doc.data()))
             .toList();

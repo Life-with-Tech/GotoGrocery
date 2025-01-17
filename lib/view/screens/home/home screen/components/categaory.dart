@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/view/widgets/other_widget.dart';
-import 'package:tango/core/constants/cached_image_widget.dart';
 
 class Categaory extends StatefulWidget {
   const Categaory({super.key});
@@ -96,7 +96,7 @@ class _CategaoryState extends State<Categaory> {
                         ),
                       ),
                       child: Center(
-                        child: CachedImageWidget(
+                        child: CustomCachedNetworkImage(
                           imageUrl: item['logo'],
                           height: 100,
                           width: double.infinity,
