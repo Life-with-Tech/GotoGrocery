@@ -16,7 +16,8 @@ class AppColors {
   static const Color onSecondary = Color(0xFFD8A47F);
 
   static const Color darkOnPrimary = Color(0xFF31363F);
-  static const Color darkPrimary = Color(0xFF222831);
+  // static const Color darkPrimary = Color(0xFF222831);
+  static const Color darkPrimary = Color(0xFFFF6500);
   static const Color darkSurface = Color(0xFF000000);
   static const Color darkSecondary = Color(0xFF76ABAE);
   static const Color darkOnSecondary = Color(0xFFEEEEEE);
@@ -24,7 +25,8 @@ class AppColors {
   //! Light theme colors
 
   static const Color lightOnPrimary = Color(0xFF606c38);
-  static const Color lightPrimary = Color(0xFF283618);
+  static const Color lightPrimary = Color(0xFF1E3E62);
+  // static const Color lightPrimary = Color(0xFF283618);
   static const Color lightSurface = Color(0xFFEEEEEE);
   static const Color lightSecondary = Color(0xFFdda15e);
   static const Color lightOnSecondary = Color(0xFFbc6c25);

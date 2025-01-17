@@ -9,8 +9,6 @@ class Routes {
       RouteName(name: "splash_screen", path: "/");
   static const RouteName loginScreen =
       RouteName(name: "login_screen", path: "/login_screen");
-  static const RouteName signupScreen =
-      RouteName(name: "signup_screen", path: "/signup_screen");
   static const RouteName accountBlockedScreen = RouteName(
       name: "account_blocked_screen", path: "/account_blocked_screen");
   static const RouteName editScreen =

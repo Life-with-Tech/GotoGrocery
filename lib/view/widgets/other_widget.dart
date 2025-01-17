@@ -41,3 +41,12 @@ Future<Map<String, dynamic>> getDeviceData() async {
 
   return deviceData;
 }
+
+OutlineInputBorder customOutlineInputBorder(Color color) {
+  return OutlineInputBorder(
+    borderSide: BorderSide(
+      width: 1, // You can change the width if necessary
+      color: color,
+    ),
+  );
+}

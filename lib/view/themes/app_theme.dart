@@ -8,7 +8,7 @@ class AppTheme {
     primaryColor: AppColors.lightPrimary,
     colorScheme: const ColorScheme.light(
       primary: AppColors.lightPrimary,
-      onPrimary: AppColors.lightOnPrimary,
+      onPrimary: AppColors.lightPrimary,
       surface: AppColors.lightSurface,
       secondary: AppColors.lightSecondary,
       onSecondary: AppColors.lightOnSecondary,
@@ -89,10 +89,10 @@ class AppTheme {
       color: AppColors.darkSurface,
     ),
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.lightPrimary,
-      iconTheme: IconThemeData(color: AppColors.white),
-      toolbarTextStyle: TextStyle(color: AppColors.white),
-      titleTextStyle: TextStyle(color: AppColors.white),
+      backgroundColor: AppColors.darkPrimary,
+      iconTheme: IconThemeData(color: AppColors.black),
+      toolbarTextStyle: TextStyle(color: AppColors.black),
+      titleTextStyle: TextStyle(color: AppColors.black),
       // color: AppColors.white,
     ),
     scaffoldBackgroundColor: AppColors.darkSurface,

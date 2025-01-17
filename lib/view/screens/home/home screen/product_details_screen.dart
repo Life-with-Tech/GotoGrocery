@@ -245,7 +245,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     // ),
                     image: DecorationImage(
                       image: NetworkImage(
-                        viewAllProvider.detailsProduct?.imageUrl ?? "",
+                        viewAllProvider.detailsProduct?.imageUrl?.first ?? "",
                       ),
                       fit: BoxFit.fill,
                     ),

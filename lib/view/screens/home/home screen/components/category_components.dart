@@ -1,5 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tango/core/constants/carousel_helper.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'add_button.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +15,9 @@ import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/widgets/discount_banner.dart';
-import 'package:tango/state/providers/home_provider.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/state/providers/view_all_provider.dart';
-import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
-
 
 class ProductItem extends StatefulWidget {
   final String? whereCondition;
@@ -38,6 +38,8 @@ class _ProductItemState extends State<ProductItem> {
       await viewAllProvider.getProduct();
     });
   }
+
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +63,9 @@ class _ProductItemState extends State<ProductItem> {
                     ? widget.whereCondition ?? ""
                     : "You might need",
                 style: TextStyle(
-                  color:
-                      themeProvider.isDark ? AppColors.white : AppColors.black,
+                  color: themeProvider.isDark
+                      ? AppColors.darkPrimary
+                      : AppColors.lightPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
@@ -77,18 +80,16 @@ class _ProductItemState extends State<ProductItem> {
                   width: 30,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
+                    color: themeProvider.isDark
+                        ? AppColors.darkPrimary
+                        : AppColors.lightPrimary,
                     borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: themeProvider.isDark
-                          ? AppColors.white
-                          : AppColors.black,
-                    ),
                   ),
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: themeProvider.isDark
-                        ? AppColors.white
-                        : AppColors.black,
+                        ? AppColors.darkSurface
+                        : AppColors.lightSurface,
                     size: 15,
                   ),
                 ),
@@ -100,7 +101,7 @@ class _ProductItemState extends State<ProductItem> {
           height: fullHeight(context) / 3.6,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
+            // shrinkWrap: true,
             padding: EdgeInsets.zero,
             itemCount: viewAllProvider.product.length,
             itemBuilder: (context, index) {
@@ -130,8 +131,8 @@ class _ProductItemState extends State<ProductItem> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: themeProvider.isDark
-                          ? AppColors.white
-                          : AppColors.black,
+                          ? AppColors.darkPrimary
+                          : AppColors.lightPrimary,
                     ),
                   ),
                   child: Stack(
@@ -139,13 +140,56 @@ class _ProductItemState extends State<ProductItem> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CachedImageWidget(
-                            key: productKey,
-                            imageUrl: item.imageUrl ?? "",
-                            height: 100,
-                            width: double.infinity,
-                            fit: BoxFit.contain,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CarouselHelper.createCarousel(
+                              List<String>.from(item.imageUrl ?? []),
+                              width: fullWidth(context) / 2.5,
+                              // height: fullHeight(context) / 5,
+                              options: CarouselOptions(
+                                onPageChanged: (index, reason) {
+                                  currentIndex = index;
+                                  setState(() {});
+                                },
+                                autoPlay: false,
+                                enlargeCenterPage: false,
+                                aspectRatio: 16 / 9,
+                                viewportFraction: 1,
+                              ),
+                            ),
                           ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 5,
+                              horizontal: 5,
+                            ),
+                            child: SmoothPageIndicator(
+                              controller: PageController(
+                                initialPage: currentIndex,
+                                viewportFraction: 1.0,
+                              ),
+                              count: (item.imageUrl ?? []).length,
+                              effect: WormEffect(
+                                paintStyle: PaintingStyle.stroke,
+                                spacing: 5,
+                                activeDotColor: themeProvider.isDark
+                                    ? AppColors.darkPrimary
+                                    : AppColors.lightPrimary,
+                                dotColor: AppColors.grey,
+                                dotHeight: 5,
+                                dotWidth: 5,
+                              ),
+                            ),
+                          ),
+
+                          // CustomCachedNetworkImage(
+                          //   key: productKey
+                          //   imageUrl: item.imageUrl ?? "",
+                          //   height: 100,
+                          //   width: double.infinity,
+                          //   fit: BoxFit.contain,
+                          // ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Column(
@@ -156,8 +200,8 @@ class _ProductItemState extends State<ProductItem> {
                                   maxLines: 1,
                                   style: TextStyle(
                                     color: themeProvider.isDark
-                                        ? AppColors.white
-                                        : AppColors.black,
+                                        ? AppColors.darkPrimary
+                                        : AppColors.lightPrimary,
                                     overflow: TextOverflow.ellipsis,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -172,8 +216,11 @@ class _ProductItemState extends State<ProductItem> {
                                         horizontal: 5,
                                       ),
                                       decoration: BoxDecoration(
-                                        color:
-                                            AppColors.primary.withOpacity(0.4),
+                                        color: themeProvider.isDark
+                                            ? AppColors.darkPrimary
+                                                .withValues(alpha: 0.4)
+                                            : AppColors.lightPrimary
+                                                .withValues(alpha: 0.4),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
@@ -183,17 +230,21 @@ class _ProductItemState extends State<ProductItem> {
                                                         .toString()) ??
                                                     0.0.toInt())
                                                 .toString(),
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 12,
-                                              color: AppColors.primary,
+                                              color: themeProvider.isDark
+                                                  ? AppColors.darkPrimary
+                                                  : AppColors.lightPrimary,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           const Gap(3),
-                                          const Icon(
+                                          Icon(
                                             Icons.star,
                                             size: 15,
-                                            color: AppColors.primary,
+                                            color: themeProvider.isDark
+                                                ? AppColors.darkPrimary
+                                                : AppColors.lightPrimary,
                                           ),
                                         ],
                                       ),
@@ -204,8 +255,8 @@ class _ProductItemState extends State<ProductItem> {
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: themeProvider.isDark
-                                            ? AppColors.white
-                                            : AppColors.black,
+                                            ? AppColors.darkPrimary
+                                            : AppColors.lightPrimary,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -222,7 +273,9 @@ class _ProductItemState extends State<ProductItem> {
                                         (item.discount ?? false) ? 10 : 16,
                                     color: (item.discount ?? false)
                                         ? AppColors.grey
-                                        : Colors.green,
+                                        : themeProvider.isDark
+                                            ? AppColors.darkPrimary
+                                            : AppColors.lightPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -237,9 +290,11 @@ class _ProductItemState extends State<ProductItem> {
                                               0.0)
                                           .toDouble(),
                                     ).toStringAsFixed(0).toString()} / ${item.quantity} ${item.unit}",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.green,
+                                      color: themeProvider.isDark
+                                          ? AppColors.darkPrimary
+                                          : AppColors.lightPrimary,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -270,6 +325,14 @@ class _ProductItemState extends State<ProductItem> {
                         top: 8,
                         right: 8,
                         child: LikeButton(
+                          circleColor: CircleColor(
+                            start: AppColors.darkPrimary,
+                            end: AppColors.darkPrimary,
+                          ),
+                          bubblesColor: BubblesColor(
+                            dotPrimaryColor: AppColors.darkPrimary,
+                            dotSecondaryColor: AppColors.darkPrimary,
+                          ),
                           onTap: (isLiked) async {
                             if (isLiked) {
                               viewAllProvider.removeFromWishlist(item.id ?? "");

@@ -3,9 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'package:tango/data/models/product_model.dart';
 import 'package:tango/state/providers/theme_provider.dart';
-import 'package:tango/core/constants/cached_image_widget.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
 
 class AddButton extends StatefulWidget {
@@ -19,8 +19,8 @@ class AddButton extends StatefulWidget {
     required this.product,
     required this.productKey,
     required this.cartKey,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _AddButtonState createState() => _AddButtonState();
@@ -103,8 +103,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 opacity: opacityAnimation.value,
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  child: CachedImageWidget(
-                    imageUrl: widget.product.imageUrl ?? "",
+                  child: CustomCachedNetworkImage(
+                    imageUrl: widget.product.imageUrl?.first ?? "",
                     height: sizeAnimation.value,
                     width: sizeAnimation.value,
                     fit: BoxFit.contain,
@@ -183,8 +183,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 opacity: opacityAnimation.value,
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  child: CachedImageWidget(
-                    imageUrl: widget.product.imageUrl ?? "",
+                  child: CustomCachedNetworkImage(
+                    imageUrl: widget.product.imageUrl?.first ?? "",
                     height: sizeAnimation.value,
                     width: sizeAnimation.value,
                     fit: BoxFit.contain,
@@ -211,12 +211,13 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
         Provider.of<AddToCartProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
-
-        return (addToCartProvider.idItemContains(widget.product.id ?? ""))
+    return (addToCartProvider.idItemContains(widget.product.id ?? ""))
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
-              color: AppColors.lightPrimary,
+              color: themeProvider.isDark
+                  ? AppColors.darkPrimary
+                  : AppColors.lightPrimary,
               borderRadius: const BorderRadius.only(
                 bottomRight: Radius.circular(10),
                 topLeft: Radius.circular(10),
@@ -254,8 +255,8 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                   width: 20,
                   height: 20,
                   child: Text(
-                    ((int.tryParse(product!.totalQuantity.toString()) ?? 0) /
-                            (int.tryParse(product!.quantity.toString()) ?? 0))
+                    ((int.tryParse((product?.totalQuantity).toString()) ?? 0) /
+                            (int.tryParse((product?.quantity).toString()) ?? 0))
                         .toStringAsFixed(0),
                     style: TextStyle(
                       fontSize: 16,
@@ -297,7 +298,9 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               height: 30,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: AppColors.lightPrimary,
+                color: themeProvider.isDark
+                    ? AppColors.darkPrimary
+                    : AppColors.lightPrimary,
                 borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(10),
                   topLeft: Radius.circular(10),
@@ -305,7 +308,9 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               ),
               child: Icon(
                 Icons.add,
-                color: AppColors.lightSurface,
+                color: themeProvider.isDark
+                    ? AppColors.darkSurface
+                    : AppColors.lightSurface,
                 size: 20,
               ),
             ),

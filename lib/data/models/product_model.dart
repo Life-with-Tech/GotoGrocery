@@ -4,7 +4,7 @@ class ProductModel {
   bool? discount;
   String? discountPercentage;
   String? id;
-  String? imageUrl;
+  List? imageUrl;
   bool? inStock;
   bool? isOrganic;
   String? name;
@@ -48,7 +48,7 @@ class ProductModel {
     discountPercentage = json['discount_percentage'];
     description = json['description'];
     id = json['id'];
-    imageUrl = json['image_url'];
+    imageUrl = json['image'];
     inStock = json['in_stock'];
     isInWishlist = json['is_in_wishlist'] ?? false;
     isOrganic = json['is_organic'];
@@ -71,7 +71,7 @@ class ProductModel {
     data['discount_percentage'] = discountPercentage;
     data['description'] = description;
     data['id'] = id;
-    data['image_url'] = imageUrl;
+    data['image'] = imageUrl;
     data['in_stock'] = inStock;
     data['is_organic'] = isOrganic;
     data['name'] = name;
