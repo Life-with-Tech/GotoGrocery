@@ -14,7 +14,6 @@ class ProductModel {
   String? quantity;
   String? rating;
   String? unit;
-
   String? postUserId;
   String? description;
   int? totalQuantity;
@@ -43,9 +42,9 @@ class ProductModel {
   ProductModel.fromJson(Map<String, dynamic> json) {
     category = json['category'];
     categoryId = json['category_id'];
-    discount = json['discount'];
+    discount = json['isDiscount'];
     postUserId = json['post_user_id'];
-    discountPercentage = json['discount_percentage'];
+    discountPercentage = json['discountPercentage'];
     description = json['description'];
     id = json['id'];
     imageUrl = json['image'];
@@ -67,7 +66,7 @@ class ProductModel {
     data['category'] = category;
     data['category_id'] = categoryId;
     data['post_user_id'] = postUserId;
-    data['discount'] = discount;
+    data['isDiscount'] = discount;
     data['discount_percentage'] = discountPercentage;
     data['description'] = description;
     data['id'] = id;

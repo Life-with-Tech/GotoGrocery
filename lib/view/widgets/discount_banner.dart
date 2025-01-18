@@ -14,9 +14,8 @@ class DiscountBannerWidget extends StatelessWidget {
       size: const Size(30, 35), // Specify the size of the banner
       painter: DiscountBannerPainter(
         discountText: discount,
-        discountColor: themeProvider.isDark
-            ? AppColors.darkPrimary
-            : AppColors.lightPrimary,
+        discountColor:
+            themeProvider.isDark ? AppColors.grey : AppColors.lightPrimary,
       ),
     );
   }

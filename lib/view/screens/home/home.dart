@@ -93,15 +93,12 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: WaterDropNavBar(
         iconSize: 30,
         bottomPadding: 10,
-        inactiveIconColor: themeProvider.isDark
-            ? AppColors.darkSurface
-            : AppColors.lightSurface,
-        waterDropColor: themeProvider.isDark
-            ? AppColors.darkSurface
-            : AppColors.lightSurface,
-        backgroundColor: themeProvider.isDark
-            ? AppColors.darkPrimary
-            : AppColors.lightPrimary,
+        inactiveIconColor:
+            themeProvider.isDark ? AppColors.black : AppColors.white,
+        waterDropColor:
+            themeProvider.isDark ? AppColors.black : AppColors.white,
+        backgroundColor:
+            themeProvider.isDark ? AppColors.grey : AppColors.lightPrimary,
         onItemSelected: (int index) {
           appDataProvider.updatedIndex(index: index);
 
