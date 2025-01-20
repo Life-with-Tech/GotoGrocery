@@ -47,7 +47,7 @@ class ProductModel {
     discountPercentage = json['discountPercentage'];
     description = json['description'];
     id = json['id'];
-    imageUrl = json['image'];
+    imageUrl = json['image'] is List ? json['image'] : [];
     inStock = json['in_stock'];
     isInWishlist = json['is_in_wishlist'] ?? false;
     isOrganic = json['is_organic'];

@@ -12,6 +12,7 @@ class HomeProvider extends ChangeNotifier {
   List<ProductModel> productList = [];
   List<ProductModel> get product => productList;
   Future getProduct() async {
+    GlobalLoading.showLoadingDialog();
     FirebaseFirestore.instance
         .collection("products")
         .snapshots()
@@ -29,13 +30,14 @@ class HomeProvider extends ChangeNotifier {
         for (var product in productList) {
           product.isInWishlist = wishlistProductIds.contains(product.id);
         }
-        notifyListeners();
       }).onError((handleError) {
         log(handleError.toString());
       });
     }).onError((handleError) {
       log(handleError.toString());
     });
+    RoutingService().goBack();
+    notifyListeners();
   }
 
   Future addWishlist(ProductModel productModel) async {
