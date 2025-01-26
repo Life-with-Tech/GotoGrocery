@@ -1,8 +1,4 @@
 import 'dart:async';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tango/core/constants/carousel_helper.dart';
-import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'add_button.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +9,15 @@ import 'package:tango/core/utils/price_utils.dart';
 import 'package:tango/data/models/product_model.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/widgets/discount_banner.dart';
+import 'package:tango/core/constants/carousel_helper.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/state/providers/view_all_provider.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 
 class ProductItem extends StatefulWidget {
   final String? whereCondition;
@@ -64,7 +64,7 @@ class _ProductItemState extends State<ProductItem> {
                     : "You might need",
                 style: TextStyle(
                   color: themeProvider.isDark
-                      ? AppColors.darkPrimary
+                      ? AppColors.grey
                       : AppColors.lightPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -81,7 +81,7 @@ class _ProductItemState extends State<ProductItem> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: themeProvider.isDark
-                        ? AppColors.darkPrimary
+                        ? AppColors.grey
                         : AppColors.lightPrimary,
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -131,7 +131,7 @@ class _ProductItemState extends State<ProductItem> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: themeProvider.isDark
-                          ? AppColors.darkPrimary
+                          ? AppColors.grey
                           : AppColors.lightPrimary,
                     ),
                   ),
