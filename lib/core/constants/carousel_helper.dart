@@ -1,36 +1,60 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tango/core/constants/app_colors.dart';
-import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'package:tango/state/providers/theme_provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 
-class CarouselHelper {
-  static Widget createCarousel(List<String> imageUrls,
-      {double? width, double? height, CarouselOptions? options}) {
-    int currentIndex = 0;
+class CarouselWidget extends StatefulWidget {
+  final List<String> imageUrls;
+  final double? width;
+  final double? height;
+
+  const CarouselWidget({
+    Key? key,
+    required this.imageUrls,
+    this.width,
+    this.height,
+  }) : super(key: key);
+
+  @override
+  _CarouselWidgetState createState() => _CarouselWidgetState();
+}
+
+class _CarouselWidgetState extends State<CarouselWidget> {
+  int currentIndex = 0;
+  final CarouselController _carouselController = CarouselController();
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return Column(
       children: [
         CarouselSlider.builder(
-          itemCount: imageUrls.length,
+          itemCount: widget.imageUrls.length,
           itemBuilder: (BuildContext context, int index, int realIndex) {
             return SizedBox(
-              width: width ?? double.infinity,
-              height: height ?? 250.0,
+              width: widget.width ?? double.infinity,
+              height: widget.height ?? 250.0,
               child: CustomCachedNetworkImage(
                 alignment: Alignment.topCenter,
-                imageUrl: imageUrls[index],
+                imageUrl: widget.imageUrls[index],
               ),
             );
           },
-          options: options ??
-              CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 16 / 9,
-                viewportFraction: 0.8,
-              ),
+          options: CarouselOptions(
+            onPageChanged: (index, reason) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            autoPlay: false,
+            enlargeCenterPage: false,
+            aspectRatio: 16 / 9,
+            viewportFraction: 1,
+          ),
         ),
         Container(
           alignment: Alignment.topLeft,
@@ -38,12 +62,9 @@ class CarouselHelper {
             vertical: 5,
             horizontal: 5,
           ),
-          child: SmoothPageIndicator(
-            controller: PageController(
-              initialPage: currentIndex,
-              viewportFraction: 1.0,
-            ),
-            count: imageUrls.length,
+          child: AnimatedSmoothIndicator(
+            activeIndex: currentIndex,
+            count: widget.imageUrls.length,
             effect: WormEffect(
               paintStyle: PaintingStyle.stroke,
               spacing: 5,

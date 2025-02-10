@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:tango/data/models/product_model.dart';
 import 'package:tango/core/utils/price_utils.dart';
+import 'package:tango/data/models/product_model.dart';
 
 AddToCartProvider addToCartProvider = AddToCartProvider();
 
@@ -67,23 +67,33 @@ class AddToCartProvider extends ChangeNotifier {
   }
 
   bool idItemContains(String id) {
-    return _cart
-        .any((item) => item.id == id); // Assuming item has an 'id' field
+    return _cart.any(
+      (item) => item.id == id,
+    ); // Assuming item has an 'id' field
   }
 
   void updateQuantity(String id, int status) {
-    ProductModel item = _cart.firstWhere((item) => item.id == id);
-    if (item != null) {
+    int index = _cart.indexWhere((item) => item.id == id);
+
+    if (index != -1) {
+      ProductModel item = _cart[index];
+
+      int currentTotal = int.tryParse(item.totalQuantity.toString()) ?? 0;
+      int itemQuantity = int.tryParse(item.quantity.toString()) ?? 0;
+
       if (status == 1) {
-        item.totalQuantity = (int.tryParse(item.quantity.toString()) ?? 0) +
-            (int.tryParse(item.totalQuantity.toString()) ?? 0);
+        _cart[index] = item.copyWith(
+          totalQuantity: currentTotal + itemQuantity,
+        );
       } else {
-        item.totalQuantity =
-            (int.tryParse(item.totalQuantity.toString()) ?? 0) -
-                (int.tryParse(item.quantity.toString()) ?? 0);
+        int newTotal = currentTotal - itemQuantity;
+        _cart[index] = item.copyWith(
+          totalQuantity:
+              newTotal < 0 ? 0 : newTotal, // Prevent negative quantity
+        );
       }
 
-      notifyListeners();
+      notifyListeners(); // Notify UI to rebuild
     }
   }
 

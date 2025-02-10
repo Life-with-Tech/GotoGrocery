@@ -63,7 +63,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: fullWidth(context),
                   height: fullHeight(context) / 7,
                   decoration: BoxDecoration(
-                    color: AppColors.lightPrimary,
+                    color: themeProvider.isDark
+                        ? AppColors.darkPrimary
+                        : AppColors.lightPrimary,
                   ),
                 ),
               ),
