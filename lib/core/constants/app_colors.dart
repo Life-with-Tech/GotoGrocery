@@ -26,7 +26,7 @@ class AppColors {
   //! Light theme colors
 
   static const Color lightOnPrimary = Color(0xFF606c38);
-  static const Color lightPrimary = Color(0xFF1E3E62);
+  static const Color lightPrimary = Color(0xFF921A40);
   // static const Color lightPrimary = Color(0xFF283618);
   static const Color lightSurface = Color(0xFFEEEEEE);
   static const Color lightSecondary = Color(0xFFdda15e);

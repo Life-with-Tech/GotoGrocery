@@ -3,21 +3,17 @@ import 'add_button.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:like_button/like_button.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/utils/price_utils.dart';
 import 'package:tango/data/models/product_model.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/view/widgets/other_widget.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:tango/router/app_routes_constant.dart';
 import 'package:tango/view/widgets/discount_banner.dart';
 import 'package:tango/core/constants/carousel_helper.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/state/providers/view_all_provider.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tango/core/constants/custom_cached_network_image.dart';
 
 class ProductItem extends StatefulWidget {
   final String? whereCondition;
@@ -47,7 +43,6 @@ class _ProductItemState extends State<ProductItem> {
         Provider.of<AddToCartProvider>(context);
     ViewAllProvider viewAllProvider = Provider.of<ViewAllProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
-    GlobalKey cartKey = addToCartProvider.cartKey;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -73,7 +68,10 @@ class _ProductItemState extends State<ProductItem> {
               InkWell(
                 onTap: () {
                   unawaited(
-                      RoutingService().pushNamed(Routes.productViewAll.name));
+                    RoutingService().pushNamed(
+                      Routes.productViewAll.name,
+                    ),
+                  );
                 },
                 child: Container(
                   height: 30,
@@ -122,18 +120,25 @@ class _ProductItemState extends State<ProductItem> {
                   );
                 },
                 child: Container(
+                  key: productKey,
                   margin: const EdgeInsets.symmetric(
                     horizontal: 10,
                     vertical: 10,
                   ),
                   width: fullWidth(context) / 2.5,
                   decoration: BoxDecoration(
+                    color: themeProvider.isDark
+                        ? AppColors.black
+                        : AppColors.white,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: themeProvider.isDark
-                          ? AppColors.grey
-                          : AppColors.lightPrimary,
-                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.grey,
+                        offset: const Offset(.5, .5),
+                        blurRadius: .5,
+                        spreadRadius: .5,
+                      ),
+                    ],
                   ),
                   child: Stack(
                     children: [
@@ -142,56 +147,15 @@ class _ProductItemState extends State<ProductItem> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: CarouselHelper.createCarousel(
-                              List<String>.from(item.imageUrl ?? []),
+                            child: CarouselWidget(
+                              imageUrls: List<String>.from(item.imageUrl ?? []),
                               width: fullWidth(context) / 2.5,
-                              // height: fullHeight(context) / 5,
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) {
-                                  currentIndex = index;
-                                  setState(() {});
-                                },
-                                autoPlay: false,
-                                enlargeCenterPage: false,
-                                aspectRatio: 16 / 9,
-                                viewportFraction: 1,
-                              ),
                             ),
                           ),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 5,
-                            ),
-                            child: SmoothPageIndicator(
-                              controller: PageController(
-                                initialPage: currentIndex,
-                                viewportFraction: 1.0,
-                              ),
-                              count: (item.imageUrl ?? []).length,
-                              effect: WormEffect(
-                                paintStyle: PaintingStyle.stroke,
-                                spacing: 5,
-                                activeDotColor: themeProvider.isDark
-                                    ? AppColors.darkPrimary
-                                    : AppColors.lightPrimary,
-                                dotColor: AppColors.grey,
-                                dotHeight: 5,
-                                dotWidth: 5,
-                              ),
-                            ),
-                          ),
-
-                          // CustomCachedNetworkImage(
-                          //   key: productKey
-                          //   imageUrl: item.imageUrl ?? "",
-                          //   height: 100,
-                          //   width: double.infinity,
-                          //   fit: BoxFit.contain,
-                          // ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -200,8 +164,8 @@ class _ProductItemState extends State<ProductItem> {
                                   maxLines: 1,
                                   style: TextStyle(
                                     color: themeProvider.isDark
-                                        ? AppColors.darkPrimary
-                                        : AppColors.lightPrimary,
+                                        ? AppColors.white
+                                        : AppColors.black,
                                     overflow: TextOverflow.ellipsis,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -233,8 +197,8 @@ class _ProductItemState extends State<ProductItem> {
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: themeProvider.isDark
-                                                  ? AppColors.darkPrimary
-                                                  : AppColors.lightPrimary,
+                                                  ? AppColors.white
+                                                  : AppColors.black,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -243,8 +207,8 @@ class _ProductItemState extends State<ProductItem> {
                                             Icons.star,
                                             size: 15,
                                             color: themeProvider.isDark
-                                                ? AppColors.darkPrimary
-                                                : AppColors.lightPrimary,
+                                                ? AppColors.white
+                                                : AppColors.black,
                                           ),
                                         ],
                                       ),
@@ -255,8 +219,8 @@ class _ProductItemState extends State<ProductItem> {
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: themeProvider.isDark
-                                            ? AppColors.darkPrimary
-                                            : AppColors.lightPrimary,
+                                            ? AppColors.white
+                                            : AppColors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -264,7 +228,7 @@ class _ProductItemState extends State<ProductItem> {
                                 ),
                                 const Gap(5),
                                 Text(
-                                  '₹${item.price} / ${item.quantity} ${item.unit}',
+                                  '₹${item.price} / ${item.unit}',
                                   style: TextStyle(
                                     decoration: (item.discount ?? false)
                                         ? TextDecoration.lineThrough
@@ -274,8 +238,8 @@ class _ProductItemState extends State<ProductItem> {
                                     color: (item.discount ?? false)
                                         ? AppColors.grey
                                         : themeProvider.isDark
-                                            ? AppColors.darkPrimary
-                                            : AppColors.lightPrimary,
+                                            ? AppColors.white
+                                            : AppColors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -293,8 +257,8 @@ class _ProductItemState extends State<ProductItem> {
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: themeProvider.isDark
-                                          ? AppColors.darkPrimary
-                                          : AppColors.lightPrimary,
+                                          ? AppColors.white
+                                          : AppColors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -310,7 +274,6 @@ class _ProductItemState extends State<ProductItem> {
                           productId: productId,
                           product: item,
                           productKey: productKey,
-                          cartKey: cartKey,
                         ),
                       ),
                       if (item.discount ?? false)
@@ -318,35 +281,36 @@ class _ProductItemState extends State<ProductItem> {
                           top: 0,
                           left: 10,
                           child: DiscountBannerWidget(
-                              discount:
-                                  "${item.discountPercentage.toString()}% OFF"),
-                        ),
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: LikeButton(
-                          circleColor: CircleColor(
-                            start: AppColors.darkPrimary,
-                            end: AppColors.darkPrimary,
+                            discount:
+                                "${item.discountPercentage.toString()}% OFF",
                           ),
-                          bubblesColor: BubblesColor(
-                            dotPrimaryColor: AppColors.darkPrimary,
-                            dotSecondaryColor: AppColors.darkPrimary,
-                          ),
-                          onTap: (isLiked) async {
-                            if (isLiked) {
-                              viewAllProvider.removeFromWishlist(item.id ?? "");
-                              return false;
-                            } else {
-                              viewAllProvider.addWishlist(item);
-                              return true;
-                            }
-                          },
-                          size: 18,
-                          isLiked: item.isInWishlist,
-                          animationDuration: const Duration(milliseconds: 1000),
                         ),
-                      ),
+                      // Positioned(
+                      //   top: 8,
+                      //   right: 8,
+                      //   child: LikeButton(
+                      //     circleColor: CircleColor(
+                      //       start: AppColors.darkPrimary,
+                      //       end: AppColors.darkPrimary,
+                      //     ),
+                      //     bubblesColor: BubblesColor(
+                      //       dotPrimaryColor: AppColors.darkPrimary,
+                      //       dotSecondaryColor: AppColors.darkPrimary,
+                      //     ),
+                      //     onTap: (isLiked) async {
+                      //       if (isLiked) {
+                      //         viewAllProvider.removeFromWishlist(item.id ?? "");
+                      //         return false;
+                      //       } else {
+                      //         viewAllProvider.addWishlist(item);
+                      //         return true;
+                      //       }
+                      //     },
+                      //     size: 18,
+                      //     isLiked: item.isInWishlist,
+                      //     animationDuration: const Duration(milliseconds: 1000),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
