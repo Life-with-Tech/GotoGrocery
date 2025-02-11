@@ -1,21 +1,35 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tango/core/constants/app_colors.dart';
-import 'package:tango/core/constants/custom_cached_network_image.dart';
-import 'package:tango/state/providers/theme_provider.dart';
 
-class CarouselHelper extends StatefulWidget {
-  final List imageUrls;
+import 'package:provider/provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tango/core/constants/app_colors.dart';
+import 'package:tango/state/providers/theme_provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
+
+class CarouselWidget extends StatefulWidget {
+  final List<String> imageUrls;
   final double? width;
   final double? height;
-  const CarouselHelper({
-    super.key,
+
+  const CarouselWidget({
+    Key? key,
     required this.imageUrls,
     this.width,
     this.height,
-  });
+  }) : super(key: key);
+
+  @override
+  _CarouselWidgetState createState() => _CarouselWidgetState();
+}
+
+class _CarouselWidgetState extends State<CarouselWidget> {
+  int currentIndex = 0;
+  final CarouselController _carouselController = CarouselController();
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
   @override
   State<CarouselHelper> createState() => _CarouselHelperState();
@@ -30,33 +44,30 @@ class _CarouselHelperState extends State<CarouselHelper> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-          child: CarouselSlider.builder(
-            itemCount: widget.imageUrls.length,
-            itemBuilder: (BuildContext context, int index, int realIndex) {
-              return SizedBox(
-                width: widget.width ?? double.infinity,
-                height: widget.height ?? 250,
-                child: CustomCachedNetworkImage(
-                  alignment: Alignment.topCenter,
-                  imageUrl: widget.imageUrls[index],
-                ),
-              );
+
+       
+        CarouselSlider.builder(
+          itemCount: widget.imageUrls.length,
+          itemBuilder: (BuildContext context, int index, int realIndex) {
+            return SizedBox(
+              width: widget.width ?? double.infinity,
+              height: widget.height ?? 250.0,
+              child: CustomCachedNetworkImage(
+                alignment: Alignment.topCenter,
+                imageUrl: widget.imageUrls[index],
+              ),
+            );
+          },
+          options: CarouselOptions(
+            onPageChanged: (index, reason) {
+              setState(() {
+                currentIndex = index;
+              });
             },
-            options: CarouselOptions(
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-              enlargeCenterPage: true,
-              aspectRatio: 16 / 9,
-              viewportFraction: 1,
-            ),
+            autoPlay: false,
+            enlargeCenterPage: false,
+            aspectRatio: 16 / 9,
+            viewportFraction: 1,
           ),
         ),
         const Gap(5),
@@ -66,11 +77,9 @@ class _CarouselHelperState extends State<CarouselHelper> {
             vertical: 5,
             horizontal: 5,
           ),
-          child: SmoothPageIndicator(
-            controller: PageController(
-              initialPage: _currentIndex,
-              viewportFraction: 1.0,
-            ),
+
+          child: AnimatedSmoothIndicator(
+            activeIndex: currentIndex,
             count: widget.imageUrls.length,
             effect: WormEffect(
               paintStyle: PaintingStyle.stroke,

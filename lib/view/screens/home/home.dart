@@ -94,14 +94,15 @@ class _HomeState extends State<Home> {
         iconSize: 30,
         bottomPadding: 10,
         inactiveIconColor:
-            themeProvider.isDark ? AppColors.black : AppColors.white,
+
+            themeProvider.isDark ? AppColors.grey : AppColors.lightSurface,
         waterDropColor:
-            themeProvider.isDark ? AppColors.black : AppColors.white,
-        backgroundColor:
-            themeProvider.isDark ? AppColors.grey : AppColors.lightPrimary,
+            themeProvider.isDark ? AppColors.grey : AppColors.lightSurface,
+        backgroundColor: themeProvider.isDark
+            ? AppColors.darkPrimary
+            : AppColors.lightPrimary,
         onItemSelected: (int index) {
           appDataProvider.updatedIndex(index: index);
-
           pageController.animateToPage(
             appDataProvider.index,
             duration: const Duration(

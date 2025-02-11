@@ -3,22 +3,20 @@ import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tango/core/constants/app_colors.dart';
-import 'package:tango/core/constants/custom_cached_network_image.dart';
 import 'package:tango/data/models/product_model.dart';
 import 'package:tango/state/providers/theme_provider.dart';
 import 'package:tango/state/providers/add_to_cart_provider.dart';
+import 'package:tango/core/constants/custom_cached_network_image.dart';
 
 class AddButton extends StatefulWidget {
   final String productId;
   final ProductModel product;
   final GlobalKey productKey;
-  final GlobalKey cartKey;
 
   const AddButton({
     required this.productId,
     required this.product,
     required this.productKey,
-    required this.cartKey,
     super.key,
   });
 
@@ -29,7 +27,7 @@ class AddButton extends StatefulWidget {
 class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
   late AnimationController _controller;
   bool _isAnimating = false;
-  ProductModel? product;
+  // ProductModel? product;
   @override
   void initState() {
     super.initState();
@@ -57,13 +55,13 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
         widget.productKey.currentContext!.findRenderObject() as RenderBox;
     Offset productPosition = productBox.localToGlobal(Offset.zero);
 
-    if (widget.cartKey.currentContext == null) {
+    if (addToCartProvider.cartKey.currentContext == null) {
       log("Cart key context is null. Cannot find cart render box.");
       return;
     }
 
-    RenderBox cartBox =
-        widget.cartKey.currentContext!.findRenderObject() as RenderBox;
+    RenderBox cartBox = addToCartProvider.cartKey.currentContext!
+        .findRenderObject() as RenderBox;
     Offset cartPosition = cartBox.localToGlobal(Offset.zero);
 
     final OverlayState overlayState = Overlay.of(context);
@@ -104,7 +102,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   child: CustomCachedNetworkImage(
-                    imageUrl: widget.product.imageUrl?.first ?? "",
+                    imageUrl: (widget.product.imageUrl ?? []).first,
                     height: sizeAnimation.value,
                     width: sizeAnimation.value,
                     fit: BoxFit.contain,
@@ -128,13 +126,13 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
   void removeFromCartAnimation() {
     if (_isAnimating) return;
 
-    if (widget.cartKey.currentContext == null) {
+    if (addToCartProvider.cartKey.currentContext == null) {
       log("Cart key context is null. Cannot find cart render box.");
       return;
     }
 
-    RenderBox cartBox =
-        widget.cartKey.currentContext!.findRenderObject() as RenderBox;
+    RenderBox cartBox = addToCartProvider.cartKey.currentContext!
+        .findRenderObject() as RenderBox;
     Offset cartPosition = cartBox.localToGlobal(Offset.zero);
 
     if (widget.productKey.currentContext == null) {
@@ -184,7 +182,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   child: CustomCachedNetworkImage(
-                    imageUrl: widget.product.imageUrl?.first ?? "",
+                    imageUrl: (widget.product.imageUrl ?? []).first,
                     height: sizeAnimation.value,
                     width: sizeAnimation.value,
                     fit: BoxFit.contain,
@@ -211,7 +209,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
         Provider.of<AddToCartProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
-    return (addToCartProvider.idItemContains(widget.product.id ?? ""))
+    return (addToCartProvider.idItemContains(widget.product.id!))
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
@@ -227,11 +225,14 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 InkWell(
                   onTap: () {
                     removeFromCartAnimation();
-                    if ((int.tryParse(product!.totalQuantity.toString()) ?? 0) >
-                        (int.tryParse(product!.quantity.toString()) ?? 0)) {
-                      addToCartProvider.updateQuantity(product!.id!, 0);
+                    if ((int.tryParse(
+                                widget.product.totalQuantity.toString()) ??
+                            0) >
+                        (int.tryParse(widget.product.quantity.toString()) ??
+                            0)) {
+                      addToCartProvider.updateQuantity(widget.product.id!, 0);
                     } else {
-                      addToCartProvider.removeItem(product!.id!);
+                      addToCartProvider.removeItem(widget.product.id!);
                     }
                   },
                   child: Container(
@@ -253,8 +254,11 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                   width: 20,
                   height: 20,
                   child: Text(
-                    ((int.tryParse((product?.totalQuantity).toString()) ?? 0) /
-                            (int.tryParse((product?.quantity).toString()) ?? 0))
+                    ((int.tryParse((widget.product.totalQuantity).toString()) ??
+                                0) /
+                            (int.tryParse(
+                                    (widget.product.quantity).toString()) ??
+                                0))
                         .toStringAsFixed(0),
                     style: TextStyle(
                       fontSize: 16,
@@ -268,7 +272,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
                 InkWell(
                   onTap: () {
                     addToCartAnimation();
-                    addToCartProvider.updateQuantity(product!.id!, 1);
+                    addToCartProvider.updateQuantity(widget.product.id!, 1);
                   },
                   child: Container(
                     alignment: Alignment.center,

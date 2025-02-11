@@ -39,6 +39,49 @@ class ProductModel {
     this.totalQuantity,
   });
 
+  // ✅ Add the copyWith method
+  ProductModel copyWith({
+    String? category,
+    String? categoryId,
+    bool? discount,
+    String? discountPercentage,
+    String? id,
+    List? imageUrl,
+    bool? inStock,
+    bool? isOrganic,
+    String? name,
+    bool? onSale,
+    bool? isInWishlist,
+    String? price,
+    String? quantity,
+    String? rating,
+    String? unit,
+    String? postUserId,
+    String? description,
+    int? totalQuantity,
+  }) {
+    return ProductModel(
+      category: category ?? this.category,
+      categoryId: categoryId ?? this.categoryId,
+      discount: discount ?? this.discount,
+      discountPercentage: discountPercentage ?? this.discountPercentage,
+      description: description ?? this.description,
+      id: id ?? this.id,
+      imageUrl: imageUrl ?? this.imageUrl,
+      inStock: inStock ?? this.inStock,
+      isOrganic: isOrganic ?? this.isOrganic,
+      name: name ?? this.name,
+      onSale: onSale ?? this.onSale,
+      isInWishlist: isInWishlist ?? this.isInWishlist,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      postUserId: postUserId ?? this.postUserId,
+      rating: rating ?? this.rating,
+      unit: unit ?? this.unit,
+      totalQuantity: totalQuantity ?? this.totalQuantity,
+    );
+  }
+
   ProductModel.fromJson(Map<String, dynamic> json) {
     category = json['category'];
     categoryId = json['category_id'];
@@ -57,7 +100,6 @@ class ProductModel {
     quantity = json['quantity'];
     rating = json['rating'];
     unit = json['unit'];
-
     totalQuantity = json["total_quantity"];
   }
 
@@ -80,7 +122,6 @@ class ProductModel {
     data['quantity'] = quantity;
     data['rating'] = rating;
     data['unit'] = unit;
-
     data['total_quantity'] = totalQuantity;
     return data;
   }
