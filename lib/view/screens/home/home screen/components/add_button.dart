@@ -213,9 +213,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             decoration: BoxDecoration(
-              color: themeProvider.isDark
-                  ? AppColors.darkPrimary
-                  : AppColors.lightPrimary,
+              color: themeProvider.isDark ? AppColors.grey : AppColors.black,
               borderRadius: const BorderRadius.only(
                 bottomRight: Radius.circular(10),
                 topLeft: Radius.circular(10),
@@ -302,9 +300,7 @@ class _AddButtonState extends State<AddButton> with TickerProviderStateMixin {
               height: 30,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: themeProvider.isDark
-                    ? AppColors.darkPrimary
-                    : AppColors.lightPrimary,
+                color: themeProvider.isDark ? AppColors.grey : AppColors.black,
                 borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(10),
                   topLeft: Radius.circular(10),

@@ -58,9 +58,11 @@ class _ProductItemState extends State<ProductItem> {
                     ? widget.whereCondition ?? ""
                     : "You might need",
                 style: TextStyle(
+
                   color: themeProvider.isDark
                       ? AppColors.grey
                       : AppColors.lightPrimary,
+
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
@@ -78,6 +80,7 @@ class _ProductItemState extends State<ProductItem> {
                   width: 30,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
+
                     color: themeProvider.isDark
                         ? AppColors.grey
                         : AppColors.lightPrimary,
@@ -86,8 +89,8 @@ class _ProductItemState extends State<ProductItem> {
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: themeProvider.isDark
-                        ? AppColors.darkSurface
-                        : AppColors.lightSurface,
+                        ? AppColors.black
+                        : AppColors.white,
                     size: 15,
                   ),
                 ),
@@ -131,6 +134,7 @@ class _ProductItemState extends State<ProductItem> {
                         ? AppColors.black
                         : AppColors.white,
                     borderRadius: BorderRadius.circular(10),
+
                     boxShadow: [
                       BoxShadow(
                         color: AppColors.grey,
@@ -139,12 +143,14 @@ class _ProductItemState extends State<ProductItem> {
                         spreadRadius: .5,
                       ),
                     ],
+
                   ),
                   child: Stack(
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CarouselWidget(
@@ -156,18 +162,21 @@ class _ProductItemState extends State<ProductItem> {
                             padding: const EdgeInsets.symmetric(
                               horizontal: 10,
                             ),
+
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   item.name ?? "",
-                                  maxLines: 1,
+                                  maxLines: 2,
                                   style: TextStyle(
                                     color: themeProvider.isDark
+
                                         ? AppColors.white
+
                                         : AppColors.black,
                                     overflow: TextOverflow.ellipsis,
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -181,9 +190,9 @@ class _ProductItemState extends State<ProductItem> {
                                       ),
                                       decoration: BoxDecoration(
                                         color: themeProvider.isDark
-                                            ? AppColors.darkPrimary
+                                            ? AppColors.grey
                                                 .withValues(alpha: 0.4)
-                                            : AppColors.lightPrimary
+                                            : AppColors.black
                                                 .withValues(alpha: 0.4),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -197,6 +206,7 @@ class _ProductItemState extends State<ProductItem> {
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: themeProvider.isDark
+
                                                   ? AppColors.white
                                                   : AppColors.black,
                                               fontWeight: FontWeight.bold,
@@ -207,6 +217,7 @@ class _ProductItemState extends State<ProductItem> {
                                             Icons.star,
                                             size: 15,
                                             color: themeProvider.isDark
+
                                                 ? AppColors.white
                                                 : AppColors.black,
                                           ),
@@ -219,6 +230,7 @@ class _ProductItemState extends State<ProductItem> {
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: themeProvider.isDark
+
                                             ? AppColors.white
                                             : AppColors.black,
                                         fontWeight: FontWeight.bold,
@@ -228,6 +240,7 @@ class _ProductItemState extends State<ProductItem> {
                                 ),
                                 const Gap(5),
                                 Text(
+
                                   '₹${item.price} / ${item.unit}',
                                   style: TextStyle(
                                     decoration: (item.discount ?? false)
@@ -238,6 +251,7 @@ class _ProductItemState extends State<ProductItem> {
                                     color: (item.discount ?? false)
                                         ? AppColors.grey
                                         : themeProvider.isDark
+
                                             ? AppColors.white
                                             : AppColors.black,
                                     fontWeight: FontWeight.bold,
@@ -253,10 +267,11 @@ class _ProductItemState extends State<ProductItem> {
                                                   .toString()) ??
                                               0.0)
                                           .toDouble(),
-                                    ).toStringAsFixed(0).toString()} / ${item.quantity} ${item.unit}",
+                                    ).toStringAsFixed(0).toString()}/${item.unit}",
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: themeProvider.isDark
+
                                           ? AppColors.white
                                           : AppColors.black,
                                       fontWeight: FontWeight.bold,

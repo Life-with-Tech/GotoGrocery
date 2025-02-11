@@ -94,6 +94,7 @@ class _HomeState extends State<Home> {
         iconSize: 30,
         bottomPadding: 10,
         inactiveIconColor:
+
             themeProvider.isDark ? AppColors.grey : AppColors.lightSurface,
         waterDropColor:
             themeProvider.isDark ? AppColors.grey : AppColors.lightSurface,

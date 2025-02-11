@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tango/core/constants/app_colors.dart';
@@ -30,8 +31,21 @@ class _CarouselWidgetState extends State<CarouselWidget> {
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
+  @override
+  State<CarouselHelper> createState() => _CarouselHelperState();
+}
+
+class _CarouselHelperState extends State<CarouselHelper> {
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
+       
         CarouselSlider.builder(
           itemCount: widget.imageUrls.length,
           itemBuilder: (BuildContext context, int index, int realIndex) {
@@ -56,21 +70,22 @@ class _CarouselWidgetState extends State<CarouselWidget> {
             viewportFraction: 1,
           ),
         ),
+        const Gap(5),
         Container(
           alignment: Alignment.topLeft,
           padding: const EdgeInsets.symmetric(
             vertical: 5,
             horizontal: 5,
           ),
+
           child: AnimatedSmoothIndicator(
             activeIndex: currentIndex,
             count: widget.imageUrls.length,
             effect: WormEffect(
               paintStyle: PaintingStyle.stroke,
               spacing: 5,
-              activeDotColor: themeProvider.isDark
-                  ? AppColors.darkPrimary
-                  : AppColors.lightPrimary,
+              activeDotColor:
+                  themeProvider.isDark ? AppColors.grey : AppColors.black,
               dotColor: AppColors.grey,
               dotHeight: 5,
               dotWidth: 5,

@@ -17,6 +17,7 @@ import 'package:tango/core/utils/string_utils.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/core/constants/text_field.dart';
 import 'package:tango/state/providers/theme_provider.dart';
+import 'package:tango/state/providers/user_provider.dart';
 import 'package:tango/view/widgets/other_widget.dart';
 
 class ProductAdd extends StatefulWidget {
@@ -163,7 +164,7 @@ class _ProductAddState extends State<ProductAdd> {
   bool isStock = false;
   bool isOrganic = false;
   bool isSale = true;
-
+  dynamic value = {};
   // List to hold images (nullable type)
   List<File?> images = [null, null, null, null];
 
@@ -385,7 +386,10 @@ class _ProductAddState extends State<ProductAdd> {
             ),
             items: unitList,
             itemAsString: (p0) => capitalizeFirstLetter(p0["name"].toString()),
-            onChanged: (value) {},
+            onChanged: (a) {
+              value = a;
+              setState(() {});
+            },
             itemBuilder: (p0, p1, p2, p3) {
               return Container(
                 padding: const EdgeInsets.all(8.0),
@@ -860,12 +864,14 @@ class _ProductAddState extends State<ProductAdd> {
         "products",
         {
           "id": ProductIdHelper.generateProductId("product"),
+          "post_user_id": userProvider.currentUser?.uid,
           "category_id": widget.id,
           'name': _nameController.text,
           'price': _priceController.text,
           'isDiscount': isDiscount,
           'discountPercentage':
               isDiscount ? _discountPresantageController.text : null,
+          "unit": value["name"].toString(),
           'isFlat': isFlat,
           'discountFlat': isFlat ? _discountFlatController.text : null,
           'isStock': isStock,
