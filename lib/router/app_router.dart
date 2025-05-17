@@ -72,13 +72,7 @@ class MyAppRoutes {
         path: Routes.editProfile.path,
         name: Routes.editProfile.name,
         builder: (BuildContext context, GoRouterState state) {
-          log("queryParameters${state.uri.queryParameters["id"].toString()}");
-          String? id = state.uri.queryParameters["id"];
-          String? email = state.uri.queryParameters["email"];
-          return EditProfileScreen(
-            id: (id != null) ? id : null,
-            email: (email != null) ? email : null,
-          );
+          return EditProfileScreen();
         },
       ),
       GoRoute(

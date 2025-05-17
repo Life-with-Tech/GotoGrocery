@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:tango/router/routing_service.dart';
+import 'package:tango/state/providers/location_provider.dart';
 import '../../../../router/app_routes_constant.dart';
 import 'package:tango/core/constants/text_field.dart';
 import 'package:tango/core/constants/app_colors.dart';
@@ -22,10 +23,9 @@ import 'package:tango/core/utils/image_storage_helper.dart';
 import 'package:tango/core/constants/profile_bottom_semi_circle_clipper.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  final String? email;
-  final String? id;
-
-  const EditProfileScreen({super.key, this.email, this.id});
+  const EditProfileScreen({
+    super.key,
+  });
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -49,9 +49,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future doThisLunchScreen() async {
     log("${userProvider.currentUser?.toJson()}");
-    if (widget.id != null && widget.email != null) {
-      emailController.text = widget.email ?? "";
-    } else {
+    if (userProvider.currentUser?.uid != null &&
+        userProvider.currentUser?.email != null) {
       nameController.text = userProvider.currentUser?.name ?? "";
       emailController.text = userProvider.currentUser?.email ?? "";
       dobController.text = userProvider.currentUser?.dob ?? "";
@@ -70,32 +69,46 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           log("Starting profile update...");
           String? imageLink = await ImageStorageHelper().uploadImage(
             _selectedImage,
-            folderPath: "user_profile/${widget.id}",
+            folderPath: "user_profile/${userProvider.currentUser?.uid}",
           );
           Map<String, dynamic> deviceData = await getDeviceData();
-          if (widget.id != null && widget.email != null) {
-            await userProvider.createUser(
-              userId: widget.id ?? "",
-              userData: {
-                "uid": widget.id,
-                "image": imageLink,
-                "name": nameController.text,
-                "email": emailController.text,
-                "number": numberController.text,
-                "dob": dobController.text,
-                "gender": gender,
-                "location": deviceData,
-                "platform": getDeviceData(),
-                "fcm": userProvider.token,
-                "status": true,
-                "updatedAt": "",
-                "createdAt": DateTime.now().toString(),
-              },
-            );
+          Map<String, dynamic> locationData =
+              await locationProvider.checkPermissionsAndGetLocation();
 
-            log("User created, navigating...");
+          Map<String, dynamic> userData = {
+            if (userProvider.currentUser?.uid != null &&
+                userProvider.currentUser?.email != null)
+              "uid": userProvider.currentUser?.uid,
+            "image": imageLink,
+            "name": nameController.text,
+            "email": emailController.text,
+            "number": numberController.text,
+            "dob": dobController.text,
+            "gender": gender,
+            "location": locationData,
+            "platform": deviceData,
+            "fcm": userProvider.token,
+            "status": true,
+            if (userProvider.currentUser?.uid != null &&
+                userProvider.currentUser?.email != null)
+              "updatedAt": DateTime.now().toString(),
+            if (userProvider.currentUser?.uid == null &&
+                userProvider.currentUser?.email == null)
+              "createdAt": DateTime.now().toString(),
+          };
+          if (userProvider.currentUser?.uid != null &&
+              userProvider.currentUser?.email != null) {
+            log("this is updating user data");
+            await userProvider.updateUser(
+              userId: (userProvider.currentUser?.uid).toString(),
+              userData: userData,
+            );
           } else {
-            log("Missing ID or email, cannot proceed with profile update.");
+            log("this is creating user data");
+            await userProvider.createUser(
+              userId: userProvider.currentUser?.uid ?? "",
+              userData: userData,
+            );
           }
         },
         child: Container(
@@ -118,11 +131,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () async {
-            if (widget.id != null && widget.email != null) {
-              RoutingService().goName(Routes.loginScreen.name);
-            } else {
-              unawaited(RoutingService().goBack());
-            }
+            unawaited(RoutingService().goBack());
           },
           icon: const Icon(
             Icons.arrow_back_rounded,

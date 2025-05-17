@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'add_button.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
@@ -58,11 +59,9 @@ class _ProductItemState extends State<ProductItem> {
                     ? widget.whereCondition ?? ""
                     : "You might need",
                 style: TextStyle(
-
                   color: themeProvider.isDark
                       ? AppColors.grey
                       : AppColors.lightPrimary,
-
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
@@ -80,7 +79,6 @@ class _ProductItemState extends State<ProductItem> {
                   width: 30,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-
                     color: themeProvider.isDark
                         ? AppColors.grey
                         : AppColors.lightPrimary,
@@ -112,12 +110,13 @@ class _ProductItemState extends State<ProductItem> {
               GlobalKey productKey = GlobalKey();
               return InkWell(
                 onTap: () {
+                  // log("postId:${item.id}, categoryId${item.categoryId}");
                   unawaited(
                     RoutingService().pushNamed(
                       Routes.productDetailsScreen.name,
                       queryParameters: {
-                        'post_id': item.id,
-                        'category_id': item.categoryId,
+                        'post_id': item.id.toString(),
+                        'category_id': item.categoryId.toString(),
                       },
                     ),
                   );
@@ -134,7 +133,6 @@ class _ProductItemState extends State<ProductItem> {
                         ? AppColors.black
                         : AppColors.white,
                     borderRadius: BorderRadius.circular(10),
-
                     boxShadow: [
                       BoxShadow(
                         color: AppColors.grey,
@@ -143,26 +141,24 @@ class _ProductItemState extends State<ProductItem> {
                         spreadRadius: .5,
                       ),
                     ],
-
                   ),
                   child: Stack(
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CarouselWidget(
                               imageUrls: List<String>.from(item.imageUrl ?? []),
                               width: fullWidth(context) / 2.5,
+                              height: fullHeight(context) / 8,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 10,
                             ),
-
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -171,9 +167,7 @@ class _ProductItemState extends State<ProductItem> {
                                   maxLines: 2,
                                   style: TextStyle(
                                     color: themeProvider.isDark
-
                                         ? AppColors.white
-
                                         : AppColors.black,
                                     overflow: TextOverflow.ellipsis,
                                     fontSize: 12,
@@ -206,7 +200,6 @@ class _ProductItemState extends State<ProductItem> {
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: themeProvider.isDark
-
                                                   ? AppColors.white
                                                   : AppColors.black,
                                               fontWeight: FontWeight.bold,
@@ -217,7 +210,6 @@ class _ProductItemState extends State<ProductItem> {
                                             Icons.star,
                                             size: 15,
                                             color: themeProvider.isDark
-
                                                 ? AppColors.white
                                                 : AppColors.black,
                                           ),
@@ -230,7 +222,6 @@ class _ProductItemState extends State<ProductItem> {
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: themeProvider.isDark
-
                                             ? AppColors.white
                                             : AppColors.black,
                                         fontWeight: FontWeight.bold,
@@ -240,8 +231,7 @@ class _ProductItemState extends State<ProductItem> {
                                 ),
                                 const Gap(5),
                                 Text(
-
-                                  '₹${item.price} / ${item.unit}',
+                                  '₹${item.price} / ${item.quantity}${item.unit}',
                                   style: TextStyle(
                                     decoration: (item.discount ?? false)
                                         ? TextDecoration.lineThrough
@@ -251,7 +241,6 @@ class _ProductItemState extends State<ProductItem> {
                                     color: (item.discount ?? false)
                                         ? AppColors.grey
                                         : themeProvider.isDark
-
                                             ? AppColors.white
                                             : AppColors.black,
                                     fontWeight: FontWeight.bold,
@@ -267,11 +256,14 @@ class _ProductItemState extends State<ProductItem> {
                                                   .toString()) ??
                                               0.0)
                                           .toDouble(),
-                                    ).toStringAsFixed(0).toString()}/${item.unit}",
+                                      (int.tryParse(item.discountFlat
+                                                  .toString()) ??
+                                              0.0)
+                                          .toDouble(),
+                                    ).toStringAsFixed(0).toString()}/ ${item.quantity}${item.unit}",
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: themeProvider.isDark
-
                                           ? AppColors.white
                                           : AppColors.black,
                                       fontWeight: FontWeight.bold,
@@ -291,14 +283,21 @@ class _ProductItemState extends State<ProductItem> {
                           productKey: productKey,
                         ),
                       ),
-                      if (item.discount ?? false)
+                      if ((item.discount ?? false) || (item.isFlat ?? false))
                         Positioned(
                           top: 0,
                           left: 10,
-                          child: DiscountBannerWidget(
-                            discount:
-                                "${item.discountPercentage.toString()}% OFF",
-                          ),
+                          child: (item.discount ?? false)
+                              ? DiscountBannerWidget(
+                                  discount:
+                                      "${item.discountPercentage.toString()}% OFF",
+                                )
+                              : (item.isFlat ?? false)
+                                  ? DiscountBannerWidget(
+                                      discount:
+                                          "Flat ₹${item.discountFlat.toString()} ",
+                                    )
+                                  : SizedBox.shrink(),
                         ),
                       // Positioned(
                       //   top: 8,

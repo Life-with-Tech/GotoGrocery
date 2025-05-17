@@ -105,8 +105,10 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future createUser(
-      {required String userId, required Map<String, dynamic> userData}) async {
+  Future createUser({
+    required String userId,
+    required Map<String, dynamic> userData,
+  }) async {
     GlobalLoading.showLoadingDialog();
     await UserRepository()
         .createUser(userData: userData, userId: userId)
@@ -119,6 +121,27 @@ class UserProvider extends ChangeNotifier {
     }).catchError((onError) {
       ErrorHandler.handleSignUpError(onError);
     });
+    RoutingService().goBack();
+  }
+
+  Future<void> updateUser({
+    required String userId,
+    required Map<String, dynamic> userData,
+  }) async {
+    GlobalLoading.showLoadingDialog();
+
+    try {
+      await UserRepository().updateUser(userId, userData);
+      await setUser(
+        userId: userId,
+        email: userData["email"],
+      );
+
+      log("User updated successfully for ID: $userId");
+    } catch (onError) {
+      ErrorHandler.handleSignUpError(onError);
+    }
+
     RoutingService().goBack();
   }
 

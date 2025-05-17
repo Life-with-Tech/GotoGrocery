@@ -5,7 +5,9 @@ import "package:http/http.dart" as http;
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tango/core/constants/carousel_helper.dart';
 import 'package:tango/core/utils/price_utils.dart';
+import 'package:tango/core/widget/app_text.dart';
 import 'package:tango/router/routing_service.dart';
 import 'package:tango/core/utils/date_helpers.dart';
 import 'package:tango/data/models/rating_model.dart';
@@ -47,23 +49,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
   }
 
-  ProductModel? product;
+  ProductModel? product1;
   @override
   Widget build(BuildContext context) {
     ViewAllProvider viewAllProvider = Provider.of<ViewAllProvider>(context);
     AddToCartProvider addToCartProvider =
         Provider.of<AddToCartProvider>(context);
-    product = addToCartProvider
+    product1 = addToCartProvider
         .idByProduct((viewAllProvider.detailsProduct?.id).toString());
 
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    ProductModel? product = viewAllProvider.detailsProduct;
+    final bool hasDiscount = product?.discount ?? false;
+    final bool hasPercentageDiscount = product?.discountPercentage != null &&
+        product?.discountPercentage != "" &&
+        product?.discountPercentage != "null";
+
+    final String discountText = hasPercentageDiscount
+        ? "${product?.discountPercentage.toString()}% OFF"
+        : (product?.discountFlat != null && product!.discountFlat != 0)
+            ? "Flat ₹${product.discountFlat.toString()}"
+            : "";
     return Scaffold(
       resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       bottomNavigationBar: addToCartProvider.cart.isNotEmpty
           ? Container(
               color: AppColors.primary,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -236,25 +249,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 width: fullWidth(context),
                 height: fullHeight(context),
                 alignment: Alignment.topCenter,
-                child: Container(
-                  alignment: Alignment.topCenter,
-                  width: fullWidth(context),
-                  height: fullHeight(context) / 2.2,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    // ),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        viewAllProvider.detailsProduct?.imageUrl?.first ?? "",
-                      ),
-                      fit: BoxFit.fill,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: fullWidth(context),
+                    height: fullHeight(context) / 2.2,
+                    color: AppColors.lightOnSecondary,
+                    child: CarouselWidget(
+                      imageUrls: List<String>.from(
+                          viewAllProvider.detailsProduct?.imageUrl ?? []),
+                      width: fullWidth(context),
+                      height: fullHeight(context) / 2.2,
+                      show: false,
                     ),
                   ),
                 ),
               ),
+
+              //  CustomCachedNetworkImage(
+              //   alignment: Alignment.topCenter,
+              //   width: fullWidth(context),
+              //   height: fullHeight(context) / 2.2,
+              //   imageUrl:
+              //       viewAllProvider.detailsProduct?.imageUrl?.first ?? "",
+              // )),
               Container(
                 width: fullWidth(context),
-                height: fullHeight(context) / 1.7,
+                height: fullHeight(context) / 1.5,
                 decoration: BoxDecoration(
                   color:
                       themeProvider.isDark ? AppColors.black : AppColors.white,
@@ -290,23 +311,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               maxLines: 2,
                             ),
                             Text(
-                              '₹${viewAllProvider.detailsProduct?.price} / ${viewAllProvider.detailsProduct?.quantity} ${viewAllProvider.detailsProduct?.unit}',
+                              '₹${product?.price} / ${product?.quantity} ${product?.unit} ${discountText.isNotEmpty ? '($discountText)' : ''}',
                               style: TextStyle(
-                                decoration:
-                                    (viewAllProvider.detailsProduct?.discount ??
-                                            false)
-                                        ? TextDecoration.lineThrough
-                                        : null,
-                                fontSize:
-                                    (viewAllProvider.detailsProduct?.discount ??
-                                            false)
-                                        ? 10
-                                        : 16,
+                                decoration: hasDiscount
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                                fontSize: hasDiscount ? 10 : 16,
                                 color:
-                                    (viewAllProvider.detailsProduct?.discount ??
-                                            false)
-                                        ? AppColors.grey
-                                        : Colors.green,
+                                    hasDiscount ? AppColors.grey : Colors.green,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -321,6 +333,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .toDouble(),
                                   (int.tryParse((viewAllProvider.detailsProduct
                                                   ?.discountPercentage)
+                                              .toString()) ??
+                                          0.0)
+                                      .toDouble(),
+                                  (int.tryParse((viewAllProvider
+                                                  .detailsProduct?.discountFlat)
                                               .toString()) ??
                                           0.0)
                                       .toDouble(),
@@ -508,6 +525,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             title: Text("In Stock"),
                             value: viewAllProvider.detailsProduct?.inStock ??
                                 false,
+                            onChanged: (value) {},
+                          ),
+                          SwitchListTile(
+                            title: Text("Flat"),
+                            value:
+                                viewAllProvider.detailsProduct?.isFlat ?? false,
                             onChanged: (value) {},
                           ),
                           SwitchListTile(

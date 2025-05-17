@@ -60,6 +60,7 @@ class AddToCartProvider extends ChangeNotifier {
         (int.tryParse(product['price'].toString()) ?? 0.0).toDouble(),
         (int.tryParse(product['discount_percentage'].toString()) ?? 0.0)
             .toDouble(),
+        (int.tryParse(product['discount_flat'].toString()) ?? 0.0).toDouble(),
       );
     } else {
       return (int.tryParse(product['price'].toString()) ?? 0.0).toDouble();

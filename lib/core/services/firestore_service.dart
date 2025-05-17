@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tango/core/constants/app_colors.dart';
 import 'package:tango/core/constants/coustom_toast.dart';
@@ -32,13 +34,13 @@ class FirestoreService {
     return await _db.collection(collection).get();
   }
 
-  // Update a specific field in Firestore
-  Future<void> updateDocument({
+  Future<dynamic> updateDocument({
     required String collection,
     required String docId,
     required Map<String, dynamic> data,
   }) async {
-    await _db.collection(collection).doc(docId).update(data);
+    log("messagez$data");
+    return _db.collection(collection).doc(docId).update(data);
   }
 
   // Delete a document from Firestore
