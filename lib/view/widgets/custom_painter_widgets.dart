@@ -29,7 +29,7 @@ class DiscountBannerPainter extends CustomPainter {
           color: themeProvider.isDark
               ? AppColors.darkSurface
               : AppColors.lightSurface,
-          fontSize: 10,
+          fontSize: 8,
           fontWeight: FontWeight.w900,
         ),
       ),

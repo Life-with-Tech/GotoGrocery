@@ -3,9 +3,11 @@ class ProductModel {
   String? categoryId;
   bool? discount;
   String? discountPercentage;
+  String? discountFlat;
   String? id;
   List? imageUrl;
   bool? inStock;
+  bool? isFlat;
   bool? isOrganic;
   String? name;
   bool? onSale;
@@ -23,6 +25,8 @@ class ProductModel {
     this.categoryId,
     this.discount,
     this.discountPercentage,
+    this.isFlat,
+    this.discountFlat,
     this.description,
     this.id,
     this.imageUrl,
@@ -45,6 +49,8 @@ class ProductModel {
     String? categoryId,
     bool? discount,
     String? discountPercentage,
+    bool? isFlat,
+    String? discountFlat,
     String? id,
     List? imageUrl,
     bool? inStock,
@@ -65,6 +71,8 @@ class ProductModel {
       categoryId: categoryId ?? this.categoryId,
       discount: discount ?? this.discount,
       discountPercentage: discountPercentage ?? this.discountPercentage,
+      isFlat: isFlat ?? this.isFlat,
+      discountFlat: discountFlat ?? this.discountFlat,
       description: description ?? this.description,
       id: id ?? this.id,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -88,14 +96,16 @@ class ProductModel {
     discount = json['isDiscount'];
     postUserId = json['post_user_id'];
     discountPercentage = json['discountPercentage'];
+    isFlat = json['isFlat'];
+    discountFlat = json['discountFlat'];
     description = json['description'];
     id = json['id'];
     imageUrl = json['image'] is List ? json['image'] : [];
-    inStock = json['in_stock'];
+    inStock = json['isStock'];
     isInWishlist = json['is_in_wishlist'] ?? false;
-    isOrganic = json['is_organic'];
+    isOrganic = json['isOrganic'];
     name = json['name'];
-    onSale = json['on_sale'];
+    onSale = json['isSale'];
     price = json['price'];
     quantity = json['quantity'];
     rating = json['rating'];
@@ -109,7 +119,9 @@ class ProductModel {
     data['category_id'] = categoryId;
     data['post_user_id'] = postUserId;
     data['isDiscount'] = discount;
-    data['discount_percentage'] = discountPercentage;
+    data['discountPercentage'] = discountPercentage;
+    data['isFlat'] = isFlat;
+    data['discountFlat'] = discountFlat;
     data['description'] = description;
     data['id'] = id;
     data['image'] = imageUrl;

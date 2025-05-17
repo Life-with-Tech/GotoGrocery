@@ -28,9 +28,11 @@ class UserRepository {
   }
 
   // Update specific fields for a user
-  Future<void> updateUser(
-      String userId, Map<String, dynamic> updatedData) async {
-    await _firestoreService.updateDocument(
+  Future<dynamic> updateUser(
+    String userId,
+    Map<String, dynamic> updatedData,
+  ) async {
+    return _firestoreService.updateDocument(
       collection: _collection,
       docId: userId,
       data: updatedData,
@@ -38,8 +40,8 @@ class UserRepository {
   }
 
   // Delete a user from Firestore
-  Future<void> deleteUser(String userId) async {
-    await _firestoreService.deleteDocument(
+  Future<dynamic> deleteUser(String userId) async {
+    return _firestoreService.deleteDocument(
       collection: _collection,
       docId: userId,
     );
